@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+//import axios
 
 const styles = theme => ({
     container: {
@@ -33,8 +34,9 @@ class ComposedTextField extends React.Component {
 
     //function to allow user to type in input field
     onChange(event) {
-        //console.log('hey');
-        this.setState({ zipcode: event.target.value });
+        this.setState({ 
+            zipcode: event.target.value 
+        });
     };
 
     //function to send get request to server when enter pressed
@@ -42,6 +44,12 @@ class ComposedTextField extends React.Component {
         var code = event.keyCode || event.which;
         if(code === 13) { //13 is the enter keycode
             console.log('enter was pressed');
+            //axios.get
+                //endpoint = /user/zipcode ?
+                //.then handle res
+                //.catch any errors
+            
+            //brought to list view
     } 
     }
 

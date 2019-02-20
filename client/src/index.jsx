@@ -14,11 +14,10 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.forceUpdate();
+        this.forceUpdate(); //rerenders page when components state or props change
     }
 
     render() {
-        const { enterZipCode } = this.props;
         return (
             <div>
                     <div>
