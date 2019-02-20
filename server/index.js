@@ -13,6 +13,11 @@ const app = express();
 app.use(express.static(`${__dirname}/../client/public`)); //Need to change this file path
 app.use(bodyParser.json());
 
+
+app.get('/health', (req, res) => { // testing server functionality
+  res.status(200).send('up');
+});
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
