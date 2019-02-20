@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/la-z/pluck#readme",
   "devDependencies": {
-<<<<<<< HEAD
     "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
@@ -44,19 +43,12 @@
     "@material-ui/icons": "^3.0.2",
     "dom": "0.0.3",
     "react": "^16.8.2",
-    "react-dom": "^16.8.2"
-=======
-    "webpack": "^4.29.5"
-  },
-  "dependencies": {
-<<<<<<< HEAD
+    "react-dom": "^16.8.2",
+    "webpack": "^4.29.5",
     "dotenv": "^6.2.0",
-    "express": "^4.16.4"
-=======
+    "express": "^4.16.4",
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.42.0"
->>>>>>> fd896a20f563fda40a8c41d230698f17f8cf20ca
->>>>>>> master
   }
 }
