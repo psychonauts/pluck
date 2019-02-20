@@ -20,7 +20,13 @@
     "webpack": "^4.29.5"
   },
   "dependencies": {
+<<<<<<< HEAD
     "dotenv": "^6.2.0",
     "express": "^4.16.4"
+=======
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0"
+>>>>>>> fd896a20f563fda40a8c41d230698f17f8cf20ca
   }
 }
