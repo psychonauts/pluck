@@ -17,6 +17,21 @@
   },
   "homepage": "https://github.com/la-z/pluck#readme",
   "devDependencies": {
-    "webpack": "^4.29.5"
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "dom": "0.0.3",
+    "react": "^16.8.2"
   }
 }
