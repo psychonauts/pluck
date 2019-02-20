@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Nav.jsx';
-// require('./index.css')
+import ZipCode from './components/Zip-code.jsx'
+
 
 class App extends React.Component {
     constructor(props) {
@@ -11,8 +12,11 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <h1>Item Listt</h1> 
-                <NavBar />
+                    <div>
+                        <NavBar />
+                        <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
+                        <ZipCode />
+                    </div>
             </div>
         );
     }

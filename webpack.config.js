@@ -18,7 +18,7 @@ module.exports = {
         ]
     },
     mode: 'development',
-    plugins: ['@babel/plugin-proposal-class-properties',
+    plugins: [
         new HtmlWebPackPlugin({
             template: 'client/dist/index.html'
         }),
