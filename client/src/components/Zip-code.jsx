@@ -37,8 +37,16 @@ class ComposedTextField extends React.Component {
         this.setState({ zipcode: event.target.value });
     };
 
+    //function to send get request to server when enter pressed
+    enterZipCode(event) {
+        var code = event.keyCode || event.which;
+        if(code === 13) { //13 is the enter keycode
+            console.log('enter was pressed');
+    } 
+    }
+
     render() {
-        const { classes, enterZipCode } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className="zip-body">
@@ -54,7 +62,7 @@ class ComposedTextField extends React.Component {
                     <OutlinedInput
                         id="component-outlined"
                         onChange={this.onChange}
-                        onKeyPress={ enterZipCode }
+                        onKeyPress={ this.enterZipCode }
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
