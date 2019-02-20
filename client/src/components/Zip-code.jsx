@@ -24,16 +24,21 @@ const styles = theme => ({
 class ComposedTextField extends React.Component {
     constructor(props){
         super(props);
-    }
-    
-    componentDidMount() {
-        this.forceUpdate();
+        this.state = {
+            zipcode: '',
+        };
+        //bind functions to this
+        this.onChange = this.onChange.bind(this);
     }
 
+    //function to allow user to type in input field
+    onChange(event) {
+        //console.log('hey');
+        this.setState({ zipcode: event.target.value });
+    };
 
     render() {
-        const { classes } = this.props;
-        const { handleChange } = this.props;
+        const { classes, enterZipCode } = this.props;
 
         return (
             <div className="zip-body">
@@ -48,7 +53,8 @@ class ComposedTextField extends React.Component {
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        onChange={handleChange}
+                        onChange={this.onChange}
+                        onKeyPress={ enterZipCode }
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>

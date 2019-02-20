@@ -8,28 +8,32 @@ import './index.css'
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-                zipcode: ''
-            }
+
     // bind to this all functions being handed down
-    this.handleChange = this.handleChange.bind(this);
+    this.enterZipCode = this.enterZipCode.bind(this);
     }
 
-    handleChange(event){
-        this.setState({ zipcode: event.target.value });
-    };
+    componentDidMount() {
+        this.forceUpdate();
+    }
+
+    //function to send get request to server when enter pressed
+    enterZipCode(event) {
+        var code = event.keyCode || event.which;
+        if(code === 13) { //13 is the enter keycode
+            console.log('enter was pressed');
+    } 
+    }
 
     render() {
-        const { zipcode } = this.state; 
-        const { handleChange } = this.props;
+        const { enterZipCode } = this.props;
         return (
             <div>
                     <div>
                         <NavBar />
                         <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
                         <ZipCode 
-                            zipcode={ zipcode }
-                            handleChange={ handleChange }/>
+                            enterZipCode={ enterZipCode }/>
                     </div>
             </div>
         );
