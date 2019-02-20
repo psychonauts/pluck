@@ -44,7 +44,7 @@ class UserProfile extends React.Component {
       this.setState({ 
         username: event.target.value
     });
-    } else if(event.target.innerHTML === 'address') {
+    } else if(event.target.id === 'address') {
       this.setState({ 
         address: event.target.value
     });
