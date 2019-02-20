@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "babel":{
+  "babel": {
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "dom": "0.0.3",
-    "react": "^16.8.2"
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2"
   }
 }

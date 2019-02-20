@@ -1,8 +1,8 @@
 const path =  require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-var SRC_DIR = path.join(__dirname, '/react-client/src');
-var DIST_DIR = path.join(__dirname, '/react-client/dist');
+var SRC_DIR = path.join(__dirname, '/client/src');
+var DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
     entry: `${SRC_DIR}/index.jsx`,
