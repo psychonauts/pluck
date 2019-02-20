@@ -5,4 +5,8 @@ bower_components/
 build/
 dist/
 
+<<<<<<< HEAD
 .env
+=======
+config.js
+>>>>>>> fd896a20f563fda40a8c41d230698f17f8cf20ca
