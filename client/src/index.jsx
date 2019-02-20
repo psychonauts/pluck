@@ -8,6 +8,13 @@ import './index.css'
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+    // bind to this all functions being handed down
+
+    }
+
+    componentDidMount() {
+        this.forceUpdate(); //rerenders page when components state or props change
     }
 
     render() {

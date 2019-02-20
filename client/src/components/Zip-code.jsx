@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+//import axios
 
 const styles = theme => ({
     container: {
@@ -23,19 +24,34 @@ const styles = theme => ({
 
 class ComposedTextField extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
-            name: ''
-        }
-    }
-    
-    componentDidMount() {
-        this.forceUpdate();
+            zipcode: '',
+        };
+        //bind functions to this
+        this.onChange = this.onChange.bind(this);
     }
 
-    handleChange(event){
-        this.setState({ name: event.target.value });
+    //function to allow user to type in input field
+    onChange(event) {
+        this.setState({ 
+            zipcode: event.target.value 
+        });
     };
+
+    //function to send get request to server when enter pressed
+    enterZipCode(event) {
+        var code = event.keyCode || event.which;
+        if(code === 13) { //13 is the enter keycode
+            console.log('enter was pressed');
+            //axios.get
+                //endpoint = /user/zipcode ?
+                //.then handle res
+                //.catch any errors
+            
+            //brought to list view
+    } 
+    }
 
     render() {
         const { classes } = this.props;
@@ -50,11 +66,11 @@ class ComposedTextField extends React.Component {
                         htmlFor="component-outlined"
                     >
                         Zip-code
-          </InputLabel>
+                    </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        onChange={this.onChange}
+                        onKeyPress={ this.enterZipCode }
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
@@ -64,7 +80,7 @@ class ComposedTextField extends React.Component {
     }
 }
 
-ComposedTextField.propTypes = {
+    ComposedTextField.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
