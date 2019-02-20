@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(express.static(`${__dirname}/../client/public`)); //Need to change this file path
+app.use(express.static(`${__dirname}/../client/dist`)); //Need to change this file path
 app.use(bodyParser.json());
 
 
