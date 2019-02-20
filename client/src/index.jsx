@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Nav.jsx';
 import ZipCode from './components/Zip-code.jsx'
+import './index.css'
 
 
 class App extends React.Component {
