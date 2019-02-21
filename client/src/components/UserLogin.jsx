@@ -30,7 +30,6 @@ class UserLogin extends React.Component {
       this.state = {
         username: '',
         password: '', //is this how we should handle this?
-        address: '',
         redirect: false,
     };
 
