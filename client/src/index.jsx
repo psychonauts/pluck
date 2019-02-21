@@ -25,9 +25,9 @@ class App extends React.Component {
                     <div>
                         <NavBar />
                         <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
-                        {/* <UserProfile /> */}
+                        <UserProfile />
                         <ZipCode />
-                        {/* <PlantList /> */}
+                        <PlantList />
                     </div>
             </div>
         );

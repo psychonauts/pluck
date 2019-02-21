@@ -70,7 +70,8 @@ class ButtonAppBar extends React.Component {
                             <Typography variant="h6" color="inherit" className={classes.grow}>
                                 p l u c k
                             </Typography>
-                            <Button color="inherit">Login</Button>
+                            <Button color="inherit">Signup</Button>
+                            <Button color="inherit">Login / Logout</Button>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
