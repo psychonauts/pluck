@@ -12,7 +12,7 @@ const Users = connection.define('users', {
     unique: true,
     allowNull: false, //this field must be filled in
   },
-  Hash: Sequelize.STIRNG, //should this be a string?
+  Hash: Sequelize.STRING, //should this be a string?
   Salt: Sequelize.STRING, //should this be a string?
 })
 
