@@ -40,26 +40,25 @@ class ComposedTextField extends React.Component {
         this.setState({ 
             zipcode: event.target.value 
         });
-    };
+    }; 
 
     //function to send get request to server when enter pressed
     enterZipCode(event) {
         var code = event.keyCode || event.which;
         if(code === 13) { //13 is the enter keycode
-            console.log('enter was pressed');
-            // <Route path="/plantList"/>
-            // <Redirect to="/plantList"/>
+            console.log('zipcode submitted');
             
             //axios.get
                 //endpoint = /user/zipcode ?
                 //.then handle res
                 //.catch any errors
             
+            //brought to list view
+                //set state of 'redirect' to true
                 this.setState({
                     redirect: true,
                 })
             
-            //brought to list view
     } 
     }
 

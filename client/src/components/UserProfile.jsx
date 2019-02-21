@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { Redirect } from 'react-router-dom'; 
 //import axios
 
 const styles = theme => ({
@@ -30,15 +31,16 @@ class UserProfile extends React.Component {
         username: '',
         password: '', //is this how we should handle this?
         address: '',
+        redirect: false,
     };
 
     //bind functions to this
     this.onChange = this.onChange.bind(this);
+    this.submitUserInfo = this.submitUserInfo.bind(this);
   }
 
   //function that sets state via onchange
   onChange(event) {
-    //console.log(event.target.id);
 
     //find which field is being used
     if(event.target.id === 'username') {
@@ -59,7 +61,6 @@ class UserProfile extends React.Component {
   }
 
   //function that sends post req to server when enter is pressed
-
   submitUserInfo(event) {
     let code = event.keyCode || event.which;
     if(code === 13) { //13 is the enter keycode
@@ -70,12 +71,21 @@ class UserProfile extends React.Component {
             //.catch any errors
         
         //brought to list view
+            //set state of 'redirect' to true
+            this.setState({
+                redirect: true,
+            })
   }
   }
 
   render() {
     const { classes } = this.props;
 
+    //if redirect is true, redirect to plant list page
+    if(this.state.redirect === true) {
+        return <Redirect to='/plantList'/>;
+    }
+    //else, stay on userprofile page
     return (
         <div className="zip-body">
             <FormControl className={classes.formControl} variant="outlined">
@@ -96,7 +106,7 @@ class UserProfile extends React.Component {
             </FormControl>
 
             <FormControl className={classes.formControl} variant="outlined">
-              <InputLabel
+                <InputLabel
                     ref={ref => {
                         this.labelRef = ReactDOM.findDOMNode(ref);
                     }}
@@ -111,7 +121,7 @@ class UserProfile extends React.Component {
             </FormControl>
 
             <FormControl className={classes.formControl} variant="outlined">
-              <InputLabel
+                <InputLabel
                     ref={ref => {
                         this.labelRef = ReactDOM.findDOMNode(ref);
                     }}
@@ -134,7 +144,7 @@ class UserProfile extends React.Component {
 }
 
 UserProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(UserProfile);
