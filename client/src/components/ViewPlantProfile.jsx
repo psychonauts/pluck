@@ -52,16 +52,16 @@ class ViewPlantProfile extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          title={SampleData[0].plant}
+          title={this.props.plant.plant}
         />
         <CardMedia
           className={classes.media}
-          image={SampleData[0].image}
-          title={SampleData[0].plant}
+          image={this.props.plant.image}
+          title={this.props.plant.plant}
         />
         <CardContent>
           <Typography component="p">
-          {SampleData[0].description}
+          {this.props.plant.description}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
