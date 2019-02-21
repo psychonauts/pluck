@@ -46,20 +46,19 @@ class ComposedTextField extends React.Component {
     enterZipCode(event) {
         var code = event.keyCode || event.which;
         if(code === 13) { //13 is the enter keycode
-            console.log('enter was pressed');
-            // <Route path="/plantList"/>
-            // <Redirect to="/plantList"/>
+            console.log('zipcode submitted');
             
             //axios.get
                 //endpoint = /user/zipcode ?
                 //.then handle res
                 //.catch any errors
             
+            //brought to list view
+                //set state of 'redirect' to true
                 this.setState({
                     redirect: true,
                 })
             
-            //brought to list view
     } 
     }
 
