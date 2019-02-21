@@ -40,7 +40,7 @@ class ButtonAppBar extends React.Component {
         super(props)
         this.state = {
             open: false,
-        };
+        }; 
     }
 
     handleToggle(){
@@ -56,7 +56,7 @@ class ButtonAppBar extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, signUser, logUser } = this.props;
 
         return (
             <div className={classes.root}>
@@ -70,7 +70,8 @@ class ButtonAppBar extends React.Component {
                             <Typography variant="h6" color="inherit" className={classes.grow}>
                                 p l u c k
                             </Typography>
-                            <Button color="inherit">Login</Button>
+                            <Button color="inherit" onClick={signUser}>Signup</Button>
+                            <Button color="inherit" onClick={logUser}>Login / Logout</Button>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
