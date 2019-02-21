@@ -64,7 +64,7 @@ class PlantList extends React.Component {
             <img src={plant.image} alt={plant.plant} />
             <GridListTileBar
               title={plant.plant}
-              subtitle={<span>by: {plant.distance}</span>}
+              subtitle={<span>{plant.distance}</span>}
               actionIcon={
                 <IconButton className={classes.icon} onClick={this.reroute}>
                   <InfoIcon />
