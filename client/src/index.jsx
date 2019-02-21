@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import NavBar from './components/Nav.jsx';
 import ZipCode from './components/Zip-code.jsx'
 import './index.css'
+import PlantList from './components/PlantList.jsx';
 
 
 class App extends React.Component {
@@ -24,6 +25,7 @@ class App extends React.Component {
                         <NavBar />
                         <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
                         <ZipCode />
+                        {/* <PlantList /> */}
                     </div>
             </div>
         );
