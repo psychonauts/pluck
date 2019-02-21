@@ -18,7 +18,7 @@ const Users = connection.define('users', {
 
 const Plants = connection.define('plants', {
   //id_Plant: Sequelize.INTEGER,
-  id_User: Sequelize.INTERGER,
+  id_User: Sequelize.INTEGER,
   Description: Sequelize.TEXT,
   Address: {
     type: Sequelize.STRING,
