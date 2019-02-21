@@ -161,11 +161,18 @@ class ButtonAppBar extends React.Component {
                         </div>
                         <Divider />
                         <List>
-                            {["My Profile", "Sumbit New Plant", "About", "Contact"].map((text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                            ))}
+                            <ListItem button key="My Profile">
+                                <ListItemText primary="My Profile" />
+                            </ListItem>
+                            <NavLink to="/submitPlant" ><ListItem button key="Submit New Plant">
+                                <ListItemText primary="Submit New Plant" />
+                            </ListItem>
+                            </NavLink>
+                            <NavLink to="/">
+                            <ListItem button key="Change Location">
+                                <ListItemText primary="Change Location" />
+                            </ListItem>
+                            </NavLink>
                         </List>
                     </Drawer>
                 </MuiThemeProvider>
