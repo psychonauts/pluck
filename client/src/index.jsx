@@ -6,6 +6,7 @@ import ZipCode from './components/Zip-code.jsx'
 import './index.css'
 import PlantList from './components/PlantList.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PlantProfile from './components/PlantProfile.jsx'
 
 
 class App extends React.Component {
@@ -46,6 +47,7 @@ class App extends React.Component {
                             </Switch>
                         </div>
                         </BrowserRouter>
+                        {/* < PlantProfile /> */}
                     </div>
 
         );

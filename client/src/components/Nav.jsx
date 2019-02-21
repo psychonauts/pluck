@@ -11,6 +11,7 @@ import black from '@material-ui/core/colors/grey'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'; 
 
+const drawerWidth = 240;
 
 const theme = createMuiTheme({
     palette: {
@@ -33,8 +34,57 @@ const styles = {
     },
     color: {
         color: 'green'
+    },
+    appBar: {
+        transition: theme.transitions.create(["margin", "width"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(["margin", "width"], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen
+        })
+    },
+    hide: {
+        display: "none"
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0
+    },
+    drawerPaper: {
+        width: drawerWidth
+    },
+    drawerHeader: {
+        display: "flex",
+        alignItems: "center",
+        padding: "0 8px",
+        ...theme.mixins.toolbar,
+        justifyContent: "flex-end"
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        }),
+        marginLeft: -drawerWidth
+    },
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen
+        }),
+        marginLeft: 0
     }
 };
+
+
 
 class ButtonAppBar extends React.Component {
     constructor(props) {
@@ -44,15 +94,11 @@ class ButtonAppBar extends React.Component {
         }; 
     }
 
-    handleToggle(){
-        this.setState(state => ({ open: !state.open }));
+    handleDrawerOpen(){
+        this.setState({ open: true });
     };
 
-    handleClose(event){
-        if (this.anchorEl.contains(event.target)) {
-            return;
-        }
-
+    handleDrawerClose(){
         this.setState({ open: false });
     };
 
@@ -64,7 +110,11 @@ class ButtonAppBar extends React.Component {
                 <MuiThemeProvider theme={theme}>
                     <AppBar position="static" >
                         <Toolbar>
-                            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >
+                            <IconButton 
+                            className={classes.menuButton} 
+                            color="inherit" 
+                            aria-label="Menu"
+                            >
                                 <MenuIcon />
                             </IconButton>
                             <NavLink to="/"> <img className="logo" src={require('./pluck.png')}></img></NavLink>
