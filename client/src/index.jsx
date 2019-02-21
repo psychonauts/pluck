@@ -5,6 +5,7 @@ import UserProfile from './components/UserProfile.jsx';
 import ZipCode from './components/Zip-code.jsx'
 import './index.css'
 import PlantList from './components/PlantList.jsx';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 class App extends React.Component {
@@ -30,15 +31,23 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+
                     <div>
+                        <BrowserRouter>
+                        <div>
+
                         <NavBar logUser={this.userLoginLogut.bind(this)} signUser={this.userSignUp.bind(this)}/>
                         <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
-                        {/* <UserProfile /> */}
-                        <ZipCode />
-                        <PlantList />
+                            <Switch>
+                                <Route path="/" component={ZipCode} exact />
+                                <Route path="/userProfile" component={UserProfile} />
+                                <Route path="/plantList" component={PlantList} />
+                                <Route component={Error} />
+                            </Switch>
+                        </div>
+                        </BrowserRouter>
                     </div>
-            </div>
+
         );
     }
 }
