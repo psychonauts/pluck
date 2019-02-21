@@ -5,6 +5,7 @@ import UserProfile from './components/UserProfile.jsx';
 import ZipCode from './components/Zip-code.jsx'
 import './index.css'
 import PlantList from './components/PlantList.jsx';
+import UserLogin from './components/UserLogin.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
@@ -42,6 +43,7 @@ class App extends React.Component {
                                 <Route path="/" component={ZipCode} exact />
                                 <Route path="/userProfile" component={UserProfile} />
                                 <Route path="/plantList" component={PlantList} />
+                                <Route path="/userLogin" component={UserLogin} />
                                 <Route component={Error} />
                             </Switch>
                         </div>
