@@ -15,6 +15,7 @@ const styles = theme => ({
       display: 'block',
       marginLeft: 'auto',
       marginRight: 'auto',
+      marginTop: 30,
       flexWrap: 'wrap',
   },
   formControl: {
@@ -37,7 +38,8 @@ class UserProfile extends React.Component {
 
   //function that sets state via onchange
   onChange(event) {
-    console.log(event.target.id);
+    //console.log(event.target.id);
+
     //find which field is being used
     if(event.target.id === 'username') {
       //set corresponding state to the value entered into that field
@@ -83,44 +85,45 @@ class UserProfile extends React.Component {
                         this.labelRef = ReactDOM.findDOMNode(ref);
                     }}
                     htmlFor="address"
-                >
-                    Address
-                </InputLabel>
+                > Address </InputLabel>
+
                 <OutlinedInput
                     id="address"
                     onChange={this.onChange} // function that sets state of address
                     labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                 />
 
-                <InputLabel
+            </FormControl>
+
+            <FormControl className={classes.formControl} variant="outlined">
+              <InputLabel
                     ref={ref => {
                         this.labelRef = ReactDOM.findDOMNode(ref);
                     }}
                     htmlFor="username"
-                >
-                    {/* Username */}
-                </InputLabel>
+                > Username </InputLabel>
+
                 <OutlinedInput
                     id="username"
                     onChange={this.onChange} // function that sets state of username
                     labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                 />
+            </FormControl>
 
-                <InputLabel
+            <FormControl className={classes.formControl} variant="outlined">
+              <InputLabel
                     ref={ref => {
                         this.labelRef = ReactDOM.findDOMNode(ref);
                     }}
                     htmlFor="password"
-                >
-                    {/* Password */}
-                </InputLabel>
+                > Password </InputLabel>
+                
                 <OutlinedInput
                     id="password"
                     onChange={this.onChange} // function that sets state of password
                     onKeyPress={ this.submitUserInfo } // function that sends post req to server w user info
                     labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                 />
-
             </FormControl>
 
         </div>
