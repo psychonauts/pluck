@@ -51,7 +51,7 @@ function PlantList(props) {
     <div className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">December</ListSubheader>
+          {/* <ListSubheader component="div">Your Neighborhood</ListSubheader> */}
         </GridListTile>
         {SampleData.map(plant => (
           <GridListTile key={plant.image}>
