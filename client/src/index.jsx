@@ -37,7 +37,7 @@ class App extends React.Component {
                         <div>
 
                         <NavBar logUser={this.userLoginLogut.bind(this)} signUser={this.userSignUp.bind(this)}/>
-                        <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
+                        {/* <img className="logo-body" src={require('./PLUCK-logo-02.png')} /> */}
                             <Switch>
                                 <Route path="/" component={ZipCode} exact />
                                 <Route path="/userProfile" component={UserProfile} />
