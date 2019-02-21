@@ -68,8 +68,8 @@ class ButtonAppBar extends React.Component {
                             </IconButton>
                             <img className="logo" src={require('./pluck.png')}></img>
                             <Typography variant="h6" color="inherit" className={classes.grow}>
-                                pluck
-          </Typography>
+                                p l u c k
+                            </Typography>
                             <Button color="inherit">Login</Button>
                         </Toolbar>
                     </AppBar>

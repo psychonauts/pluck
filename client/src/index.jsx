@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Nav.jsx';
+import UserProfile from './components/UserProfile.jsx';
 import ZipCode from './components/Zip-code.jsx'
 import './index.css'
 
@@ -23,6 +24,7 @@ class App extends React.Component {
                     <div>
                         <NavBar />
                         <img className="logo-body" src={require('./PLUCK-logo-02.png')} />
+                        {/* <UserProfile /> */}
                         <ZipCode />
                     </div>
             </div>
