@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { Route, Redirect } from 'react-router-dom'; 
 //import axios
 
 const styles = theme => ({
@@ -27,9 +28,11 @@ class ComposedTextField extends React.Component {
         super(props);
         this.state = {
             zipcode: '',
+            redirect: false,
         };
         //bind functions to this
         this.onChange = this.onChange.bind(this);
+        this.enterZipCode = this.enterZipCode.bind(this);
     }
 
     //function to allow user to type in input field
@@ -37,24 +40,34 @@ class ComposedTextField extends React.Component {
         this.setState({ 
             zipcode: event.target.value 
         });
-    };
+    }; 
 
     //function to send get request to server when enter pressed
     enterZipCode(event) {
         var code = event.keyCode || event.which;
         if(code === 13) { //13 is the enter keycode
-            console.log('enter was pressed');
+            console.log('zipcode submitted');
+            
             //axios.get
                 //endpoint = /user/zipcode ?
                 //.then handle res
                 //.catch any errors
             
             //brought to list view
+                //set state of 'redirect' to true
+                this.setState({
+                    redirect: true,
+                })
+            
     } 
     }
 
     render() {
         const { classes } = this.props;
+
+        if(this.state.redirect === true) {
+            return <Redirect to='/plantList'/>;
+        }
 
         return (
             <div>

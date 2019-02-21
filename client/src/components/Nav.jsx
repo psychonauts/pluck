@@ -82,29 +82,6 @@ class ButtonAppBar extends React.Component {
     }
 }
 
-// function ButtonAppBar(props) {
-//   const { classes } = props;
-
-//   return (
-//     <div className={classes.root}>
-//           <MuiThemeProvider theme={theme}>
-//           <AppBar position="static" >
-//         <Toolbar>
-//           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >
-//             <MenuIcon />
-//           </IconButton>
-//             <img className="logo" src={require('./pluck.png')}></img>
-//             <Typography variant="h6" color="inherit" className={classes.grow}>
-//             pluck
-//           </Typography>
-//             <Button color="inherit">Login</Button>
-//         </Toolbar>
-//       </AppBar>
-//           </MuiThemeProvider>
-//     </div>
-//   );
-// }
-
 
 
 ButtonAppBar.propTypes = {
