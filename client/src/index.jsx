@@ -7,7 +7,7 @@ import './index.css'
 import PlantList from './components/PlantList.jsx';
 import UserLogin from './components/UserLogin.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import PlantProfile from './components/PlantProfile.jsx'
+import PlantProfile from './components/CreatePlantProfile.jsx'
 
 
 class App extends React.Component {

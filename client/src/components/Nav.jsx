@@ -10,6 +10,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import black from '@material-ui/core/colors/grey'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'; 
+import classNames from "classnames";
+import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+
 
 const drawerWidth = 240;
 
@@ -92,6 +101,8 @@ class ButtonAppBar extends React.Component {
         this.state = {
             open: false,
         }; 
+        this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
+        this.handleDrawerClose = this.handleDrawerClose.bind(this);
     }
 
     handleDrawerOpen(){
@@ -104,16 +115,20 @@ class ButtonAppBar extends React.Component {
 
     render() {
         const { classes, signUser, logUser } = this.props;
-
+        const { open } = this.state;
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={theme}>
-                    <AppBar position="static" >
-                        <Toolbar>
+                    <AppBar position="static" 
+                        className={classNames(classes.appBar, {
+                            [classes.appBarShift]: open
+                        })}>
+                        <Toolbar disableGutters={!open}>
                             <IconButton 
-                            className={classes.menuButton} 
-                            color="inherit" 
-                            aria-label="Menu"
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={this.handleDrawerOpen}
+                                className={classNames(classes.menuButton, open && classes.hide)}
                             >
                                 <MenuIcon />
                             </IconButton>
@@ -126,6 +141,33 @@ class ButtonAppBar extends React.Component {
                             <NavLink to="/userLogin" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
                         </Toolbar>
                     </AppBar>
+                    <Drawer
+                        className={classes.drawer}
+                        variant="persistent"
+                        anchor="left"
+                        open={open}
+                        classes={{
+                            paper: classes.drawerPaper
+                        }}
+                    >
+                        <div className={classes.drawerHeader}>
+                            <IconButton onClick={this.handleDrawerClose}>
+                                {theme.direction === "ltr" ? (
+                                    <ChevronLeftIcon />
+                                ) : (
+                                        <ChevronRightIcon />
+                                    )}
+                            </IconButton>
+                        </div>
+                        <Divider />
+                        <List>
+                            {["My Profile", "Sumbit New Plant", "About", "Contact"].map((text, index) => (
+                                <ListItem button key={text}>
+                                    <ListItemText primary={text} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Drawer>
                 </MuiThemeProvider>
             </div>
         );
