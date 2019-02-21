@@ -32,6 +32,8 @@ class App extends React.Component {
         console.log(event.target.innerHTML);
     }
 
+    
+
     render() {
         return (
 

@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import API_URL from '../../../config'
 
 const styles = theme => ({
     container: {
@@ -23,9 +24,12 @@ class PlantProfile extends React.Component {
             name: "Cat in the Hat",
             age: "",
             multiline: "Controlled",
-            currency: "EUR"
+            uploading: false
         };
+        // this.imageChange = this.imageChange.bind(this);
     }
+    
+    //function allows users to upload image
     
 
 
@@ -62,7 +66,8 @@ class PlantProfile extends React.Component {
                     />
                 </form>
                 <div>
-                    <button>Upload Plant Image</button>
+                    <button type="file">Upload Plant Image</button>
+                    <input type="file"></input>
                 </div>
                 <button>Submit</button>
             </div>
