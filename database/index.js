@@ -12,13 +12,13 @@ const Users = connection.define('users', {
     unique: true,
     allowNull: false, //this field must be filled in
   },
-  Hash: Sequelize.STIRNG, //should this be a string?
+  Hash: Sequelize.STRING, //should this be a string?
   Salt: Sequelize.STRING, //should this be a string?
 })
 
 const Plants = connection.define('plants', {
   //id_Plant: Sequelize.INTEGER,
-  id_User: Sequelize.INTERGER,
+  id_User: Sequelize.INTEGER,
   Description: Sequelize.TEXT,
   Address: {
     type: Sequelize.STRING,
