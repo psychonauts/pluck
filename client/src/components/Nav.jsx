@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import black from '@material-ui/core/colors/grey'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { NavLink } from 'react-router-dom'; 
 
 
 const theme = createMuiTheme({
@@ -66,12 +67,13 @@ class ButtonAppBar extends React.Component {
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >
                                 <MenuIcon />
                             </IconButton>
-                            <img className="logo" src={require('./pluck.png')}></img>
+                            <NavLink to="/"> <img className="logo" src={require('./pluck.png')}></img></NavLink>
                             <Typography variant="h6" color="inherit" className={classes.grow}>
                                 p l u c k
                             </Typography>
-                            <Button color="inherit" onClick={signUser}>Signup</Button>
-                            <Button color="inherit" onClick={logUser}>Login / Logout</Button>
+
+                            <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
+                            <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
