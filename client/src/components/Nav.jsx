@@ -73,7 +73,7 @@ class ButtonAppBar extends React.Component {
                             </Typography>
 
                             <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
-                            <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
+                            <NavLink to="/userLogin" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
