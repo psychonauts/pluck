@@ -40,7 +40,7 @@ class ButtonAppBar extends React.Component {
         super(props)
         this.state = {
             open: false,
-        };
+        }; 
     }
 
     handleToggle(){
