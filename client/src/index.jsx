@@ -7,6 +7,8 @@ import './index.css'
 import PlantList from './components/PlantList.jsx';
 import UserLogin from './components/UserLogin.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PlantProfile from './components/CreatePlantProfile.jsx'
+import CreatePlantProfile from './components/CreatePlantProfile.jsx';
 
 
 class App extends React.Component {
@@ -44,10 +46,12 @@ class App extends React.Component {
                                 <Route path="/userProfile" component={UserProfile} />
                                 <Route path="/plantList" component={PlantList} />
                                 <Route path="/userLogin" component={UserLogin} />
+                                <Route path="/submitPlant" component={CreatePlantProfile} />
                                 <Route component={Error} />
                             </Switch>
                         </div>
                         </BrowserRouter>
+                        {/* < PlantProfile /> */}
                     </div>
 
         );
