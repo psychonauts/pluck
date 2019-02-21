@@ -57,6 +57,8 @@ class ComposedTextField extends React.Component {
         const { classes } = this.props;
 
         return (
+            <div>
+            <img className="logo-body" src={require('../PLUCK-logo-02.png')} />
             <div className="zip-body">
                 <FormControl className={classes.formControl} variant="outlined">
                     <InputLabel
@@ -75,6 +77,7 @@ class ComposedTextField extends React.Component {
                     />
                 </FormControl>
 
+            </div>
             </div>
         );
     }
