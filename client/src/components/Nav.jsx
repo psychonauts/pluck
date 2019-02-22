@@ -164,18 +164,25 @@ class ButtonAppBar extends React.Component {
             </div>
             <Divider />
             <List>
-              <ListItem button key="My Profile">
-                <ListItemText primary="My Profile" />
-              </ListItem>
-              <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}><ListItem button key="Submit New Plant" >
-                <ListItemText primary="Submit New Plant" />
-              </ListItem>
+
+              <NavLink to="/MyProfile" style={{ textDecoration: 'none' }}>
+                <ListItem button key="My Profile">
+                  <ListItemText primary="My Profile" />
+                </ListItem>
               </NavLink>
-              <NavLink to="/" style={{textDecoration: 'none'}}>
+
+              <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}>
+                <ListItem button key="Submit New Plant">
+                  <ListItemText primary="Submit New Plant" />
+                </ListItem>
+              </NavLink>
+
+              <NavLink to="/" style={{ textDecoration: 'none' }}>
                 <ListItem button key="Change Location">
                   <ListItemText primary="Change Location" />
                 </ListItem>
               </NavLink>
+
             </List>
           </Drawer>
         </MuiThemeProvider>

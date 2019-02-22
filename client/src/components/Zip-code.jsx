@@ -31,6 +31,7 @@ class ComposedTextField extends React.Component {
       zipcode: '',
       redirect: false,
     };
+
     // bind functions to this
     this.onChange = this.onChange.bind(this);
     this.enterZipCode = this.enterZipCode.bind(this);
@@ -39,7 +40,7 @@ class ComposedTextField extends React.Component {
   // function to allow user to type in input field
   onChange(event) {
     this.setState({
-      zipcode: event.target.value 
+      zipcode: event.target.value,
     });
   }
 
@@ -85,12 +86,12 @@ class ComposedTextField extends React.Component {
             <OutlinedInput
               id="component-outlined"
               onChange={this.onChange}
-              onKeyPress={this.enterZipCode}
+              // onKeyPress={this.enterZipCode}
               labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
             />
           </FormControl>
-          <div>
-            <Button variant="contained" onClick={this.enterZipCode} className={classes.button}>
+          <div id="submitButtonDiv">
+            <Button variant="contained" onClick={this.enterZipCode} className={classes.button} id="submitButton">
                 Submit
             </Button>
           </div>
