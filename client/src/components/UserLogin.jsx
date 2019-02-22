@@ -43,41 +43,38 @@ class UserLogin extends React.Component {
     // find which field is being used
     if (event.target.id === 'username') {
       // set corresponding state to the value entered into that field
-      this.setState({ 
-        username: event.target.value
-      });
-    } else if (event.target.id === 'address') {
       this.setState({
-        address: event.target.value
+        username: event.target.value,
       });
-    } else{
-      this.setState({ 
-        password: event.target.value
+    } else {
+      this.setState({
+        password: event.target.value,
       });
     }
   }
 
-  // function that sends post req to server when enter is pressed
+  // function that sends get req to server when enter is pressed
+  submitUserInfo() {
+    const { username, password } = this.state;
+    console.log('user info submitted');
+    // axios.get
+    // endpoint = /user/login
+    axios.get('/user/login', { username, password })
+    // .then handle res
+      .then((res) => { console.log(res); })
+    // .catch any errors
+      .catch((err) => { console.log(err); });
 
-  submitUserInfo(event) {
-    const code = event.keyCode || event.which;
-    if (code === 13) { // 13 is the enter keycode
-      console.log('user info submitted');
-      // axios.get
-      // endpoint = /user/login ?
-      // .then handle res
-      // .catch any errors
-        
-      // brought to list view
-      // set state of redirect to true
-      this.setState({
-        redirect: true,
-      });
-    }
+    // brought to list view
+    // set state of redirect to true
+    this.setState({
+      redirect: true,
+    });
     this.setState({
       redirect: true,
     });
   }
+
 
   render() {
     const { classes } = this.props;
@@ -87,7 +84,7 @@ class UserLogin extends React.Component {
     }
 
     return (
-      <div className="zip-body" >
+      <div className="zip-body">
 
         <FormControl className={classes.formControl} variant="outlined">
           <InputLabel
@@ -117,7 +114,7 @@ class UserLogin extends React.Component {
           <OutlinedInput
             id="password"
             onChange={this.onChange} // function that sets state of password
-            onKeyPress={ this.submitUserInfo } // function that sends post req to server w user info
+            // onKeyPress={this.submitUserInfo} // function that sends post req to server w user info
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
         </FormControl>

@@ -34,17 +34,20 @@ const styles = theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  
 });
 
 class ViewPlantProfile extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = { 
-      expanded: false 
+    this.state = {
+      // expanded: false,
     };
+    this.favoriteButton = this.favoriteButton.bind(this);
   }
 
+  favoriteButton() {
+    console.log('this my fav plant');
+  }
 
   render() {
     const { classes } = this.props;
@@ -61,21 +64,21 @@ class ViewPlantProfile extends React.Component {
         />
         <CardContent>
           <Typography component="p">
-          {this.props.plant.description}
+            {this.props.plant.description}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
+          <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon />
           </IconButton>
-          </CardActions>
+        </CardActions>
       </Card>
     );
   }
 }
 
-ViewPlantProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// ViewPlantProfile.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
 export default withStyles(styles)(ViewPlantProfile);
