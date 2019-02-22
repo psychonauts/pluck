@@ -10,7 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import SampleData from './SampleData.js';
 import { Route, Redirect } from 'react-router-dom'; 
 import ViewPlantProfile from './ViewPlantProfile.jsx';
-//require axios
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
