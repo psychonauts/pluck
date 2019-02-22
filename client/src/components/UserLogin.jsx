@@ -9,6 +9,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { Redirect } from 'react-router-dom'; 
+import Button from '@material-ui/core/Button';
 //import axios
 
 const styles = theme => ({
@@ -77,6 +78,9 @@ class UserLogin extends React.Component {
             redirect: true,
           })
   }
+  this.setState({
+    redirect: true,
+  })
   }
 
   render() {
@@ -119,7 +123,11 @@ class UserLogin extends React.Component {
                     labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                 />
             </FormControl>
-
+            <div>
+            <Button variant="contained" onClick={this.submitUserInfo} className={classes.button}>
+                Submit
+            </Button>
+            </div>
         </div>
     ); 
 }
