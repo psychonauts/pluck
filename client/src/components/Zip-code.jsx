@@ -90,7 +90,7 @@ class ComposedTextField extends React.Component {
               labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
             />
           </FormControl>
-          <div>
+          <div id="submitButtonDiv">
             <Button variant="contained" onClick={this.enterZipCode} className={classes.button} id="submitButton">
                 Submit
             </Button>
