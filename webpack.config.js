@@ -22,5 +22,8 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: 'client/dist/index.html'
         }),
-    ]
+    ], node: {
+        fs: 'empty'
+    }
+    
 }

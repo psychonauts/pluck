@@ -20,9 +20,11 @@ const Map = ReactMapboxGl({
 class MapView extends React.Component {
     constructor(props){
         super(props)
+        //create state that is set to the plant's adress
     }
 
     componentDidMount() {
+        //add destination property to directions? to render map with plant's address as destination
         map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
