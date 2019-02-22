@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import SampleData from './SampleData.js';
 import { Route, Redirect } from 'react-router-dom'; 
+import ViewPlantProfile from './ViewPlantProfile.jsx';
 //require axios
 
 const styles = theme => ({
@@ -29,23 +30,18 @@ const styles = theme => ({
 });
 
 
+
+
 class PlantList extends React.Component {
   constructor(props){
       super(props);
       this.state = {
           zipcode: '',
           redirect: false,
+          data: SampleData,
       };
-      //bind functions to this
-      this.reroute=this.reroute.bind(this);
-  }
 
-  reroute () {
-    console.log('reroute button clicked');
-  this.setState({ 
-    redirect: true,
-  });
-}; 
+  }
 
   render() {
     const { classes } = this.props;
@@ -56,24 +52,9 @@ class PlantList extends React.Component {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-        </GridListTile>
-        {SampleData.map(plant => (
-          <GridListTile key={plant.image}>
-            <img src={plant.image} alt={plant.plant} />
-            <GridListTileBar
-              title={plant.plant}
-              subtitle={<span>{plant.distance}</span>}
-              actionIcon={
-                <IconButton className={classes.icon} onClick={this.reroute}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
+      {this.state.data.map(plant => <ViewPlantProfile plant={plant}/>)
+
+      }
     </div>
   );
 }

@@ -40,7 +40,7 @@ class PlantProfile extends React.Component {
                         label="plant type"
                         multiline
                         rowsMax="4"
-                        defaultValue="Default Value"
+                        //defaultValue="Default Value"
                         className={classes.textField}
                         margin="normal"
                         helperText=""
@@ -55,7 +55,7 @@ class PlantProfile extends React.Component {
                         label="description"
                         multiline
                         rows="4"
-                        defaultValue="Default Value"
+                        //defaultValue="Default Value"
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
