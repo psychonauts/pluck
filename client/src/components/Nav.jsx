@@ -164,11 +164,11 @@ class ButtonAppBar extends React.Component {
                             <ListItem button key="My Profile">
                                 <ListItemText primary="My Profile" />
                             </ListItem>
-                            <NavLink to="/submitPlant" ><ListItem button key="Submit New Plant">
+                            <NavLink to="/submitPlant" style={{textDecoration: 'none'}} ><ListItem button key="Submit New Plant" >
                                 <ListItemText primary="Submit New Plant" />
                             </ListItem>
                             </NavLink>
-                            <NavLink to="/">
+                            <NavLink to="/" style={{textDecoration: 'none'}}>
                             <ListItem button key="Change Location">
                                 <ListItemText primary="Change Location" />
                             </ListItem>
