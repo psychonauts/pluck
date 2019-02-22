@@ -11,28 +11,37 @@ const styles = {
   },
 };
 
-function MyProfile(props) {
-  const { classes } = props;
+class MyProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: 'myUsername',
+      address: '1234 avenue drive, city, state zip',
+    };
+  }
 
-  return (
-    <div className={classes.root}>
-      <Typography
-        variant="h5"
-        gutterBottom
-        // align="center"
-      >
-        USERNAME
-      </Typography>
 
-      <Typography
-        variant="subtitle1"
-        gutterBottom
-        // align="center"
-      >
-        1234 avenue road city, state zipcode
-      </Typography>
-    </div>
-  );
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          // align="center"
+        >
+          {this.state.username.toUpperCase()}
+        </Typography>
+
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+        >
+          {this.state.address}
+        </Typography>
+      </div>
+    );
+  }
 }
 
 
