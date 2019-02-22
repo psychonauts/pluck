@@ -47,6 +47,8 @@ class ViewPlantProfile extends React.Component {
 
   favoriteButton() {
     console.log('this my fav plant');
+    // patch request to server
+    //  add plant to users favs
   }
 
   render() {
