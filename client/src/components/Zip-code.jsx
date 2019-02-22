@@ -31,6 +31,7 @@ class ComposedTextField extends React.Component {
       zipcode: '',
       redirect: false,
     };
+
     // bind functions to this
     this.onChange = this.onChange.bind(this);
     this.enterZipCode = this.enterZipCode.bind(this);
@@ -90,7 +91,7 @@ class ComposedTextField extends React.Component {
             />
           </FormControl>
           <div>
-            <Button variant="contained" onClick={this.enterZipCode} className={classes.button}>
+            <Button variant="contained" onClick={this.enterZipCode} className={classes.button} id="submitButton">
                 Submit
             </Button>
           </div>
