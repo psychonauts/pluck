@@ -57,25 +57,19 @@ class UserProfile extends React.Component {
   }
 
   // function that sends post req to server when enter is pressed
-  submitUserInfo(event) {
-    const code = event.keyCode || event.which;
+  submitUserInfo() {
     const { username, password, address } = this.state;
-    if (code === 13) { // 13 is the enter keycode
-      console.log('user info submitted');
-      // axios.post
-      // endpoint = /user/info ?
-      axios.post('/user/info', { username, password, address })
-      // .then handle res
-        .then((res) => { console.log(res); })
-      // .catch any errors
-        .catch((err) => { console.log(err); });
+    console.log('user info submitted');
+    // axios.post
+    // endpoint = /user/info ?
+    axios.post('/user/info', { username, password, address })
+    // .then handle res
+      .then((res) => { console.log(res); })
+    // .catch any errors
+      .catch((err) => { console.log(err); });
 
-      // brought to list view
-      // set state of 'redirect' to true
-      this.setState({
-        redirect: true,
-      });
-    }
+    // brought to list view
+    // set state of 'redirect' to true
     this.setState({
       redirect: true,
     });
@@ -137,7 +131,7 @@ class UserProfile extends React.Component {
           <OutlinedInput
             id="password"
             onChange={this.onChange} // function that sets state of password
-            onKeyPress={ this.submitUserInfo } // function that sends post req to server w user info
+            // onKeyPress={ this.submitUserInfo } // function that sends post req to server w user info
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
         </FormControl>
