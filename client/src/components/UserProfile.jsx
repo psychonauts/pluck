@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { Redirect } from 'react-router-dom'; 
+import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
@@ -131,7 +131,7 @@ class UserProfile extends React.Component {
           <OutlinedInput
             id="password"
             onChange={this.onChange} // function that sets state of password
-            // onKeyPress={ this.submitUserInfo } // function that sends post req to server w user info
+            onKeyPress={this.submitUserInfo} // function that sends post req to server w user info
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
         </FormControl>
