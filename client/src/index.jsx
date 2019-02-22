@@ -8,8 +8,8 @@ import PlantList from './components/PlantList.jsx';
 import UserLogin from './components/UserLogin.jsx';
 import ViewPlantProfile from './components/ViewPlantProfile.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import PlantProfile from './components/CreatePlantProfile.jsx'
 import CreatePlantProfile from './components/CreatePlantProfile.jsx';
+import MapView from './components/MapView.jsx'
 
 
 class App extends React.Component {
@@ -53,7 +53,9 @@ class App extends React.Component {
                                 <Route component={Error} />
                             </Switch>
                         </div>
+                             
                         </BrowserRouter>
+                {/* <MapView /> */}
                     </div>
 
         );
