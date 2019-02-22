@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import API_URL from '../../../config'
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     container: {
@@ -14,7 +16,13 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit
-    } 
+    } ,
+    button: {
+        margin: theme.spacing.unit,
+    },
+    input: {
+        display: 'none',
+    },
 });
 
 class PlantProfile extends React.Component {
@@ -85,11 +93,24 @@ class PlantProfile extends React.Component {
                     />
                 </form>
                 <div>
-                    <label>Upload Plant Image Here:</label>
-                    <input type="file" name="file1" onChange={this.fileSelectHandler}></input>
+                <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span" type="file" className={classes.button}>
+                        Upload Plant Image
+                    </Button>
+                </label>
                 </div>
-                <button className="submit-plant">Submit</button>
+                <Button variant="contained" className={classes.button}>
+                    Submit
+                </Button>
             </div>
+            
         );
     }
 }
