@@ -40,7 +40,7 @@ class ComposedTextField extends React.Component {
   // function to allow user to type in input field
   onChange(event) {
     this.setState({
-      zipcode: event.target.value 
+      zipcode: event.target.value,
     });
   }
 
@@ -86,7 +86,7 @@ class ComposedTextField extends React.Component {
             <OutlinedInput
               id="component-outlined"
               onChange={this.onChange}
-              onKeyPress={this.enterZipCode}
+              // onKeyPress={this.enterZipCode}
               labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
             />
           </FormControl>

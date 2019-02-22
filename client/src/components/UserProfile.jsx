@@ -131,7 +131,7 @@ class UserProfile extends React.Component {
           <OutlinedInput
             id="password"
             onChange={this.onChange} // function that sets state of password
-            onKeyPress={this.submitUserInfo} // function that sends post req to server w user info
+            // onKeyPress={this.submitUserInfo} // function that sends post req to server w user info
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
         </FormControl>
