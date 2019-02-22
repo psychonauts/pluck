@@ -9,8 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
+import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import axios from 'axios';
 
 
 const styles = theme => ({
@@ -43,11 +44,22 @@ class ViewPlantProfile extends React.Component {
       // expanded: false,
     };
     this.favoriteButton = this.favoriteButton.bind(this);
+    this.getDirections = this.getDirections.bind(this);
+  }
+
+  getDirections() {
+    console.log('lets get directions');
+    // get req to server for map view
+    //   need enpoint from api
+    //   should send address of plant
   }
 
   favoriteButton() {
     console.log('this my fav plant');
+    // patch request to server
+    //  add plant to users favs
   }
+
 
   render() {
     const { classes } = this.props;
@@ -71,6 +83,9 @@ class ViewPlantProfile extends React.Component {
           <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon />
           </IconButton>
+          <Button variant="contained" onClick={this.getDirections} className={classes.button}>
+                Get Directions
+          </Button>
         </CardActions>
       </Card>
     );
