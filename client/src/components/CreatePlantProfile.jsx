@@ -9,114 +9,113 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-    container: {
-        display: "flex",
-        flexWrap: "wrap"
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit
-    } ,
-    button: {
-        margin: theme.spacing.unit,
-    },
-    input: {
-        display: 'none',
-    },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
 });
 
 class PlantProfile extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: "Cat in the Hat",
-            age: "",
-            multiline: "Controlled",
-            selectedFile: null
-        };
-        this.fileSelectHandler = this.fileSelectHandler.bind(this);
-    }
-    
-    //function allows users to upload image
-    fileSelectHandler(event){
-        console.log(event.target.files[0])
-        let currentImage = event.target.files[0];
-        this.setState({
-            selectedFile: currentImage
-        })
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      age: "",
+      multiline: "Controlled",
+      selectedFile: null,
+    };
+    this.fileSelectHandler = this.fileSelectHandler.bind(this);
+  }
 
-    //function upload image to our server
-    fileUploadHandler(){
-        //creating new form data
-        const fd = new FormData();
-        //append the image to the form data
-        fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-        //create post request to save image in database
+  // function allows users to upload image
+  fileSelectHandler(event) {
+    console.log(event.target.files[0]);
+    const currentImage = event.target.files[0];
+    this.setState({
+      selectedFile: currentImage,
+    });
+  }
 
-        // axios.post('/submitPlant', fd)
-        //     .then((imageData)=>{
-        //         console.log(imageData);
-        // })
-    }
+  // function upload image to our server
+  fileUploadHandler() {
+  // creating new form data
+    const fd = new FormData();
+    // append the image to the form data
+    fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
+    // create post request to save image in database
 
-    render() {
-        const { classes } = this.props;
+    // axios.post('/submitPlant', fd)
+    // .then((imageData)=>{
+    // console.log(imageData);
+    // })
+  }
 
-        return (
-            <div className="zip-body">
-                <form className={classes.container} noValidate autoComplete="off">
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="plant type"
-                        multiline
-                        rowsMax="4"
-                        //defaultValue="Default Value"
-                        className={classes.textField}
-                        margin="normal"
-                        helperText=""
-                        variant="outlined"
+  render() {
+    const { classes } = this.props;
 
-                    />
-                </form>
-                <form className={classes.container} noValidate autoComplete="off">
+    return (
+      <div className="zip-body">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="outlined-multiline-flexible"
+            label="plant type"
+            multiline
+            rowsMax="4"
+            // defaultValue="Default Value"
+            className={classes.textField}
+            margin="normal"
+            helperText=""
+            variant="outlined"
 
-                    <TextField
-                        id="outlined-multiline-static"
-                        label="description"
-                        multiline
-                        rows="4"
-                        //defaultValue="Default Value"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                </form>
-                <div>
-                <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                />
-                <label htmlFor="contained-button-file">
-                    <Button variant="contained" component="span" type="file" className={classes.button}>
-                        Upload Plant Image
-                    </Button>
-                </label>
-                </div>
-                <Button variant="contained" className={classes.button}>
-                    Submit
-                </Button>
-            </div>
-            
-        );
-    }
+          />
+        </form>
+        <form className={classes.container} noValidate autoComplete="off">
+
+          <TextField
+            id="outlined-multiline-static"
+            label="description"
+            multiline
+            rows="4"
+            // defaultValue="Default Value"
+            className={classes.textField}
+            margin="normal"
+            variant="outlined"
+          />
+        </form>
+        <div>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="contained-button-file"
+            multiple
+            type="file"
+          />
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" component="span" type="file" className={classes.button}>
+                    Upload Plant Image
+            </Button>
+          </label>
+        </div>
+        <Button variant="contained" className={classes.button}>
+                Submit
+        </Button>
+      </div>
+    );
+  }
 }
 
-PlantProfile.propTypes = {
-    classes: PropTypes.object.isRequired
-};
+// PlantProfile.propTypes = {
+//     classes: PropTypes.object.isRequired
+// };
 
 export default withStyles(styles)(PlantProfile);
