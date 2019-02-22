@@ -24,14 +24,33 @@ class PlantProfile extends React.Component {
             name: "Cat in the Hat",
             age: "",
             multiline: "Controlled",
-            uploading: false
+            selectedFile: null
         };
-        // this.imageChange = this.imageChange.bind(this);
+        this.fileSelectHandler = this.fileSelectHandler.bind(this);
     }
     
     //function allows users to upload image
-    
+    fileSelectHandler(event){
+        console.log(event.target.files[0])
+        let currentImage = event.target.files[0];
+        this.setState({
+            selectedFile: currentImage
+        })
+    }
 
+    //function upload image to our server
+    fileUploadHandler(){
+        //creating new form data
+        const fd = new FormData();
+        //append the image to the form data
+        fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
+        //create post request to save image in database
+
+        // axios.post('/submitPlant', fd)
+        //     .then((imageData)=>{
+        //         console.log(imageData);
+        // })
+    }
 
     render() {
         const { classes } = this.props;
@@ -66,10 +85,10 @@ class PlantProfile extends React.Component {
                     />
                 </form>
                 <div>
-                    <button type="file">Upload Plant Image</button>
-                    <input type="file"></input>
+                    <label>Upload Plant Image Here:</label>
+                    <input type="file" name="file1" onChange={this.fileSelectHandler}></input>
                 </div>
-                <button>Submit</button>
+                <button className="submit-plant">Submit</button>
             </div>
         );
     }
