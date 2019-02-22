@@ -1,7 +1,7 @@
 //ORM: Sequelize
 //Database: Postgres
 const Sequelize = require('sequelize');
-const SENSITIVEDATA = require('./sensitive-data.js');
+const SENSITIVEDATA = require('./sensitive-data.js'); // this file is git ignored. Remake locally for testing
 
 const connection = new Sequelize('pluckSchema', SENSITIVEDATA.username, SENSITIVEDATA.password, {
   dialect: 'postgres',
