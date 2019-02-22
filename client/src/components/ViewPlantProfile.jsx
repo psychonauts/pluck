@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { NavLink } from 'react-router-dom'; 
 import axios from 'axios';
 
 
@@ -83,9 +84,11 @@ class ViewPlantProfile extends React.Component {
           <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon />
           </IconButton>
+          <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
           <Button variant="contained" onClick={this.getDirections} className={classes.button}>
                 Get Directions
           </Button>
+          </NavLink>
         </CardActions>
       </Card>
     );
