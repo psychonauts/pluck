@@ -43,15 +43,15 @@ class UserProfile extends React.Component {
     if (event.target.id === 'username') {
       // set corresponding state to the value entered into that field
       this.setState({
-        username: event.target.value
+        username: event.target.value,
       });
     } else if (event.target.id === 'address') {
       this.setState({
-        address: event.target.value
+        address: event.target.value,
       });
     } else {
       this.setState({
-        password: event.target.value
+        password: event.target.value,
       });
     }
   }
@@ -59,12 +59,16 @@ class UserProfile extends React.Component {
   // function that sends post req to server when enter is pressed
   submitUserInfo(event) {
     const code = event.keyCode || event.which;
+    const { username, password, address } = this.state;
     if (code === 13) { // 13 is the enter keycode
       console.log('user info submitted');
       // axios.post
       // endpoint = /user/info ?
+      axios.post('/user/info', { username, password, address })
       // .then handle res
+        .then((res) => { console.log(res); })
       // .catch any errors
+        .catch((err) => { console.log(err); });
 
       // brought to list view
       // set state of 'redirect' to true
