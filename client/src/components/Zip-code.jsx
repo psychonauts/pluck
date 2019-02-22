@@ -40,7 +40,7 @@ class ComposedTextField extends React.Component {
     this.setState({
       zipcode: event.target.value 
     });
-  }; 
+  }
 
   // function to send get request to server when enter pressed
   enterZipCode(event) {
