@@ -56,7 +56,7 @@ class App extends React.Component {
                         </div>
                              
                         </BrowserRouter>
-                <MapView />
+                {/* <MapView /> */}
                     </div>
 
         );
