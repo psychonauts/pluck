@@ -110,6 +110,7 @@ class PlantProfile extends React.Component {
                     Submit
                 </Button>
             </div>
+            
         );
     }
 }
