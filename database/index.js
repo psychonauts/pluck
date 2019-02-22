@@ -1,8 +1,12 @@
 //ORM: Sequelize
 //Database: Postgres
 const Sequelize = require('sequelize');
+const SENSITIVEDATA = require('./sensitive-data.js');
 
-const connection = new Sequelize('pluckSchema', 'root', '', {dialect: 'postgres'});
+const connection = new Sequelize('pluckSchema', SENSITIVEDATA.username, SENSITIVEDATA.password, {
+  dialect: 'postgres',
+  host: SENSITIVEDATA.url,
+});
 
 //MODELS
 const Users = connection.define('users', {
