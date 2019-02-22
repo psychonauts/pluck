@@ -32,6 +32,10 @@ app.post('/user/info', (req, res) => {
   // call helper function from db that saves info to db
 });
 
+// function to catch get from client plant list view
+//   get req to api for directions to plant
+//   should send location/address of plant
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

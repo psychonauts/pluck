@@ -8,7 +8,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { Redirect } from 'react-router-dom'; 
+import { Redirect } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -43,24 +44,21 @@ class ComposedTextField extends React.Component {
   }
 
   // function to send get request to server when enter pressed
-  enterZipCode(event) {
-    const code = event.keyCode || event.which;
-    if (code === 13) { // 13 is the enter keycode
-      console.log('zipcode submitted');          
-      // axios.get
-      // endpoint = /user/zipcode ?
-      axios.get('/user/zipcode')
-      // .then handle res
-        .then((res) => { console.log(res); })
-      // .catch any errors
-        .catch((err) => { console.log(err); });
+  enterZipCode() {
+    console.log('zipcode submitted');          
+    // axios.get
+    // endpoint = /user/zipcode ?
+    axios.get('/user/zipcode')
+    // .then handle res
+      .then((res) => { console.log(res); })
+    // .catch any errors
+      .catch((err) => { console.log(err); });
 
-      // brought to list view
-      // set state of 'redirect' to true
-      this.setState({
-        redirect: true,
-      });
-    }
+    // brought to list view
+    // set state of 'redirect' to true
+    this.setState({
+      redirect: true,
+    });
   }
 
   render() {
@@ -91,6 +89,11 @@ class ComposedTextField extends React.Component {
               labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
             />
           </FormControl>
+          <div>
+            <Button variant="contained" onClick={this.enterZipCode} className={classes.button}>
+                Submit
+            </Button>
+          </div>
         </div>
       </div>
     );
