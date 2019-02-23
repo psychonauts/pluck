@@ -1,5 +1,3 @@
-//ORM: Sequelize
-//Database: Postgres
 const mysql = require('mysql');
 const SENSITIVEDATA = require('./sensitive-data.js'); // this file is git ignored. Remake locally for testing
 
@@ -12,7 +10,7 @@ const SENSITIVEDATA = require('./sensitive-data.js'); // this file is git ignore
 const connection = mysql.createConnection(SENSITIVEDATA);
 
 // This is a good test to see if we are successfully connected to our database
-const getAllPlants = function(callback) {
+const getAllPlants = function (callback) {
   connection.query('SELECT * FROM plants', (err, plants) => {
     if (err) {
       callback(err);
@@ -22,6 +20,9 @@ const getAllPlants = function(callback) {
   });
 };
 
+module.exports = {
+  getAllPlants,
+};
 
 // -------------------------------- TABLE LIST --------------------------------
 //
