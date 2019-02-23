@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const Db = require('../database/index.js');
 
 const app = express();
 
@@ -8,9 +9,21 @@ app.use(express.static(`${__dirname}/../client/dist`));
 app.use(bodyParser.json());
 
 
+app.get('/health', (req, res) => {
+  Db.getAllPlants((err, plants) => { // change function name to test each db helpers
+    if (err) {
+      console.log(err);
+      res.send('weiner');
+    } else {
+      console.log(plants);
+      res.send('notQuiteWeiner');
+    }
+  });
+});
+
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
-  console.log(req.body); // figure out what to pass down to helper function
+  console.log(req.body); // check that username/password is coming through
   // call helper function from database
   // .then() grab data returned from helper function
   //    res.send(data) back to the client with status
@@ -19,7 +32,9 @@ app.get('/user/login', (req, res) => {
 
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
-  console.log(req.body);
+  console.log(req); // check that zipcode is coming through
+  res.send(req.query);
+
   // call helper function from database
   // .then() grab data returned from helper function
   //    res.send data and status

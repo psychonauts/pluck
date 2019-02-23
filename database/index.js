@@ -13,6 +13,7 @@ const connection = mysql.createConnection(SENSITIVEDATA);
 const getAllPlants = function (callback) {
   connection.query('SELECT * FROM plants', (err, plants) => {
     if (err) {
+      console.log(err);
       callback(err);
     } else {
       callback(null, plants);
