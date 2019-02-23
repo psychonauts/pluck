@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
-  console.log(req.body); // figure out what to pass down to helper function
+  console.log(req.body);
   // call helper function from database
   // .then() grab data returned from helper function
   //    res.send(data) back to the client with status
@@ -20,7 +20,10 @@ app.get('/user/login', (req, res) => {
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.body);
+
   // call helper function from database
+  //     gets all plants in that zipcode
+  //     calculates distance to those plants using map api
   // .then() grab data returned from helper function
   //    res.send data and status
   // catch errors
