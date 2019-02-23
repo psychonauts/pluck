@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -35,6 +36,7 @@ class PlantProfile extends React.Component {
       selectedFile: null,
     };
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
+    this.submitPlant = this.submitPlant.bind(this);
   }
 
   // function allows users to upload image
@@ -43,6 +45,7 @@ class PlantProfile extends React.Component {
     const currentImage = event.target.files[0];
     this.setState({
       selectedFile: currentImage,
+      redirect: false,
     });
   }
 
@@ -60,8 +63,24 @@ class PlantProfile extends React.Component {
     // })
   }
 
+  // function when submit button is pressed
+  // save plant info to database
+  // redirect to myprofile page
+  // add plant to users profile page
+  submitPlant() {
+    console.log('submitting new plant');
+    this.setState({
+      redirect: true,
+    });
+  }
+
   render() {
     const { classes } = this.props;
+    const { redirect } = this.state;
+
+    if (redirect === true) {
+      return <Redirect to="/myProfile" />;
+    }
 
     return (
       <div className="zip-body">
@@ -106,7 +125,7 @@ class PlantProfile extends React.Component {
             </Button>
           </label>
         </div>
-        <Button variant="contained" className={classes.button}>
+        <Button variant="contained" className={classes.button} onClick={this.submitPlant}>
                 Submit
         </Button>
       </div>
