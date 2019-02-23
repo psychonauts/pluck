@@ -6,3 +6,5 @@ build/
 
 
 .env
+database/sensitive-data.js
+package-lock.json
