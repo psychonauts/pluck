@@ -1,9 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
+import React from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -30,10 +31,11 @@ class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      age: "",
-      multiline: "Controlled",
-      selectedFile: null,
+      type: '',
+      description: '',
+      image: null,
+      // do we need user id?
+      // multiline: "Controlled",
     };
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
@@ -43,15 +45,16 @@ class PlantProfile extends React.Component {
   fileSelectHandler(event) {
     console.log(event.target.files[0]);
     const currentImage = event.target.files[0];
+
     this.setState({
-      selectedFile: currentImage,
+      image: currentImage,
       redirect: false,
     });
   }
 
   // function upload image to our server
   fileUploadHandler() {
-  // creating new form data
+    // creating new form data
     const fd = new FormData();
     // append the image to the form data
     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
@@ -64,14 +67,21 @@ class PlantProfile extends React.Component {
   }
 
   // function when submit button is pressed
-  // save plant info to database
-  // redirect to myprofile page
-  // add plant to users profile page
   submitPlant() {
+    const { type, description, image } = this.state;
     console.log('submitting new plant');
+
+    // change state to redirect to myProfile
     this.setState({
       redirect: true,
     });
+
+    // send post req to server to save new plant info in plants table
+    // save plant info to database
+    // add plant to users profile page
+    axios.post('/submitPlant', { type, description, image }) // need to change this endpoint based on server
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
   }
 
   render() {
@@ -90,7 +100,6 @@ class PlantProfile extends React.Component {
             label="plant type"
             multiline
             rowsMax="4"
-            // defaultValue="Default Value"
             className={classes.textField}
             margin="normal"
             helperText=""
@@ -105,7 +114,6 @@ class PlantProfile extends React.Component {
             label="description"
             multiline
             rows="4"
-            // defaultValue="Default Value"
             className={classes.textField}
             margin="normal"
             variant="outlined"

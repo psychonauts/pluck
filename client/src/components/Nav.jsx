@@ -99,6 +99,7 @@ class ButtonAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
+      // make loggedin state set to boolean
     };
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -117,6 +118,9 @@ class ButtonAppBar extends React.Component {
   render() {
     const { classes, signUser, logUser } = this.props;
     const { open } = this.state;
+
+    // if state loggedin is false, go to login page, else route to below
+
     return (
       <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
