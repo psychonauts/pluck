@@ -23,7 +23,7 @@ class MyProfile extends React.Component {
     this.state = {
       username: 'myUsername',
       address: '1234 avenue drive, city, state zip',
-      userPlants: SampleData,
+      userPlants: [SampleData[0], SampleData[1]],
     };
   }
 
@@ -64,10 +64,8 @@ class MyProfile extends React.Component {
                     {plant.description}
                   </Typography>
                 </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing>
-                </CardActions>
               </Card>
-            )
+            );
           })
           }
         </div>
