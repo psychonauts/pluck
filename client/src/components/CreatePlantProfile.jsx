@@ -60,6 +60,14 @@ class PlantProfile extends React.Component {
     // })
   }
 
+  // function when submit button is pressed
+  // save plant info to database
+  // redirect to myprofile page
+  // add plant to users profile page
+  submitPlant() {
+    console.log('submitting new plant');
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -106,7 +114,7 @@ class PlantProfile extends React.Component {
             </Button>
           </label>
         </div>
-        <Button variant="contained" className={classes.button}>
+        <Button variant="contained" className={classes.button} onClick={this.submitPlant}>
                 Submit
         </Button>
       </div>
