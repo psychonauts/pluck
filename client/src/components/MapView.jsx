@@ -11,7 +11,7 @@ var map;
 var directions;
 mapboxgl.accessToken = config.pubKey
 
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();  
 
 const Map = ReactMapboxGl({
     accessToken: config.pubKey
@@ -25,6 +25,7 @@ class MapView extends React.Component {
 
     componentDidMount() {
         //add destination property to directions? to render map with plant's address as destination
+        console.log(config);
         map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -32,11 +33,11 @@ class MapView extends React.Component {
             zoom: 3,
         });
         directions = new MapboxDirections({
-            accessToken: config.key,
+            accessToken: config.key, 
             unit: 'metric',
             profile: 'mapbox/walking'
         });
-        map.addControl(directions, 'top-left');
+        map.addControl(directions, 'top-left'); 
     }
 
     render(){

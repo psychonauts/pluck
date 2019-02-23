@@ -1,6 +1,6 @@
 const path =  require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-
+const webpack = require('webpack')
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
@@ -18,7 +18,12 @@ module.exports = {
         ]
     },
     mode: 'development',
-    plugins: [
+    plugins: [new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('development'),
+            'KEY': JSON.stringify('sk.eyJ1IjoiYXNwMjEzMSIsImEiOiJjanNnZG1tcTAwOWdtNDlwNnQwdWl2dXY4In0.DDGPSnlet8J43DnO9G7lEw')
+        }
+    }),
         new HtmlWebPackPlugin({
             template: 'client/dist/index.html'
         }),
