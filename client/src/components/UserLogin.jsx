@@ -59,7 +59,7 @@ class UserLogin extends React.Component {
     console.log('user info submitted');
     // axios.get
     // endpoint = /user/login
-    axios.get('/user/login', { username, password })
+    axios.get(`/user/login?username=${username}&password=${password}`)
     // .then handle res
       .then((res) => { console.log(res); })
     // .catch any errors
