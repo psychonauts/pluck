@@ -30,8 +30,6 @@ class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      age: "",
       multiline: "Controlled",
       selectedFile: null,
     };
@@ -64,11 +62,13 @@ class PlantProfile extends React.Component {
   }
 
   // function when submit button is pressed
-  // save plant info to database
-  // redirect to myprofile page
-  // add plant to users profile page
   submitPlant() {
     console.log('submitting new plant');
+    // save plant info to database
+    //    call database helper function
+    // add plant to users profile page
+
+    // redirect to myprofile page
     this.setState({
       redirect: true,
     });
