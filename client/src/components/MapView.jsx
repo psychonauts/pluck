@@ -25,7 +25,6 @@ class MapView extends React.Component {
 
     componentDidMount() {
         //add destination property to directions? to render map with plant's address as destination
-        console.log(config);
         map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -47,21 +46,6 @@ class MapView extends React.Component {
                 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
                 <div id="map" style={{ width: 600, height: 500, marginLeft: 'auto', marginRight: 'auto'}}/>
             </div>
-            // <Map
-            //     style="mapbox://styles/mapbox/streets-v9"
-            //     containerStyle={{
-            //         height: "50vh",
-            //         width: "50vw",
-            //         marginLeft: 'auto',
-            //         marginRight: 'auto'
-            //     }}>
-            //     <Layer
-            //         type="symbol"
-            //         id="marker"
-            //         layout={{ "icon-image": "marker-15" }}>
-            //         <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-            //     </Layer>
-            // </Map>
         );
     }
 }

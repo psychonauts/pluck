@@ -14,6 +14,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { NavLink } from 'react-router-dom'; 
 import axios from 'axios';
 
+var x = document.getElementById("demo");
 
 const styles = theme => ({
   card: {
@@ -46,6 +47,7 @@ class ViewPlantProfile extends React.Component {
     };
     this.favoriteButton = this.favoriteButton.bind(this);
     this.getDirections = this.getDirections.bind(this);
+    this.getLocation = this.getLocation.bind(this);
   }
 
   getDirections() {
@@ -60,6 +62,21 @@ class ViewPlantProfile extends React.Component {
     // patch request to server
     //  add plant to users favs
   }
+
+  //gets location of current user https://www.w3schools.com/html/html5_geolocation.asp
+  //need to find a way to get cordinates/location in Mapview. May moved function to MapView component
+  getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(this.showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+  showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+}
 
 
   render() {
@@ -85,7 +102,7 @@ class ViewPlantProfile extends React.Component {
             <FavoriteIcon />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
-          <Button variant="contained" onClick={this.getDirections} className={classes.button}>
+            <Button variant="contained" onClick={this.getLocation.bind(this)} className={classes.button}>
                 Get Directions
           </Button>
           </NavLink>
