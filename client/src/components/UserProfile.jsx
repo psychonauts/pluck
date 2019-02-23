@@ -29,6 +29,7 @@ class UserProfile extends React.Component {
       username: '',
       password: '', // is this how we should handle this?
       address: '',
+      zipcode: '',
       redirect: false,
     };
 
@@ -49,6 +50,10 @@ class UserProfile extends React.Component {
       this.setState({
         address: event.target.value,
       });
+    } else if (event.target.id === 'zipcode') {
+      this.setState({
+        zipcode: event.target.value,
+      });
     } else {
       this.setState({
         password: event.target.value,
@@ -58,11 +63,13 @@ class UserProfile extends React.Component {
 
   // function that sends post req to server when enter is pressed
   submitUserInfo() {
-    const { username, password, address } = this.state;
+    const {
+      username, password, address, zipcode,
+    } = this.state;
     console.log('user info submitted');
     // axios.post
     // endpoint = /user/info ?
-    axios.post(`/user/info?username=${username}&password=${password}&address=${address}`)
+    axios.post(`/user/info?username=${username}&password=${password}&address=${address}&zipcode=${zipcode}`)
     // .then handle res
       .then((res) => { console.log(res); })
     // .catch any errors
@@ -101,6 +108,22 @@ class UserProfile extends React.Component {
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
 
+        </FormControl>
+
+        <FormControl className={classes.formControl} variant="outlined">
+          <InputLabel
+            ref={(ref) => {
+              this.labelRef = ReactDOM.findDOMNode(ref);
+            }}
+            htmlFor="zipcode"
+          > Zipcode
+          </InputLabel>
+
+          <OutlinedInput
+            id="zipcode"
+            onChange={this.onChange} // function that sets state of username
+            labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+          />
         </FormControl>
 
         <FormControl className={classes.formControl} variant="outlined">
