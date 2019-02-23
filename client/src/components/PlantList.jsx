@@ -10,7 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import SampleData from './SampleData.js';
 import { Route, Redirect } from 'react-router-dom'; 
 import ViewPlantProfile from './ViewPlantProfile.jsx';
-//require axios
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
@@ -29,35 +29,31 @@ const styles = theme => ({
   },
 });
 
-
-
-
 class PlantList extends React.Component {
-  constructor(props){
-      super(props);
-      this.state = {
-          zipcode: '',
-          redirect: false,
-          data: SampleData,
-      };
+  constructor(props) {
+    super(props);
+    this.state = {
+      zipcode: '',
+      redirect: false,
+      data: SampleData,
+    };
 
-  }
+}
 
   render() {
     const { classes } = this.props;
 
-    if(this.state.redirect === true) {
-        return <Redirect to='/viewPlantProfile'/>;
+    if (this.state.redirect === true) {
+      return <Redirect to="/viewPlantProfile" />;
     }
 
-  return (
-    <div className={classes.root}>
-      {this.state.data.map(plant => <ViewPlantProfile plant={plant}/>)
-
+    return (
+      <div className={classes.root}>
+        {this.state.data.map(plant => <ViewPlantProfile plant={plant} />)
       }
-    </div>
-  );
-}
+      </div>
+    );
+  }
 }
 
 PlantList.propTypes = {

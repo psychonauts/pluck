@@ -8,8 +8,10 @@ import PlantList from './components/PlantList.jsx';
 import UserLogin from './components/UserLogin.jsx';
 import ViewPlantProfile from './components/ViewPlantProfile.jsx';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import PlantProfile from './components/CreatePlantProfile.jsx'
+import PlantProfile from './components/CreatePlantProfile.jsx';
 import CreatePlantProfile from './components/CreatePlantProfile.jsx';
+import MyProfile from './components/myProfile.jsx';
+import MapView from './components/MapView.jsx';
 
 
 class App extends React.Component {
@@ -36,6 +38,7 @@ class App extends React.Component {
     
 
     render() {
+        
         return (
 
                     <div>
@@ -50,10 +53,13 @@ class App extends React.Component {
                                 <Route path="/userLogin" component={UserLogin} />
                                 <Route path="/viewPlantProfile" component={ViewPlantProfile} />
                                 <Route path="/submitPlant" component={CreatePlantProfile} />
+                                <Route path="/myProfile" component={MyProfile} />
+                                <Route path="/plantLocation" component={MapView} />
                                 <Route component={Error} />
                             </Switch>
                         </div>
                         </BrowserRouter>
+                {/* <MapView /> */}
                     </div>
 
         );

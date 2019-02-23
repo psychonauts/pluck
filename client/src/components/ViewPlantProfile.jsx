@@ -9,9 +9,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
+import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import SampleData from './SampleData.js';
+import { NavLink } from 'react-router-dom'; 
+import axios from 'axios';
+
+const x = document.getElementById('demo');
 
 const styles = theme => ({
   card: {
@@ -34,17 +37,50 @@ const styles = theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  
 });
 
 class ViewPlantProfile extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = { 
-      expanded: false 
+    this.state = {
+      // expanded: false,
     };
+    this.favoriteButton = this.favoriteButton.bind(this);
+    this.getDirections = this.getDirections.bind(this);
+    this.getLocation = this.getLocation.bind(this);
   }
 
+  getDirections() {
+    console.log('lets get directions');
+    // get req to server for map view
+    //   need enpoint from api
+    //   should send address of plant
+  }
+
+  // gets location of current user https://www.w3schools.com/html/html5_geolocation.asp
+  // need to find a way to get cordinates/location in Mapview.
+  //    May moved function to MapView component
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+      x.innerHTML = 'Geolocation is not supported by this browser.';
+    }
+  }
+
+  favoriteButton() {
+    console.log('this my fav plant');
+    // patch request to server
+    //  add plant to users favs
+  }
+
+  showPosition(position) {
+    x.innerHTML = 'Latitude: ' + position.coords.latitude +
+    '<br>Longitude: ' + position.coords.longitude;
+  }
+  // linebreak isnt working in the temp lit
+  // `Latitude: ${position.coords.latitude}
+  // Longitude: ${position.coords.longitude}`;
 
   render() {
     const { classes } = this.props;
@@ -61,21 +97,26 @@ class ViewPlantProfile extends React.Component {
         />
         <CardContent>
           <Typography component="p">
-          {this.props.plant.description}
+            {this.props.plant.description}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
+          <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon />
           </IconButton>
-          </CardActions>
+          <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" onClick={this.getLocation} className={classes.button}>
+                Get Directions
+            </Button>
+          </NavLink>
+        </CardActions>
       </Card>
     );
   }
 }
 
-ViewPlantProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// ViewPlantProfile.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
 export default withStyles(styles)(ViewPlantProfile);
