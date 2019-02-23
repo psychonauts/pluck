@@ -24,6 +24,7 @@ app.get('/health', (req, res) => {
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.body); // check that username/password is coming through
+  res.send(req.query);
   // call helper function from database
   // .then() grab data returned from helper function
   //    res.send(data) back to the client with status
@@ -32,7 +33,7 @@ app.get('/user/login', (req, res) => {
 
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
-  console.log(req); // check that zipcode is coming through
+  console.log(req.query); // check that zipcode is coming through
   res.send(req.query);
 
   // call helper function from database
@@ -43,7 +44,8 @@ app.get('/user/zipcode', (req, res) => {
 
 // function to catch post from client signup
 app.post('/user/info', (req, res) => {
-  console.log(req.body);
+  console.log(req.query);
+  res.send(req.query);
   // call helper function from db that saves info to db
 });
 
