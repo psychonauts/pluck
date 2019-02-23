@@ -23,11 +23,34 @@ const getAllPlants = function(callback) {
 };
 
 
+// -------------------------------- TABLE LIST --------------------------------
+//
+// -- users
+// -- | id(integer) | username(255 max) | hpass(255 max) | salt(255 max) |
+//
+//
+// -- plants
+// -- | id(integer) | id_user(integer) | title(255 max) | description(500 max) | address(255 max) | image_url(255 max) | status('hide', 'show') |
+//
+//
+// -- favorites
+// -- | id(integer) | id_user(integer) | id_plant(integer) |
+//
+//
+// -- categories
+// -- | id(integer) | category(255 max) |
+//
+//
+// -- plants_categories
+// -- | id(integer) | id_plant(integer) | id_category(integer) |
+//
+// -------------------------------- END OF LIST --------------------------------
 
 
 
 
-// ----------------------- BELOW THIS LINE MAY BE USELESS -----------------------
+
+// ----------------------- BELOW THIS LINE LIKELY USELESS -----------------------
 
 //MODELS
 // module.exports.Users = connection.define('users', {
