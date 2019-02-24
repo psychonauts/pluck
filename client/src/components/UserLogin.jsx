@@ -30,6 +30,7 @@ class UserLogin extends React.Component {
       password: '', // is this how we should handle this?
       redirect: false,
       loggedIn: false,
+      userId: '',
     };
 
     // bind functions to this
@@ -54,7 +55,7 @@ class UserLogin extends React.Component {
     }
   }
 
-  // function that sends get req to server when enter is pressed
+  // function that sends get req to server to retrieve user info
   submitUserInfo() {
     const { username, password } = this.state;
     console.log('user info submitted');
@@ -64,10 +65,9 @@ class UserLogin extends React.Component {
         console.log(res);
         this.setState({
           loggedIn: true,
-          // userId: res.userId // something like this
+          userId: res.userId, // something like this
         });
       })
-    // .catch any errors
       .catch((err) => { console.log(err); });
 
     // brought to list view
