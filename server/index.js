@@ -94,7 +94,7 @@ app.post('/plant/profile', (req, res) => { // DELETE THIS BEFORE PUSHING////////
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.query);
-  dbHelpers.getPlantsByGivenZipcode(zipcode, (err, plants) => {
+  dbHelpers.getPlantsByGivenZipcode(req.query.zipcode, (err, plants) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE NEARBY PLANTS');
