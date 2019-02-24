@@ -67,7 +67,7 @@ app.get('/health', (req, res) => {
 
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
-  console.log(req.body);
+  console.log(req.query);
   dbHelpers.getUserByUsername(req.query.username, (err, user) => {
     if (err) {
       console.log(err);
@@ -83,12 +83,6 @@ app.get('/user/login', (req, res) => {
   // .then() grab data returned from helper function
   //    res.send(data) back to the client with status
   // catch errors
-});
-
-app.post('/plant/profile', (req, res) => { // DELETE THIS BEFORE PUSHING/////////////////////////
-  console.log(req.body);
-  res.send(req.query);
-
 });
 
 // function to catch get req from client zipcode view
