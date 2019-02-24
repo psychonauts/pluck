@@ -1,5 +1,3 @@
-//ORM: Sequelize
-//Database: Postgres
 const mysql = require('mysql');
 const SENSITIVEDATA = require('./sensitive-data.js'); // this file is git ignored. Remake locally for testing
 
@@ -17,9 +15,10 @@ const connection = mysql.createConnection(SENSITIVEDATA);
 
 
 // This is a good test to see if we are successfully connected to our database
-module.exports.getAllPlants = function(callback) {
+module.exports.getAllPlants = (callback) => {
   connection.query('SELECT * FROM plants', (err, plants) => {
     if (err) {
+      console.log(err);
       callback(err);
     } else {
       callback(null, plants);
@@ -27,7 +26,7 @@ module.exports.getAllPlants = function(callback) {
   });
 };
 
-module.exports.getPlantsByGivenZipcode = function(zipcode, callback) {
+module.exports.getPlantsByGivenZipcode = (zipcode, callback) => {
   connection.query('SELECT * FROM plants WHERE zipcode = ?', [zipcode], (err, plants) => {
     if (err) {
       callback(err);
@@ -37,7 +36,7 @@ module.exports.getPlantsByGivenZipcode = function(zipcode, callback) {
   });
 };
 
-module.exports.getPlantsByGivenUserId = function(userId, callback) {
+module.exports.getPlantsByGivenUserId = (userId, callback) => {
   connection.query('SELECT * FROM plants WHERE id_user = ?', [userId], (err, plants) => {
     if (err) {
       callback(err);
@@ -47,7 +46,7 @@ module.exports.getPlantsByGivenUserId = function(userId, callback) {
   });
 };
 
-module.exports.addFavorite = function(userId, plantId, callback) {
+module.exports.addFavorite = (userId, plantId, callback) => {
   connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favorite) => {
     if (err) {
       callback(err);
@@ -57,7 +56,7 @@ module.exports.addFavorite = function(userId, plantId, callback) {
   });
 };
 
-module.exports.addUser = function(username, hpass, salt, callback) {
+module.exports.addUser = (username, hpass, salt, callback) => {
   connection.query('INSERT INTO users(username, hpass, salt) VALUES(?, ?, ?)', [username, hpass, salt], (err, user) => {
     if (err) {
       callback(err);
@@ -67,7 +66,7 @@ module.exports.addUser = function(username, hpass, salt, callback) {
   });
 };
 
-module.exports.getSaltByGivenUsername = function(username, callback) {
+module.exports.getSaltByGivenUsername = (username, callback) => {
   connection.query('SELECT salt FROM users WHERE username = ?', [username], (err, salt) => {
     if (err) {
       callback(err);
@@ -77,7 +76,7 @@ module.exports.getSaltByGivenUsername = function(username, callback) {
   });
 };
 
-module.exports.addPlant = function(userId, title, desc, address, zipcode, imageUrl, callback) {
+module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
   connection.query('INSERT INTO plants(id_user, title, description, address, zipcode, image_url, status) VALUES(?, ?, ?, ?, ?, ?, "show")', [userId, title, desc, address, zipcode, imageUrl], (err, plant) => {
     if (err) {
       callback(err);
@@ -87,7 +86,7 @@ module.exports.addPlant = function(userId, title, desc, address, zipcode, imageU
   });
 };
 
-module.exports.getUserIdByGivenUsername = function(username, callback) {
+module.exports.getUserIdByGivenUsername = (username, callback) => {
   connection.query('SELECT id FROM users WHERE username = ?', [username], (err, userId) => {
     if (err) {
       callback(err);
@@ -97,7 +96,7 @@ module.exports.getUserIdByGivenUsername = function(username, callback) {
   });
 };
 
-module.exports.getUserByUsername = function(username, callback) {
+module.exports.getUserByUsername = (username, callback) => {
   connection.query('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
     if (err) {
       callback(err);

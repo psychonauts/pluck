@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import FilledInput from '@material-ui/core/FilledInput';
@@ -10,7 +11,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 
 const styles = theme => ({
   container: {
@@ -46,20 +46,23 @@ class ComposedTextField extends React.Component {
 
   // function to send get request to server when enter pressed
   enterZipCode() {
-    console.log('zipcode submitted');          
-    // axios.get
-    // endpoint = /user/zipcode ?
-    axios.get('/user/zipcode')
-    // .then handle res
-      .then((res) => { console.log(res); })
-    // .catch any errors
-      .catch((err) => { console.log(err); });
+    const { zipcode } = this.state;
+    console.log('zipcode submitted');
 
     // brought to list view
     // set state of 'redirect' to true
     this.setState({
       redirect: true,
     });
+
+    // axios.get
+    // endpoint = /user/zipcode ?
+    // need a return?
+    axios.get(`/user/zipcode?zipcode=${zipcode}`)
+    // .then handle res
+      .then((res) => { console.log(res); })
+    // .catch any errors
+      .catch((err) => { console.log(err); });
   }
 
   render() {

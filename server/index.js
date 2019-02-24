@@ -53,6 +53,18 @@ app.post('/plant/profile', (req, res) => {
   });
 });
 
+app.get('/health', (req, res) => {
+  dbHelpers.getAllPlants((err, plants) => { // change function name to test each db helpers
+    if (err) {
+      console.log(err);
+      res.send('weiner');
+    } else {
+      console.log(plants);
+      res.send('notQuiteWeiner');
+    }
+  });
+});
+
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.body);
@@ -60,12 +72,10 @@ app.get('/user/login', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
+    } else if (user.salt + req.query.password === user.hpass) {
+      res.status(200).send(user.username);
     } else {
-      if (user.salt + req.query.password === user.hpass) {
-        res.status(200).send(user.username);
-      } else {
-        res.status(400).send('INCORRECT USERNAME/PASSWORD');
-      }
+      res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }
   });
   // figure out what to pass down to helper function

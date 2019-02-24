@@ -70,9 +70,6 @@ class UserLogin extends React.Component {
     this.setState({
       redirect: true,
     });
-    this.setState({
-      redirect: true,
-    });
   }
 
 
