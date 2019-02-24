@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import black from '@material-ui/core/colors/grey'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink, Redirect } from 'react-router-dom'; 
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -99,7 +99,7 @@ class ButtonAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-      // make loggedin state set to boolean
+      loggedIn: false,
     };
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -117,9 +117,14 @@ class ButtonAppBar extends React.Component {
 
   render() {
     const { classes, signUser, logUser } = this.props;
-    const { open } = this.state;
+    const { open, loggedIn } = this.state;
 
-    // if state loggedin is false, go to login page, else route to below
+    // if user not logged in, route to login page
+    //   else route to myProfile
+
+    // if (loggedIn === false) {
+    //   return <Redirect to="/userLogin" />;
+    // }
 
     return (
       <div className={classes.root}>

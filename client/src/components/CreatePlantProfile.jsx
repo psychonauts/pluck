@@ -79,7 +79,7 @@ class PlantProfile extends React.Component {
     // send post req to server to save new plant info in plants table
     // save plant info to database
     // add plant to users profile page
-    axios.post('/submitPlant', { type, description, image }) // need to change this endpoint based on server
+    axios.post('/plant/profile', { type, description, image })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
   }
