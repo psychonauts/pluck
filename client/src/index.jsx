@@ -16,6 +16,11 @@ import MapView from './components/MapView.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loggedIn: false,
+    }
+
     // bind to this all functions being handed down
     this.userLoginLogut = this.userLoginLogut.bind(this);
     this.userSignUp = this.userSignUp.bind(this);
@@ -50,6 +55,9 @@ class App extends React.Component {
               <Route path="/userLogin" component={UserLogin} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" component={CreatePlantProfile} />
+              {/* { this.state.loggedIn === true &&
+                <Route exact path="/submitPlant" component={CreatePlantProfile} />
+              } */}
               <Route path="/myProfile" component={MyProfile} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />
