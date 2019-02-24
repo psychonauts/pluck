@@ -73,9 +73,10 @@ class ViewPlantProfile extends React.Component {
     const { userId, plantId } = this.state;
     console.log('this my fav plant');
     // get req to server for current plant?
-    //   set state to plant id
+    //   set state to plantid
 
     // get current user id
+    //  set state of userid
 
     // post request to server
     //  add plant to users favs
