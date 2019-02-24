@@ -23,12 +23,18 @@ app.get('/health', (req, res) => {
 
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
-  console.log(req.body); // check that username/password is coming through
+  console.log(req.query); // check that username/password is coming through
   res.send(req.query);
   // call helper function from database
   // .then() grab data returned from helper function
   //    res.send(data) back to the client with status
   // catch errors
+});
+
+app.post('/plant/profile', (req, res) => { // DELETE THIS BEFORE PUSHING/////////////////////////
+  console.log(req.body);
+  res.send(req.query);
+
 });
 
 // function to catch get req from client zipcode view

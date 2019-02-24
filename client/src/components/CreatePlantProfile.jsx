@@ -9,6 +9,7 @@ import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
+import config from '../../../config';
 
 const styles = theme => ({
   container: {
@@ -37,14 +38,14 @@ class PlantProfile extends React.Component {
       // do we need user id?
       // multiline: "Controlled",
     };
-    // this.fileSelectHandler = this.fileSelectHandler.bind(this);
+    this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
 
   // function that sets state via onchange
   onChange(event) {
-    // console.log(event.target.id);
 
     // find which field is being used
     if (event.target.id === 'type') {
@@ -56,43 +57,54 @@ class PlantProfile extends React.Component {
       this.setState({
         description: event.target.value,
       });
-    } else {
-      console.log(event.taget.files[0]);
-      this.setState({
-        image: event.target.files[0],
-      });
     }
   }
 
   // function allows users to upload image
-  // fileSelectHandler(event) {
-  //   console.log(event.target.files[0]);
-  //   const currentImage = event.target.files[0];
+  fileSelectHandler(event) {
+    // console.log(btoa(event.target.files[0]));
+    const currentImage = event.target.files[0];
 
-  //   this.setState({
-  //     image: currentImage,
-  //     redirect: false,
-  //   });
-  // }
+    this.setState({
+      image: currentImage,
+    });
+  }
 
   // function upload image to our server
   fileUploadHandler() {
-    // creating new form data
-    const fd = new FormData();
-    // append the image to the form data
-    fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    // create post request to save image in database
+    // console.log('choosing image');
 
-    // axios.post('/submitPlant', fd)
-    // .then((imageData)=>{
-    // console.log(imageData);
-    // })
+    const fd = new FormData();
+    fd.append('image', this.state.image, this.state.image.name);
+
+    const fr = new FileReader();
+    const file = this.state.image;
+    // fr.readAsBinaryString(file);
+    // fr.readAsDataURL(file); //base64
+
+    const params = {
+      image: fr.readAsDataURL(file),
+      // type: 'application/file',
+      headers: {
+        Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`,
+      },
+    };
+
+    axios.post('https://api.imgur.com/3/image', params)
+      .then((res) => {
+        console.log(res.data.link);
+
+        // set state to image url
+        this.setState({
+          image: res.data.link,
+        });
+      })
+      .catch((err) => { console.log(err); });
   }
 
   // function when submit button is pressed
   submitPlant() {
     const { type, description, image } = this.state;
-    console.log('submitting new plant');
 
     // change state to redirect to myProfile
     this.setState({
@@ -151,6 +163,7 @@ class PlantProfile extends React.Component {
             id="contained-button-file"
             multiple
             type="file"
+            onChange={this.fileSelectHandler}
           />
           <label htmlFor="contained-button-file">
             <Button variant="contained" component="span" type="file" className={classes.button}>
@@ -158,7 +171,7 @@ class PlantProfile extends React.Component {
             </Button>
           </label>
         </div>
-        <Button variant="contained" className={classes.button} onClick={this.submitPlant}>
+        <Button variant="contained" className={classes.button} onClick={this.fileUploadHandler}>
                 Submit
         </Button>
       </div>
