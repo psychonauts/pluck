@@ -69,7 +69,10 @@ class UserProfile extends React.Component {
     console.log('user info submitted');
     // axios.post
     // endpoint = /user/info ?
-    axios.post(`/user/info?username=${username}&password=${password}&address=${address}&zipcode=${zipcode}`)
+    // axios.post(`/user/info?username=${username}&password=${password}&address=${address}&zipcode=${zipcode}`)
+    axios.post('/user/info', {
+      username, password, address, zipcode,
+    })
     // .then handle res
       .then((res) => { console.log(res); })
     // .catch any errors
