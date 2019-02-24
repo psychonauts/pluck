@@ -175,9 +175,6 @@ class ButtonAppBar extends React.Component {
             <List>
 
               <NavLink
-              // if (loggedIn === false) {
-              //   to="/userLogin"
-              //  }
                 to="/MyProfile"
                 style={{ textDecoration: 'none' }}
               >

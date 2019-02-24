@@ -35,6 +35,7 @@ class PlantProfile extends React.Component {
       type: '',
       description: '',
       image: '',
+      loggedIn: false,
       // do we need user id?
       // multiline: "Controlled",
     };
@@ -117,7 +118,7 @@ class PlantProfile extends React.Component {
       redirect: true,
     });
 
-    // get req to get current user info
+    // get current user info
 
     // send post req to server to save new plant info in plants table
     // save plant info to database
@@ -131,6 +132,10 @@ class PlantProfile extends React.Component {
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
+
+    if (this.state.loggedIn === false) {
+      return <Redirect to="/userLogin" />;
+    }
 
     if (redirect === true) {
       return <Redirect to="/myProfile" />;

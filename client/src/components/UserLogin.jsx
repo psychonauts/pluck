@@ -29,6 +29,7 @@ class UserLogin extends React.Component {
       username: '',
       password: '', // is this how we should handle this?
       redirect: false,
+      loggedIn: false,
     };
 
     // bind functions to this
