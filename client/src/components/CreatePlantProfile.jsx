@@ -33,24 +33,47 @@ class PlantProfile extends React.Component {
     this.state = {
       type: '',
       description: '',
-      image: null,
+      image: '',
       // do we need user id?
       // multiline: "Controlled",
     };
-    this.fileSelectHandler = this.fileSelectHandler.bind(this);
+    // this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  // function that sets state via onchange
+  onChange(event) {
+    // console.log(event.target.id);
+
+    // find which field is being used
+    if (event.target.id === 'type') {
+      // set corresponding state to the value entered into that field
+      this.setState({
+        type: event.target.value,
+      });
+    } else if (event.target.id === 'description') {
+      this.setState({
+        description: event.target.value,
+      });
+    } else {
+      console.log(event.taget.files[0]);
+      this.setState({
+        image: event.target.files[0],
+      });
+    }
   }
 
   // function allows users to upload image
-  fileSelectHandler(event) {
-    console.log(event.target.files[0]);
-    const currentImage = event.target.files[0];
+  // fileSelectHandler(event) {
+  //   console.log(event.target.files[0]);
+  //   const currentImage = event.target.files[0];
 
-    this.setState({
-      image: currentImage,
-      redirect: false,
-    });
-  }
+  //   this.setState({
+  //     image: currentImage,
+  //     redirect: false,
+  //   });
+  // }
 
   // function upload image to our server
   fileUploadHandler() {
@@ -96,7 +119,7 @@ class PlantProfile extends React.Component {
       <div className="zip-body">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="outlined-multiline-flexible"
+            id="type"
             label="plant type"
             multiline
             rowsMax="4"
@@ -104,19 +127,21 @@ class PlantProfile extends React.Component {
             margin="normal"
             helperText=""
             variant="outlined"
+            onChange={this.onChange}
 
           />
         </form>
         <form className={classes.container} noValidate autoComplete="off">
 
           <TextField
-            id="outlined-multiline-static"
+            id="description"
             label="description"
             multiline
             rows="4"
             className={classes.textField}
             margin="normal"
             variant="outlined"
+            onChange={this.onChange}
           />
         </form>
         <div>
