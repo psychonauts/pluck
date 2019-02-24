@@ -149,8 +149,8 @@ class ButtonAppBar extends React.Component {
                         p l u c k
               </Typography>
 
-              <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
-              <NavLink to="/userLogin" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
+              <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
+              <NavLink to="/userLogin" style={{ color: 'white', textDecoration: 'none' }}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
             </Toolbar>
           </AppBar>
           <Drawer
@@ -174,7 +174,13 @@ class ButtonAppBar extends React.Component {
             <Divider />
             <List>
 
-              <NavLink to="/MyProfile" style={{ textDecoration: 'none' }}>
+              <NavLink
+              // if (loggedIn === false) {
+              //   to="/userLogin"
+              //  }
+                to="/MyProfile"
+                style={{ textDecoration: 'none' }}
+              >
                 <ListItem button key="My Profile">
                   <ListItemText primary="My Profile" />
                 </ListItem>

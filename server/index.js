@@ -43,7 +43,7 @@ app.get('/user/profile', (req, res) => {
 
 app.post('/plant/profile', (req, res) => {
   // req.query, req.body, req.params i dont know what to use. query works for now though
-  dbHelpers.addPlant(req.query.userId, req.query.title, req.query.desc, req.query.address, req.query.zipcode, req.query.imageUrl, (err, plant) => {
+  dbHelpers.addPlant(req.query.userId, req.query.type, req.query.description, req.query.address, req.query.zipcode, req.query.image, (err, plant) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT CREATE PLANT PROFILE');

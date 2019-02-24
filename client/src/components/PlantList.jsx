@@ -10,7 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import SampleData from './SampleData.js';
 import { Route, Redirect } from 'react-router-dom'; 
 import ViewPlantProfile from './ViewPlantProfile.jsx';
-import axios from 'axios';
+
 
 const styles = theme => ({
   root: {
@@ -37,8 +37,7 @@ class PlantList extends React.Component {
       redirect: false,
       data: SampleData,
     };
-
-}
+  }
 
   render() {
     const { classes } = this.props;
@@ -46,6 +45,7 @@ class PlantList extends React.Component {
     if (this.state.redirect === true) {
       return <Redirect to="/viewPlantProfile" />;
     }
+
 
     return (
       <div className={classes.root}>

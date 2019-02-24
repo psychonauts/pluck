@@ -45,8 +45,8 @@ class PlantProfile extends React.Component {
   }
 
   // function that sets state via onchange
+  // allows us to grab the plant type and description
   onChange(event) {
-
     // find which field is being used
     if (event.target.id === 'type') {
       // set corresponding state to the value entered into that field
@@ -60,6 +60,9 @@ class PlantProfile extends React.Component {
     }
   }
 
+
+  ////////////////// THESE FUNCTIONS ARE USED TO ENABLE USER IMAGE UPLOAD ////////////////
+
   // function allows users to upload image
   fileSelectHandler(event) {
     // console.log(btoa(event.target.files[0]));
@@ -72,8 +75,6 @@ class PlantProfile extends React.Component {
 
   // function upload image to our server
   fileUploadHandler() {
-    // console.log('choosing image');
-
     const fd = new FormData();
     fd.append('image', this.state.image, this.state.image.name);
 
@@ -83,13 +84,15 @@ class PlantProfile extends React.Component {
     // fr.readAsDataURL(file); //base64
 
     const params = {
-      image: fr.readAsDataURL(file),
+      image: fr.readAsBinaryString(file), // this needs to be binary, base64 data, or a url
       // type: 'application/file',
       headers: {
-        Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`,
+        Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`, // this is correct
       },
     };
 
+    // post request to imgur
+    // goal: upload a user image and get back a url
     axios.post('https://api.imgur.com/3/image', params)
       .then((res) => {
         console.log(res.data.link);
@@ -102,6 +105,9 @@ class PlantProfile extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+
+
   // function when submit button is pressed
   submitPlant() {
     const { type, description, image } = this.state;
@@ -111,9 +117,12 @@ class PlantProfile extends React.Component {
       redirect: true,
     });
 
+    // get req to get current user info
+
     // send post req to server to save new plant info in plants table
     // save plant info to database
     // add plant to users profile page
+    // need to send through userId, type, description, address, zipcode, image
     axios.post('/plant/profile', { type, description, image })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
@@ -126,6 +135,7 @@ class PlantProfile extends React.Component {
     if (redirect === true) {
       return <Redirect to="/myProfile" />;
     }
+
 
     return (
       <div className="zip-body">
@@ -156,22 +166,32 @@ class PlantProfile extends React.Component {
             onChange={this.onChange}
           />
         </form>
-        <div>
+        {/* <div>
           <input
             accept="image/*"
             className={classes.input}
             id="contained-button-file"
             multiple
             type="file"
-            onChange={this.fileSelectHandler}
+            // onChange={this.fileSelectHandler}
           />
           <label htmlFor="contained-button-file">
-            <Button variant="contained" component="span" type="file" className={classes.button}>
+            <Button
+              variant="contained"
+              component="span"
+              type="file"
+              className={classes.button}
+            >
                     Upload Plant Image
             </Button>
           </label>
-        </div>
-        <Button variant="contained" className={classes.button} onClick={this.fileUploadHandler}>
+        </div> */}
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={this.submitPlant}
+          // onClick={this.fileUploadHandler}
+        >
                 Submit
         </Button>
       </div>
