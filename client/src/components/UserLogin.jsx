@@ -58,14 +58,13 @@ class UserLogin extends React.Component {
   submitUserInfo() {
     const { username, password } = this.state;
     console.log('user info submitted');
-    // axios.get
-    // endpoint = /user/login
+
     axios.get(`/user/login?username=${username}&password=${password}`)
-    // .then handle res
       .then((res) => {
         console.log(res);
         this.setState({
           loggedIn: true,
+          // userId: res.userId // something like this
         });
       })
     // .catch any errors

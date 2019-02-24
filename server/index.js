@@ -74,7 +74,7 @@ app.get('/user/login', (req, res) => {
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
     // } else if (user.salt + req.query.password === user.hpass) {
     } else if (user.username === req.query.username) { // testing
-      res.status(200).send(user.username);
+      res.status(200).send(user); // return whole user obj and not just username
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }
