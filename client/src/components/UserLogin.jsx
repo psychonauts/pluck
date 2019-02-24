@@ -62,7 +62,12 @@ class UserLogin extends React.Component {
     // endpoint = /user/login
     axios.get(`/user/login?username=${username}&password=${password}`)
     // .then handle res
-      .then((res) => { console.log(res); })
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          loggedIn: true,
+        });
+      })
     // .catch any errors
       .catch((err) => { console.log(err); });
 
@@ -77,7 +82,7 @@ class UserLogin extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.redirect === true) {
+    if (this.state.redirect === true && this.state.loggedIn === true) {
       return <Redirect to="/plantList" />;
     }
 

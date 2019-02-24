@@ -72,7 +72,8 @@ app.get('/user/login', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
-    } else if (user.salt + req.query.password === user.hpass) {
+    // } else if (user.salt + req.query.password === user.hpass) {
+    } else if (user.username === req.query.username) { // testing
       res.status(200).send(user.username);
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');

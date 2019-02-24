@@ -99,7 +99,6 @@ class ButtonAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-      loggedIn: false,
     };
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -117,14 +116,8 @@ class ButtonAppBar extends React.Component {
 
   render() {
     const { classes, signUser, logUser } = this.props;
-    const { open, loggedIn } = this.state;
+    const { open } = this.state;
 
-    // if user not logged in, route to login page
-    //   else route to myProfile
-
-    // if (loggedIn === false) {
-    //   return <Redirect to="/userLogin" />;
-    // }
 
     return (
       <div className={classes.root}>
