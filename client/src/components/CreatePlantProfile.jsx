@@ -97,24 +97,6 @@ class PlantProfile extends React.Component {
     this.setState({type: this.state.currency})
   }
 
-  getPlantType() {   
-    axios.get(`/plant/category?category=${this.state.currency}`)
-      .then((res) => {
-        console.log(res)
-        const plantImage = res.data[0];
-        this.setState({ image: plantImage });
-      })
-  }
-
-  handleChange(name){ 
-    
-    return event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
-}
   // function that sets state via onchange
   // allows us to grab the plant type and description
   onChange(event) {
@@ -132,8 +114,27 @@ class PlantProfile extends React.Component {
     }
   }
 
+  getPlantType() {   
+    axios.get(`/plant/category?category=${this.state.currency}`)
+      .then((res) => {
+        console.log(res);
+        const plantImage = res.data[0];
+        this.setState({ image: plantImage });
+      });
+  }
+
+  handleChange(name) { 
+
+    return (event) => {
+      this.setState({
+        [name]: event.target.value,
+      });
+    };
+  }
+
 
   ////////////////// THESE FUNCTIONS ARE USED TO ENABLE USER IMAGE UPLOAD ////////////////
+  ///// which does not currently work /////////////
 
   // function allows users to upload image
   fileSelectHandler(event) {
@@ -182,10 +183,11 @@ class PlantProfile extends React.Component {
 
   // function when submit button is pressed
   submitPlant() {
-    
+
     const { type, description, image } = this.state;
     // this.getPlantType()
     // change state to redirect to myProfile
+    
     this.setState({
       redirect: true,
     });
