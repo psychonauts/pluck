@@ -15,6 +15,10 @@ const styles = {
     maxWidth: 500,
     padding: 50,
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
 };
 
 class MyProfile extends React.Component {
@@ -51,12 +55,12 @@ class MyProfile extends React.Component {
             return (
               <Card className={classes.card}>
                 <CardHeader
-                  title={plant.plant}
+                  title={plant.title}
                 />
                 <CardMedia
                   className={classes.media}
                   image={plant.image_url}
-                  title={plant.plant}
+                  title={plant.title}
                 />
                 <CardContent>
                   <Typography component="p">
