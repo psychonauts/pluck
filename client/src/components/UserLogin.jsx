@@ -27,11 +27,11 @@ class UserLogin extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: '', // is this how we should handle this?
+      password: '',
       redirect: false,
       loggedIn: false,
       userId: '',
-      zipcode: this.props.zipcode,
+      zipcode: props.zipcode,
     };
 
     // bind functions to this

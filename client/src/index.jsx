@@ -20,11 +20,11 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      loggedIn: false,
       data: SampleData,
       username: '',
       zipcode: '',
       userId: '',
+      userPlants: [],
     };
 
     // bind to this all functions being handed down
@@ -66,7 +66,7 @@ class App extends React.Component {
  username, password, address, zipcode,
 })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data, 'RES DATA');
         // get all plants in new users zipcode
         this.zipCodeSubmit({ zipcode });
       })
@@ -75,14 +75,14 @@ class App extends React.Component {
 
   // called in UserLogin to allow user to log in
   userLogin(userInfo) {
-    console.log(userInfo);
+    console.log(userInfo, 'USER INFO');
     this.setState({
       username: userInfo.username,
     });
 
     axios.get(`/user/login?username=${userInfo.username}&password=${userInfo.password}`)
       .then((res) => {
-        console.log(res);
+        console.log(res, 'RES');
         this.setState({
           loggedIn: true,
           userId: res.data.userId,
@@ -90,7 +90,7 @@ class App extends React.Component {
         });
 
         // get all plants in new users zipcode
-        this.zipCodeSubmit(this.state.zipcode);
+        this.zipCodeSubmit({ zipcode: this.state.zipcode });
       })
       .catch((err) => { console.log(err); });
   }
@@ -111,7 +111,7 @@ class App extends React.Component {
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
-              <Route path="/myProfile" component={MyProfile} />
+              <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />
             </Switch>

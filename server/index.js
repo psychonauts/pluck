@@ -69,7 +69,6 @@ app.get('/health', (req, res) => {
 app.get('/user/login', (req, res) => {
   console.log(req.query);
   dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
-    console.log(user[0]);
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
