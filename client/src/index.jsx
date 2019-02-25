@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      data: SampleData,
+      plants: SampleData,
       username: '',
       zipcode: '',
       userId: '',
@@ -47,7 +47,7 @@ class App extends React.Component {
         console.log(res.data);
         // data state in index component will be updated to those plants
         this.setState({
-          data: res.data,
+          plants: res.data,
         });
       })
       .catch((err) => { console.log(err); });
@@ -105,10 +105,10 @@ class App extends React.Component {
 
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
-              <Route path="/userProfile" render={() => <UserProfile plants={this.state.data} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
-              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
+              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
+              <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} />} />
+              <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
