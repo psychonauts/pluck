@@ -34,7 +34,7 @@ const currencies = [
     label: 'Strawberries',
   },
   {
-    value: 'USD',
+    value: 'Oranges',
     label: 'Oranges',
   },
   {
@@ -71,26 +71,15 @@ const currencies = [
   },
 ];
 
-// let types = ['Strawberries',
-//   'Oranges',
-//   'Figs',
-//   'Tomatoes',
-//   'Squash',
-//   'Rosemary',
-//   'Snap Peas',
-//   'Apples',
-//   'Basil',
-//   'Peaches']
-
 class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      types: [],
+      type: '',
       description: '',
       image: '',
       loggedIn: false,
-      currency: 'Strawberries',
+      currency: 'Select',
       
       // do we need user id?
       // multiline: "Controlled",
@@ -101,22 +90,24 @@ class PlantProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this)
     this.setState = this.setState.bind(this)
-    this.fileUploadHandler = this.fileUploadHandler.bind(this);
+    // this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
   componentDidMount(){
-    this.getPlantType();
+    this.setState({type: this.state.currency})
   }
 
   getPlantType() {
-    axios.get('/plant/category')
+    
+    axios.get(`/plant/category?category=${this.state.currency}`)
       .then(res => {
         console.log(res)
-        const plant = res;
-        this.setState({types: res.data})
+        const plantImage = res.data[0];
+        this.setState({image: plantImage})
       })
   }
 
   handleChange(name){
+    
     return event => {
     this.setState({
       [name]: event.target.value,
@@ -155,44 +146,45 @@ class PlantProfile extends React.Component {
   }
 
   // function upload image to our server
-  fileUploadHandler() {
-    const fd = new FormData();
-    fd.append('image', this.state.image, this.state.image.name);
+  // fileUploadHandler() {
+  //   const fd = new FormData();
+  //   fd.append('image', this.state.image, this.state.image.name);
 
-    const fr = new FileReader();
-    const file = this.state.image;
-    // fr.readAsBinaryString(file);
-    // fr.readAsDataURL(file); //base64
+  //   const fr = new FileReader();
+  //   const file = this.state.image;
+  //   // fr.readAsBinaryString(file);
+  //   // fr.readAsDataURL(file); //base64
 
-    const params = {
-      image: fr.readAsBinaryString(file), // this needs to be binary, base64 data, or a url
-      // type: 'application/file',
-      headers: {
-        Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`, // this is correct
-      },
-    };
+  //   const params = {
+  //     image: fr.readAsBinaryString(file), // this needs to be binary, base64 data, or a url
+  //     // type: 'application/file',
+  //     headers: {
+  //       Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`, // this is correct
+  //     },
+  //   };
 
-    // post request to imgur
-    // goal: upload a user image and get back a url
-    axios.post('https://api.imgur.com/3/image', params)
-      .then((res) => {
-        console.log(res.data.link);
+  //   // post request to imgur
+  //   // goal: upload a user image and get back a url
+  //   axios.post('https://api.imgur.com/3/image', params)
+  //     .then((res) => {
+  //       console.log(res.data.link);
 
-        // set state to image url
-        this.setState({
-          image: res.data.link,
-        });
-      })
-      .catch((err) => { console.log(err); });
-  }
+  //       // set state to image url
+  //       this.setState({
+  //         image: res.data.link,
+  //       });
+  //     })
+  //     .catch((err) => { console.log(err); });
+  // }
 
   ////////////////////////////////////////////////////////////////////////////
 
 
   // function when submit button is pressed
   submitPlant() {
+    
     const { type, description, image } = this.state;
-
+    // this.getPlantType()
     // change state to redirect to myProfile
     this.setState({
       redirect: true,
@@ -212,16 +204,7 @@ class PlantProfile extends React.Component {
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
-    let types = ['Strawberries',
-'Oranges',
-'Figs',
-'Tomatoes',
-'Squash',
-'Rosemary',
-'Snap Peas',
-'Apples',
-'Basil',
-'Peaches']
+  
     // if (this.state.loggedIn === false) {
     //   return <Redirect to="/userLogin" />;
     // }
