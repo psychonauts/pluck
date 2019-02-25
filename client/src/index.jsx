@@ -38,9 +38,9 @@ class App extends React.Component {
 
     axios.get(`/user/zipcode?zipcode=${zipcode.zipcode}`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data); 
         this.setState({
-          data: res,
+          data: res.data,
         });
       })
       .catch((err) => { console.log(err); });
