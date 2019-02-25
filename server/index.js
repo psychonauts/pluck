@@ -68,13 +68,14 @@ app.get('/health', (req, res) => {
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.query);
-  dbHelpers.getUserByUsername(req.query.username, (err, user) => {
+  dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
+    console.log(user[0]);
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
-    // } else if (user.salt + req.query.password === user.hpass) {
-    } else if (user.username === req.query.username) { // testing
-      res.status(200).send(user); // return whole user obj and not just username
+    } else if (user[0].salt + req.query.password === user[0].hpass) {
+    // } else if (user.username === req.query.username) { // testing
+      res.status(200).send({ id: user[0].id, username: user[0].username }); // return whole user obj and not just username
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }

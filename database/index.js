@@ -56,8 +56,8 @@ module.exports.addFavorite = (userId, plantId, callback) => {
   });
 };
 
-module.exports.addUser = (username, hpass, salt, callback) => {
-  connection.query('INSERT INTO users(username, hpass, salt) VALUES(?, ?, ?)', [username, hpass, salt], (err, user) => {
+module.exports.addUser = (username, pass, salt, callback) => {
+  connection.query('INSERT INTO users(username, hpass, salt) VALUES(?, ?, ?)', [username, salt + pass, salt], (err, user) => {
     if (err) {
       callback(err);
     } else {
@@ -96,7 +96,7 @@ module.exports.getUserIdByGivenUsername = (username, callback) => {
   });
 };
 
-module.exports.getUserByUsername = (username, callback) => {
+module.exports.getUserByGivenUsername = (username, callback) => {
   connection.query('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
     if (err) {
       callback(err);
