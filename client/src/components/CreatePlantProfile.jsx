@@ -28,22 +28,46 @@ const styles = theme => ({
   },
 });
 
+
+
 class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
+      types: [],
       description: '',
       image: '',
       loggedIn: false,
+      currency: 'EUR',
+      
       // do we need user id?
       // multiline: "Controlled",
     };
+    this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
+  componentDidMount(){
+    this.getPlantType();
+  }
+
+  getPlantType() {
+    axios.get('/health')
+      .then(res => {
+        console.log(res)
+        const plant = res;
+        this.setState({types: res.data})
+      })
+  }
+
+  handleChange(name) {
+    return function (event) {
+      this.setState(defineProperty({}, name, event.target.value));
+    };
+  };
+
 
   // function that sets state via onchange
   // allows us to grab the plant type and description
@@ -133,12 +157,12 @@ class PlantProfile extends React.Component {
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
-
+    let currencies = this.state.types;
     // if (this.state.loggedIn === false) {
     //   return <Redirect to="/userLogin" />;
     // }
 
-
+    
     if (redirect === true) {
       return <Redirect to={{ pathname: '/myProfile', state: { parentState: this.state } }} />; // trying to hand down props through redirect
     }
@@ -148,17 +172,27 @@ class PlantProfile extends React.Component {
       <div className="zip-body">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="type"
-            label="plant type"
-            multiline
-            rowsMax="4"
+            id="outlined-select-currency"
+            select
+            label="Select"
             className={classes.textField}
+            value={this.state.currency}
+            onChange={this.handleChange('currency')} 
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select your currency"
             margin="normal"
-            helperText=""
             variant="outlined"
-            onChange={this.onChange}
-
-          />
+          >
+            {currencies.map(option => (
+              <MenuItem key={option.id} value={option.title}>
+                {option.title}
+              </MenuItem>
+            ))}
+          </TextField>
         </form>
         <form className={classes.container} noValidate autoComplete="off">
 
@@ -171,7 +205,13 @@ class PlantProfile extends React.Component {
             margin="normal"
             variant="outlined"
             onChange={this.onChange}
-          />
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+          >
+          </TextField>
         </form>
         {/* <div>
           <input
