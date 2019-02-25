@@ -14,7 +14,7 @@ const SENSITIVEDATA = {
 
 // const connection = new Sequelize('plucker', SENSITIVEDATA.username, SENSITIVEDATA.password, {
 //   dialect: 'mysql',
-//   // host: SENSITIVEDATA.url,
+//   // host: SENSITIVEDATA.url, 
 //   // port: SENSITIVEDATA.port,
 // }); // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
