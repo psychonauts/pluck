@@ -15,6 +15,10 @@ const styles = {
     maxWidth: 500,
     padding: 50,
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
 };
 
 class MyProfile extends React.Component {
@@ -23,11 +27,9 @@ class MyProfile extends React.Component {
     this.state = {
       username: props.username,
       zipcode: props.zipcode,
-      // address: props.address,
       userPlants: props.plants,
     };
   }
- 
 
   render() {
     const { classes } = this.props;
@@ -49,16 +51,24 @@ class MyProfile extends React.Component {
         </Typography>
 
         <div className={classes.root}>
+
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+          >
+          Your Plants
+          </Typography>
+
           {this.state.userPlants.map((plant) => {
             return (
               <Card className={classes.card}>
                 <CardHeader
-                  title={plant.plant}
+                  title={plant.title}
                 />
                 <CardMedia
                   className={classes.media}
-                  image={plant.image}
-                  title={plant.plant}
+                  image={plant.image_url}
+                  title={plant.title}
                 />
                 <CardContent>
                   <Typography component="p">
