@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      data: SampleData,
+      plants: [],
       username: '',
       zipcode: '',
       userId: '',
@@ -47,13 +47,13 @@ class App extends React.Component {
         console.log(res.data);
         // data state in index component will be updated to those plants
         this.setState({
-          data: res.data,
-        });
+          plants: res.data,
+        }); // method to redirect as second argument
       })
       .catch((err) => { console.log(err); });
   }
 
-  // called in UserProfile when a user signs up
+  // called in UserProfile when a user signs up/ hits submit button
   submitUserInfo(userInfo) {
     console.log(userInfo.username);
 
@@ -73,7 +73,7 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-  // called in UserLogin to allow user to log in
+  // called in UserLogin to allow user to log in when submit is pressed
   userLogin(userInfo) {
     console.log(userInfo, 'USER INFO');
     this.setState({
@@ -85,10 +85,11 @@ class App extends React.Component {
         console.log(res, 'RES');
         this.setState({
           loggedIn: true,
-          userId: res.data.userId,
+          userId: res.data.id,
           zipcode: res.data.zipcode,
+          userPlants: res.data.plants, // something like this
         });
-
+        console.log(this.state.userId, 'ID');
         // get all plants in new users zipcode
         this.zipCodeSubmit({ zipcode: this.state.zipcode });
       })
@@ -105,12 +106,12 @@ class App extends React.Component {
 
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
-              <Route path="/userProfile" render={() => <UserProfile plants={this.state.data} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
-              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
-              <Route path="/viewPlantProfile" component={ViewPlantProfile} />
-              <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
+              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
+              <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} />} />
+              <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
+              <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
+              <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} username={this.state.username} />} />
               <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />

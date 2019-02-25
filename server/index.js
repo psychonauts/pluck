@@ -42,15 +42,22 @@ app.get('/user/profile', (req, res) => {
 });
 
 app.post('/plant/profile', (req, res) => {
-  // req.query, req.body, req.params i dont know what to use. query works for now though
-  dbHelpers.addPlant(req.query.userId, req.query.type, req.query.description, req.query.address, req.query.zipcode, req.query.image, (err, plant) => {
+  dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
     if (err) {
       console.log(err);
-      res.status(500).send('COULD NOT CREATE PLANT PROFILE');
+      res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
     } else {
-      res.status(203).send('PLANT PROFILE CREATED');
+      dbHelpers.addPlant(user.userId, req.query.type, req.query.description, user.address, user.zipcode, req.query.image, (err, plant) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send('COULD NOT CREATE PLANT PROFILE');
+        } else {
+          res.status(203).send('PLANT PROFILE CREATED');
+        }
+      });
     }
   });
+  // req.query, req.body, req.params i dont know what to use. query works for now though // userId, address, zipcode
 });
 
 app.get('/health', (req, res) => {

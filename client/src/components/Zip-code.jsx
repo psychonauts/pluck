@@ -53,9 +53,12 @@ class ComposedTextField extends React.Component {
 
     // brought to list view
     // set state of 'redirect' to true
-    this.setState({
-      redirect: true,
-    });
+    setTimeout(() => {
+
+      this.setState({
+        redirect: true,
+      });
+    }, 1000);
   }
 
   render() {
