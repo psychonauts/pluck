@@ -42,11 +42,14 @@ app.get('/user/profile', (req, res) => {
 });
 
 app.post('/plant/profile', (req, res) => {
+  console.log(req, 'QUERY');
   dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
     } else {
+      console.log(user);
+      console.log(req.query);
       dbHelpers.addPlant(user.userId, req.query.type, req.query.description, user.address, user.zipcode, req.query.image, (err, plant) => {
         if (err) {
           console.log(err);
