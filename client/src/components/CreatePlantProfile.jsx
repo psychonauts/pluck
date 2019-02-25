@@ -28,7 +28,59 @@ const styles = theme => ({
   },
 });
 
+const currencies = [
+  {
+    value: 'Strawberries',
+    label: 'Strawberries',
+  },
+  {
+    value: 'USD',
+    label: 'Oranges',
+  },
+  {
+    value: 'Figs',
+    label: 'Figs',
+  },
+  {
+    value: 'Tomatoes',
+    label: 'Tomatoes',
+  },
+  {
+    value: 'Squash',
+    label: 'Squash',
+  },
+  {
+    value: 'Rosemary',
+    label: 'Rosemary',
+  },
+  {
+    value: 'Snap Peas',
+    label: 'Snap Peas',
+  },
+  {
+    value: 'Apples',
+    label: 'Apples',
+  },
+  {
+    value: 'Basil',
+    label: 'Basil',
+  },
+  {
+    value: 'Peaches',
+    label: 'Peaches',
+  },
+];
 
+// let types = ['Strawberries',
+//   'Oranges',
+//   'Figs',
+//   'Tomatoes',
+//   'Squash',
+//   'Rosemary',
+//   'Snap Peas',
+//   'Apples',
+//   'Basil',
+//   'Peaches']
 
 class PlantProfile extends React.Component {
   constructor(props) {
@@ -38,7 +90,7 @@ class PlantProfile extends React.Component {
       description: '',
       image: '',
       loggedIn: false,
-      currency: 'EUR',
+      currency: 'Strawberries',
       
       // do we need user id?
       // multiline: "Controlled",
@@ -47,6 +99,8 @@ class PlantProfile extends React.Component {
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+    this.setState = this.setState.bind(this)
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
   componentDidMount(){
@@ -54,7 +108,7 @@ class PlantProfile extends React.Component {
   }
 
   getPlantType() {
-    axios.get('/health')
+    axios.get('/plants/category')
       .then(res => {
         console.log(res)
         const plant = res;
@@ -62,13 +116,14 @@ class PlantProfile extends React.Component {
       })
   }
 
-  handleChange(name) {
-    return function (event) {
-      this.setState(defineProperty({}, name, event.target.value));
-    };
+  handleChange(name){
+    return event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
 
-
+}
   // function that sets state via onchange
   // allows us to grab the plant type and description
   onChange(event) {
@@ -157,7 +212,16 @@ class PlantProfile extends React.Component {
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
-    let currencies = this.state.types;
+    let types = ['Strawberries',
+'Oranges',
+'Figs',
+'Tomatoes',
+'Squash',
+'Rosemary',
+'Snap Peas',
+'Apples',
+'Basil',
+'Peaches']
     // if (this.state.loggedIn === false) {
     //   return <Redirect to="/userLogin" />;
     // }
@@ -183,13 +247,13 @@ class PlantProfile extends React.Component {
                 className: classes.menu,
               },
             }}
-            helperText="Please select your currency"
+            helperText="Please select your Plant Type"
             margin="normal"
             variant="outlined"
           >
             {currencies.map(option => (
-              <MenuItem key={option.id} value={option.title}>
-                {option.title}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
