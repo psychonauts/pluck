@@ -7,7 +7,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import SampleData from './SampleData.js';
+// import SampleData from './SampleData.js';
 import { Route, Redirect } from 'react-router-dom'; 
 import ViewPlantProfile from './ViewPlantProfile.jsx';
 
@@ -35,7 +35,7 @@ class PlantList extends React.Component {
     this.state = {
       zipcode: '',
       redirect: false,
-      data: SampleData,
+      data: this.props.parentState.data,
     };
   }
 

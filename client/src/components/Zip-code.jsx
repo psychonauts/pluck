@@ -47,7 +47,8 @@ class ComposedTextField extends React.Component {
   // function to send get request to server when enter pressed
   enterZipCode() {
     const { zipcode } = this.state;
-    console.log('zipcode submitted');
+    // console.log('zipcode submitted');
+    this.props.onSubmit({ zipcode });
 
     // brought to list view
     // set state of 'redirect' to true
@@ -58,11 +59,11 @@ class ComposedTextField extends React.Component {
     // axios.get
     // endpoint = /user/zipcode ?
     // need a return?
-    axios.get(`/user/zipcode?zipcode=${zipcode}`)
-    // .then handle res
-      .then((res) => { console.log(res); })
-    // .catch any errors
-      .catch((err) => { console.log(err); });
+    // axios.get(`/user/zipcode?zipcode=${zipcode}`)
+    // // .then handle res
+    //   .then((res) => { console.log(res); })
+    // // .catch any errors
+    //   .catch((err) => { console.log(err); });
   }
 
   render() {
