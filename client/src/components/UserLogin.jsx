@@ -31,7 +31,7 @@ class UserLogin extends React.Component {
       redirect: false,
       loggedIn: false,
       userId: '',
-      zipcode: this.props.zipcode,
+      zipcode: props.zipcode,
     };
 
     // bind functions to this

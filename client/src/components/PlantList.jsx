@@ -33,9 +33,7 @@ class PlantList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '',
-      redirect: false,
-      data: this.props.plants,
+      data: props.plants,
     };
   }
 
