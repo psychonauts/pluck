@@ -31,6 +31,7 @@ class UserLogin extends React.Component {
       redirect: false,
       loggedIn: false,
       userId: '',
+      zipcode: this.props.zipcode,
     };
 
     // bind functions to this
@@ -63,7 +64,7 @@ class UserLogin extends React.Component {
     this.props.onSubmit({ username, password });
 
     // brought to list view
-    // set state of redirect to true
+    // set state of redirect and loggedin to true
     this.setState({
       redirect: true,
       loggedIn: true,

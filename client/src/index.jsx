@@ -11,7 +11,7 @@ import ViewPlantProfile from './components/ViewPlantProfile.jsx';
 import CreatePlantProfile from './components/CreatePlantProfile.jsx';
 import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
-import SampleData from '../src/components/SampleData';
+import SampleData from "./components/SampleData";
 import axios from 'axios';
 
 
@@ -24,6 +24,7 @@ class App extends React.Component {
       data: SampleData,
       username: '',
       zipcode: '',
+      userId: '',
     };
 
     // bind to this all functions being handed down
@@ -39,7 +40,7 @@ class App extends React.Component {
   zipCodeSubmit(userZip) {
     console.log(userZip.zipcode);
 
-    //get req to server
+    // get req to server
     axios.get(`/user/zipcode?zipcode=${userZip.zipcode}`)
     // server will grab plants in this zipcode from db and send back
       .then((res) => {
@@ -52,14 +53,18 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-// called in UserProfile when a user signs up
+  // called in UserProfile when a user signs up
   submitUserInfo(userInfo) {
     console.log(userInfo.username);
 
     // get all user info from userProfile view
     // send post req to server to add new user to db
-    const { username, password, address, zipcode } = userInfo;
-    axios.post('/user/info', { username, password, address, zipcode })
+    const {
+ username, password, address, zipcode,
+} = userInfo;
+    axios.post('/user/info', {
+ username, password, address, zipcode,
+})
       .then((res) => {
         console.log(res.data);
         // get all plants in new users zipcode
@@ -70,21 +75,24 @@ class App extends React.Component {
 
   // called in UserLogin to allow user to log in
   userLogin(userInfo) {
-      console.log(userInfo);
+    console.log(userInfo);
     this.setState({
       username: userInfo.username,
-      // zipcode: userInfo.zipcode,
-    })
+    });
 
     axios.get(`/user/login?username=${userInfo.username}&password=${userInfo.password}`)
-    .then((res) => {
-      console.log(res);
-      this.setState({
-        loggedIn: true,
-        userId: res.userId, // something like this
-      });
-    })
-    .catch((err) => { console.log(err); });
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          loggedIn: true,
+          userId: res.data.userId,
+          zipcode: res.data.zipcode,
+        });
+
+        // get all plants in new users zipcode
+        this.zipCodeSubmit(this.state.zipcode);
+      })
+      .catch((err) => { console.log(err); });
   }
 
 
@@ -100,7 +108,7 @@ class App extends React.Component {
               <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.data} onSubmit={this.submitUserInfo} />} />
               <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
-              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} onSubmit={this.userLogin} />} />
+              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" component={MyProfile} />
