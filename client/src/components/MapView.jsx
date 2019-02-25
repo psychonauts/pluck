@@ -43,7 +43,7 @@ class MapView extends React.Component {
         });
         map.addControl(directions, 'top-left'); 
         directions.setOrigin([-90.069800, 29.972890])
-        directions.setDestination('5919 Saint Roch Ave')
+        directions.setDestination('1560 North Rocheblave Street')
         this.getAddress();
     }
 

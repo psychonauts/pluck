@@ -102,11 +102,13 @@ app.get('/user/login', (req, res) => {
 
 app.get('/plant/category', (req, res) => {
   dbHelpers.getImageByGivenCategory(req.query.category, (err, imageUrl) => {
+    console.log(req.query.category)
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');
     } else {
       res.status(200).send(imageUrl);
+      // console.log();
     }
   });
 });
