@@ -44,25 +44,18 @@ class ComposedTextField extends React.Component {
     });
   }
 
-  // function to send get request to server when enter pressed
+  // when submit button is pressed, onsubmit is called from index.jsx
+  //    get req to server to get all plants in that areacode from db
   enterZipCode() {
     const { zipcode } = this.state;
-    console.log('zipcode submitted');
+    // console.log('zipcode submitted');
+    this.props.onSubmit({ zipcode });
 
     // brought to list view
     // set state of 'redirect' to true
     this.setState({
       redirect: true,
     });
-
-    // axios.get
-    // endpoint = /user/zipcode ?
-    // need a return?
-    axios.get(`/user/zipcode?zipcode=${zipcode}`)
-    // .then handle res
-      .then((res) => { console.log(res); })
-    // .catch any errors
-      .catch((err) => { console.log(err); });
   }
 
   render() {

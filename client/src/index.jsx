@@ -11,6 +11,8 @@ import ViewPlantProfile from './components/ViewPlantProfile.jsx';
 import CreatePlantProfile from './components/CreatePlantProfile.jsx';
 import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
+import SampleData from '../src/components/SampleData';
+import axios from 'axios';
 
 
 class App extends React.Component {
@@ -19,26 +21,31 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-    }
+      data: SampleData,
+    };
 
     // bind to this all functions being handed down
-    this.userLoginLogut = this.userLoginLogut.bind(this);
-    this.userSignUp = this.userSignUp.bind(this);
+    this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate(); // rerenders page when components state or props change
   }
 
-  // function redirects to login page
-  userLoginLogut(event) {
-    console.log(event.target.innerHTML);
+  // function gets called when submit button is clicked in zipcode view
+  zipCodeSubmit(zipcode) {
+    console.log(zipcode.zipcode);
+
+    axios.get(`/user/zipcode?zipcode=${zipcode.zipcode}`)
+      .then((res) => {
+        console.log(res.data); 
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((err) => { console.log(err); });
   }
 
-  // function redirects to sign up page
-  userSignUp(event) {
-    console.log(event.target.innerHTML);
-  }
 
   render() {
     return (
@@ -47,24 +54,20 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
 
-            <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp}/>
+            <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" component={ZipCode} exact />
+              <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
               <Route path="/userProfile" component={UserProfile} />
-              <Route path="/plantList" component={PlantList} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
               <Route path="/userLogin" component={UserLogin} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
-              <Route path="/submitPlant" component={CreatePlantProfile} />
-              {/* { this.state.loggedIn === true &&
-                <Route exact path="/submitPlant" component={CreatePlantProfile} />
-              } */}
+              <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" component={MyProfile} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />
             </Switch>
           </div>
         </BrowserRouter>
-        {/* <MapView /> */}
       </div>
 
     );
