@@ -31,6 +31,7 @@ class UserLogin extends React.Component {
       redirect: false,
       loggedIn: false,
       userId: '',
+      zipcode: this.props.zipcode,
     };
 
     // bind functions to this
@@ -58,22 +59,15 @@ class UserLogin extends React.Component {
   // function that sends get req to server to retrieve user info
   submitUserInfo() {
     const { username, password } = this.state;
-    console.log('user info submitted');
+    // console.log(username, password);
 
-    axios.get(`/user/login?username=${username}&password=${password}`)
-      .then((res) => {
-        console.log(res);
-        this.setState({
-          loggedIn: true,
-          userId: res.userId, // something like this
-        });
-      })
-      .catch((err) => { console.log(err); });
+    this.props.onSubmit({ username, password });
 
     // brought to list view
-    // set state of redirect to true
+    // set state of redirect and loggedin to true
     this.setState({
       redirect: true,
+      loggedIn: true,
     });
   }
 
