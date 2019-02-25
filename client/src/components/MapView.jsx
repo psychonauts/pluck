@@ -4,6 +4,7 @@ import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import config from '../../../config'
 import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+// import axios from 'axios';
 
 
 
@@ -21,6 +22,10 @@ class MapView extends React.Component {
     constructor(props){
         super(props)
         //create state that is set to the plant's adress
+        this.state = {
+            address: []
+        }
+        this.getAddress = this.getAddress.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +42,20 @@ class MapView extends React.Component {
             profile: 'mapbox/walking'
         });
         map.addControl(directions, 'top-left'); 
+        directions.setOrigin([-90.069800, 29.972890])
+        directions.setDestination('5919 Saint Roch Ave')
+        this.getAddress();
     }
+
+    getAddress(){
+        axios.get('/health')
+        .then(res => {
+            console.log(res)
+            const plant = res.data;
+            this.setState({ address: plant.address });
+        })
+    }
+    
 
     render(){
         return (
