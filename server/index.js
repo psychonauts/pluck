@@ -42,15 +42,12 @@ app.get('/user/profile', (req, res) => {
 });
 
 app.post('/plant/profile', (req, res) => {
-  console.log(req, 'QUERY');
-  dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
+  dbHelpers.getUserByGivenUsername(req.body.username, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
     } else {
-      console.log(user);
-      console.log(req.query);
-      dbHelpers.addPlant(user.userId, req.query.type, req.query.description, user.address, user.zipcode, req.query.image, (err, plant) => {
+      dbHelpers.addPlant(user[0].id, req.body.currency, req.body.description, '38318 kanks place drive', user[0].zipcode, 'https://inhabitat.com/wp-content/blogs.dir/1/files/2013/05/tomatoes-vine.jpg', (err, plant) => {
         if (err) {
           console.log(err);
           res.status(500).send('COULD NOT CREATE PLANT PROFILE');
