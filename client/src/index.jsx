@@ -21,7 +21,7 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      data: [],
+      data: SampleData,
     };
 
     // bind to this all functions being handed down
