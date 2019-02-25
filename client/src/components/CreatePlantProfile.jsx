@@ -108,7 +108,7 @@ class PlantProfile extends React.Component {
   }
 
   getPlantType() {
-    axios.get('/plants/category')
+    axios.get('/plant/category')
       .then(res => {
         console.log(res)
         const plant = res;
