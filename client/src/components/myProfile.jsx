@@ -21,10 +21,10 @@ class MyProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'myUsername',
-      // username: this.props.parentState.type,
-      address: '1234 avenue drive, city, state zip',
-      userPlants: [SampleData[0], SampleData[1]],
+      username: props.username,
+      zipcode: props.zipcode,
+      // address: props.address,
+      userPlants: props.plants,
     };
   }
 
@@ -45,7 +45,7 @@ class MyProfile extends React.Component {
           variant="subtitle1"
           gutterBottom
         >
-          {this.state.address}
+          {this.state.zipcode}
         </Typography>
 
         <div className={classes.root}>

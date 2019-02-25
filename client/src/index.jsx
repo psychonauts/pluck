@@ -20,11 +20,11 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      loggedIn: false,
       data: SampleData,
       username: '',
       zipcode: '',
       userId: '',
+      userPlants: [],
     };
 
     // bind to this all functions being handed down
@@ -111,7 +111,7 @@ class App extends React.Component {
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
-              <Route path="/myProfile" component={MyProfile} />
+              <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />
             </Switch>
