@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import black from '@material-ui/core/colors/grey'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink, Redirect } from 'react-router-dom'; 
 import classNames from "classnames";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -117,6 +117,8 @@ class ButtonAppBar extends React.Component {
   render() {
     const { classes, signUser, logUser } = this.props;
     const { open } = this.state;
+
+
     return (
       <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
@@ -140,8 +142,8 @@ class ButtonAppBar extends React.Component {
                         p l u c k
               </Typography>
 
-              <NavLink to="/userProfile" style={{color: 'white', textDecoration: 'none'}}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
-              <NavLink to="/userLogin" style={{color: 'white', textDecoration: 'none'}}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
+              <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
+              <NavLink to="/userLogin" style={{ color: 'white', textDecoration: 'none' }}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
             </Toolbar>
           </AppBar>
           <Drawer
@@ -165,7 +167,10 @@ class ButtonAppBar extends React.Component {
             <Divider />
             <List>
 
-              <NavLink to="/MyProfile" style={{ textDecoration: 'none' }}>
+              <NavLink
+                to="/MyProfile"
+                style={{ textDecoration: 'none' }}
+              >
                 <ListItem button key="My Profile">
                   <ListItemText primary="My Profile" />
                 </ListItem>

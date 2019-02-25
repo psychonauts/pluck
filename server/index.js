@@ -43,7 +43,7 @@ app.get('/user/profile', (req, res) => {
 
 app.post('/plant/profile', (req, res) => {
   // req.query, req.body, req.params i dont know what to use. query works for now though
-  dbHelpers.addPlant(req.query.userId, req.query.title, req.query.desc, req.query.address, req.query.zipcode, req.query.imageUrl, (err, plant) => {
+  dbHelpers.addPlant(req.query.userId, req.query.type, req.query.description, req.query.address, req.query.zipcode, req.query.image, (err, plant) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT CREATE PLANT PROFILE');
@@ -67,13 +67,14 @@ app.get('/health', (req, res) => {
 
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
-  console.log(req.body);
-  dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
+  console.log(req.query);
+  dbHelpers.getUserByUsername(req.query.username, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
-    } else if (user.salt + req.query.password === user.hpass) {
-      res.status(200).send(user.username);
+    // } else if (user.salt + req.query.password === user.hpass) {
+    } else if (user.username === req.query.username) { // testing
+      res.status(200).send(user); // return whole user obj and not just username
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }
@@ -88,7 +89,7 @@ app.get('/user/login', (req, res) => {
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.query);
-  dbHelpers.getPlantsByGivenZipcode(zipcode, (err, plants) => {
+  dbHelpers.getPlantsByGivenZipcode(req.query.zipcode, (err, plants) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE NEARBY PLANTS');

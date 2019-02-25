@@ -1,13 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
+import React from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
+import config from '../../../config';
 
 const styles = theme => ({
   container: {
@@ -30,102 +32,171 @@ class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      age: "",
-      multiline: "Controlled",
-      selectedFile: null,
+      type: '',
+      description: '',
+      image: '',
+      loggedIn: false,
+      // do we need user id?
+      // multiline: "Controlled",
     };
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
+
+  // function that sets state via onchange
+  // allows us to grab the plant type and description
+  onChange(event) {
+    // find which field is being used
+    if (event.target.id === 'type') {
+      // set corresponding state to the value entered into that field
+      this.setState({
+        type: event.target.value,
+      });
+    } else if (event.target.id === 'description') {
+      this.setState({
+        description: event.target.value,
+      });
+    }
+  }
+
+
+  ////////////////// THESE FUNCTIONS ARE USED TO ENABLE USER IMAGE UPLOAD ////////////////
 
   // function allows users to upload image
   fileSelectHandler(event) {
-    console.log(event.target.files[0]);
+    // console.log(btoa(event.target.files[0]));
     const currentImage = event.target.files[0];
+
     this.setState({
-      selectedFile: currentImage,
-      redirect: false,
+      image: currentImage,
     });
   }
 
   // function upload image to our server
   fileUploadHandler() {
-  // creating new form data
     const fd = new FormData();
-    // append the image to the form data
-    fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    // create post request to save image in database
+    fd.append('image', this.state.image, this.state.image.name);
 
-    // axios.post('/submitPlant', fd)
-    // .then((imageData)=>{
-    // console.log(imageData);
-    // })
+    const fr = new FileReader();
+    const file = this.state.image;
+    // fr.readAsBinaryString(file);
+    // fr.readAsDataURL(file); //base64
+
+    const params = {
+      image: fr.readAsBinaryString(file), // this needs to be binary, base64 data, or a url
+      // type: 'application/file',
+      headers: {
+        Authorization: `Client-ID ${config.clientId} Bearer ${config.imgurKey}`, // this is correct
+      },
+    };
+
+    // post request to imgur
+    // goal: upload a user image and get back a url
+    axios.post('https://api.imgur.com/3/image', params)
+      .then((res) => {
+        console.log(res.data.link);
+
+        // set state to image url
+        this.setState({
+          image: res.data.link,
+        });
+      })
+      .catch((err) => { console.log(err); });
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+
+
   // function when submit button is pressed
-  // save plant info to database
-  // redirect to myprofile page
-  // add plant to users profile page
   submitPlant() {
-    console.log('submitting new plant');
+    const { type, description, image } = this.state;
+
+    // change state to redirect to myProfile
     this.setState({
       redirect: true,
     });
+
+    // get current user info
+
+    // send post req to server to save new plant info in plants table
+    // save plant info to database
+    // add plant to users profile page
+    // need to send through userId, type, description, address, zipcode, image
+    axios.post('/plant/profile', { type, description, image })
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
   }
 
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
 
+    if (this.state.loggedIn === false) {
+      return <Redirect to="/userLogin" />;
+    }
+
     if (redirect === true) {
       return <Redirect to="/myProfile" />;
     }
+
 
     return (
       <div className="zip-body">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="outlined-multiline-flexible"
+            id="type"
             label="plant type"
             multiline
             rowsMax="4"
-            // defaultValue="Default Value"
             className={classes.textField}
             margin="normal"
             helperText=""
             variant="outlined"
+            onChange={this.onChange}
 
           />
         </form>
         <form className={classes.container} noValidate autoComplete="off">
 
           <TextField
-            id="outlined-multiline-static"
+            id="description"
             label="description"
             multiline
             rows="4"
-            // defaultValue="Default Value"
             className={classes.textField}
             margin="normal"
             variant="outlined"
+            onChange={this.onChange}
           />
         </form>
-        <div>
+        {/* <div>
           <input
             accept="image/*"
             className={classes.input}
             id="contained-button-file"
             multiple
             type="file"
+            // onChange={this.fileSelectHandler}
           />
           <label htmlFor="contained-button-file">
-            <Button variant="contained" component="span" type="file" className={classes.button}>
+            <Button
+              variant="contained"
+              component="span"
+              type="file"
+              className={classes.button}
+            >
                     Upload Plant Image
             </Button>
           </label>
-        </div>
-        <Button variant="contained" className={classes.button} onClick={this.submitPlant}>
+        </div> */}
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={this.submitPlant}
+          // onClick={this.fileUploadHandler}
+        >
                 Submit
         </Button>
       </div>

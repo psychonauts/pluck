@@ -29,6 +29,8 @@ class UserLogin extends React.Component {
       username: '',
       password: '', // is this how we should handle this?
       redirect: false,
+      loggedIn: false,
+      userId: '',
     };
 
     // bind functions to this
@@ -53,16 +55,19 @@ class UserLogin extends React.Component {
     }
   }
 
-  // function that sends get req to server when enter is pressed
+  // function that sends get req to server to retrieve user info
   submitUserInfo() {
     const { username, password } = this.state;
     console.log('user info submitted');
-    // axios.get
-    // endpoint = /user/login
-    axios.get('/user/login', { username, password })
-    // .then handle res
-      .then((res) => { console.log(res); })
-    // .catch any errors
+
+    axios.get(`/user/login?username=${username}&password=${password}`)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          loggedIn: true,
+          userId: res.userId, // something like this
+        });
+      })
       .catch((err) => { console.log(err); });
 
     // brought to list view
@@ -76,7 +81,7 @@ class UserLogin extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.redirect === true) {
+    if (this.state.redirect === true && this.state.loggedIn === true) {
       return <Redirect to="/plantList" />;
     }
 
