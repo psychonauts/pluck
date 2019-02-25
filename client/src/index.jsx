@@ -111,7 +111,7 @@ class App extends React.Component {
               <Route path="/plantList" render={() => <PlantList plants={this.state.plants} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
-              <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
+              <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} />} />
               <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />

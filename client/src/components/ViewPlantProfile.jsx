@@ -86,8 +86,8 @@ class ViewPlantProfile extends React.Component {
   }
 
   showPosition(position) {
-    x.innerHTML = 'Latitude: ' + position.coords.latitude +
-    '<br>Longitude: ' + position.coords.longitude;
+    // x.innerHTML = 'Latitude: ' + position.coords.latitude +
+    // '<br>Longitude: ' + position.coords.longitude;
   }
   // linebreak isnt working in the temp lit
   // `Latitude: ${position.coords.latitude}
