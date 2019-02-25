@@ -104,7 +104,7 @@ app.get('/user/zipcode', (req, res) => {
   // catch errors
 });
 
-// function to catch post from client signup
+// function to catch post from client signup work
 app.post('/user/info', (req, res) => {
   console.log(req.body);
   const { username, password, zipcode } = req.body;
