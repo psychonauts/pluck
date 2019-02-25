@@ -44,7 +44,7 @@ class ViewPlantProfile extends React.Component {
     super(props);
     this.state = {
       plantId: '',
-      userId: '',
+      userId: props.userId,
     };
     this.favoriteButton = this.favoriteButton.bind(this);
     this.getDirections = this.getDirections.bind(this);
@@ -70,13 +70,12 @@ class ViewPlantProfile extends React.Component {
   }
 
   favoriteButton() {
-    const { userId, plantId } = this.state;
-    console.log('this my fav plant');
+    const { userId } = this.state;
+    const plantId = this.props.plant.plantId;
+    console.log(userId, 'USER ID');
+    console.log(plantId, 'PLANT ID');
     // get req to server for current plant?
     //   set state to plantid
-
-    // get current user id
-    //  set state of userid
 
     // post request to server
     //  add plant to users favs
@@ -100,12 +99,12 @@ class ViewPlantProfile extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          title={this.props.plant.plant}
+          title={this.props.plant.title}
         />
         <CardMedia
           className={classes.media}
           image={this.props.plant.image_url}
-          title={this.props.plant.plant}
+          title={this.props.plant.title}
         />
         <CardContent>
           <Typography component="p">

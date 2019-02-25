@@ -51,6 +51,14 @@ class MyProfile extends React.Component {
         </Typography>
 
         <div className={classes.root}>
+
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+          >
+          Your Plants
+          </Typography>
+
           {this.state.userPlants.map((plant) => {
             return (
               <Card className={classes.card}>

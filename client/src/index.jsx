@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      plants: SampleData,
+      plants: [],
       username: '',
       zipcode: '',
       userId: '',
@@ -48,7 +48,7 @@ class App extends React.Component {
         // data state in index component will be updated to those plants
         this.setState({
           plants: res.data,
-        });
+        }, ); // method to redirect as second argument
       })
       .catch((err) => { console.log(err); });
   }
@@ -85,11 +85,11 @@ class App extends React.Component {
         console.log(res, 'RES');
         this.setState({
           loggedIn: true,
-          userId: res.data.userId,
+          userId: res.data.id,
           zipcode: res.data.zipcode,
           userPlants: res.data.plants, // something like this
         });
-
+        console.log(this.state.userId, 'ID');
         // get all plants in new users zipcode
         this.zipCodeSubmit({ zipcode: this.state.zipcode });
       })
@@ -110,7 +110,7 @@ class App extends React.Component {
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
               <Route path="/plantList" render={() => <PlantList plants={this.state.plants} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
-              <Route path="/viewPlantProfile" component={ViewPlantProfile} />
+              <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
               <Route path="/plantLocation" component={MapView} />
