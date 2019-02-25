@@ -48,7 +48,7 @@ class App extends React.Component {
         // data state in index component will be updated to those plants
         this.setState({
           plants: res.data,
-        }, ); // method to redirect as second argument
+        }); // method to redirect as second argument
       })
       .catch((err) => { console.log(err); });
   }

@@ -65,10 +65,14 @@ class UserLogin extends React.Component {
 
     // brought to list view
     // set state of redirect and loggedin to true
-    this.setState({
-      redirect: true,
-      loggedIn: true,
-    });
+
+    setTimeout(() => {
+
+      this.setState({
+        redirect: true,
+        loggedIn: true,
+      });
+    }, 1000);
   }
 
 
