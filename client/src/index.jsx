@@ -44,7 +44,6 @@ class App extends React.Component {
         });
       })
       .catch((err) => { console.log(err); });
-  
   }
 
 
@@ -57,11 +56,9 @@ class App extends React.Component {
 
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              {/* <Route path="/" component={ZipCode} exact /> */}
               <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
               <Route path="/userProfile" component={UserProfile} />
-              {/* <Route path="/plantList" component={PlantList} /> */}
-              <Route path="/plantList" render={() => <PlantList parentState={this.state} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
               <Route path="/userLogin" component={UserLogin} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
@@ -71,7 +68,6 @@ class App extends React.Component {
             </Switch>
           </div>
         </BrowserRouter>
-        {/* <MapView /> */}
       </div>
 
     );

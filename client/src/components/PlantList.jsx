@@ -35,17 +35,12 @@ class PlantList extends React.Component {
     this.state = {
       zipcode: '',
       redirect: false,
-      data: this.props.parentState.data,
+      data: this.props.plants,
     };
   }
 
   render() {
     const { classes } = this.props;
-
-    // if (this.state.redirect === true) {
-    //   return <Redirect to="/viewPlantProfile" />;
-    // }
-
 
     return (
       <div className={classes.root}>
