@@ -23,7 +23,6 @@ class MyProfile extends React.Component {
     this.state = {
       username: props.username,
       zipcode: props.zipcode,
-      // address: props.address,
       userPlants: props.plants,
     };
   }
