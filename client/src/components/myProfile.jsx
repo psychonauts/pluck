@@ -27,7 +27,7 @@ class MyProfile extends React.Component {
       userPlants: props.plants,
     };
   }
-
+ 
 
   render() {
     const { classes } = this.props;
