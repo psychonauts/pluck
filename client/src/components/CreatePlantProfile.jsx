@@ -106,7 +106,7 @@ class PlantProfile extends React.Component {
       })
   }
 
-  handleChange(name){
+  handleChange(name){ 
     
     return event => {
     this.setState({
