@@ -38,7 +38,7 @@ class UserProfile extends React.Component {
     this.submitUserInfo = this.submitUserInfo.bind(this);
   }
 
-  // function that sets state via onchange
+  // function that sets state via onchange when user inputs data into input fields
   onChange(event) {
     // find which field is being used
     if (event.target.id === 'username') {
@@ -67,19 +67,9 @@ class UserProfile extends React.Component {
       username, password, address, zipcode,
     } = this.state;
     console.log('user info submitted');
-    // axios.post
-    // endpoint = /user/info ?
-    // axios.post(`/user/info?username=${username}&password=${password}&address=${address}&zipcode=${zipcode}`)
-    axios.post('/user/info', {
-      username, password, address, zipcode,
-    })
-    // .then handle res
-      .then((res) => { console.log(res); })
-    // .catch any errors
-      .catch((err) => { console.log(err); });
 
-    // brought to list view
-    // set state of 'redirect' to true
+    this.props.onSubmit({ username, password, address, zipcode });
+
     this.setState({
       redirect: true,
     });
