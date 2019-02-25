@@ -69,13 +69,12 @@ app.get('/health', (req, res) => {
 app.get('/user/login', (req, res) => {
   console.log(req.query);
   dbHelpers.getUserByGivenUsername(req.query.username, (err, user) => {
-    console.log(user[0]);
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
     } else if (user[0].salt + req.query.password === user[0].hpass) {
     // } else if (user.username === req.query.username) { // testing
-      res.status(200).send({ id: user[0].id, username: user[0].username }); // return whole user obj and not just username
+      res.status(200).send({ id: user[0].id, username: user[0].username, zipcode: user[0].zipcode }); // return whole user obj and not just username
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }
@@ -115,11 +114,11 @@ app.get('/user/zipcode', (req, res) => {
   // catch errors
 });
 
-// function to catch post from client signup
+// function to catch post from client signup work
 app.post('/user/info', (req, res) => {
   console.log(req.body);
-  const { username, password } = req.body;
-  dbHelpers.addUser(username, password, 'a', (err, user) => {
+  const { username, password, zipcode } = req.body;
+  dbHelpers.addUser(username, password, 'a', zipcode, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT CREATE PROFILE');

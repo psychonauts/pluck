@@ -1,11 +1,23 @@
+require('dotenv').config();
 const mysql = require('mysql');
-const SENSITIVEDATA = require('./sensitive-data.js'); // this file is git ignored. Remake locally for testing
+
+
+const SENSITIVEDATA = {
+  host: process.env.DBHOST,
+  // user: 'root',
+  user: process.env.DBUSERNAME,
+  // password: '',
+  password: process.env.DBPASSWORD,
+  database: process.env.DBNAME,
+  port: process.env.DBPORT,
+}; // this file is git ignored. Remake locally for testing // replaced file with env variables
 
 // const connection = new Sequelize('plucker', SENSITIVEDATA.username, SENSITIVEDATA.password, {
 //   dialect: 'mysql',
 //   // host: SENSITIVEDATA.url,
 //   // port: SENSITIVEDATA.port,
 // }); // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 const connection = mysql.createConnection(SENSITIVEDATA);
 
@@ -66,8 +78,8 @@ module.exports.addFavorite = (userId, plantId, callback) => {
   });
 };
 
-module.exports.addUser = (username, pass, salt, callback) => {
-  connection.query('INSERT INTO users(username, hpass, salt) VALUES(?, ?, ?)', [username, salt + pass, salt], (err, user) => {
+module.exports.addUser = (username, pass, salt, zipcode, callback) => {
+  connection.query('INSERT INTO users(username, hpass, salt, zipcode) VALUES(?, ?, ?, ?)', [username, salt + pass, salt, zipcode], (err, user) => {
     if (err) {
       callback(err);
     } else {
