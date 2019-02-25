@@ -55,7 +55,7 @@ class MyProfile extends React.Component {
                 />
                 <CardMedia
                   className={classes.media}
-                  image={plant.image}
+                  image={plant.image_url}
                   title={plant.plant}
                 />
                 <CardContent>

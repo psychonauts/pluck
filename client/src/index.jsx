@@ -53,7 +53,7 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-  // called in UserProfile when a user signs up
+  // called in UserProfile when a user signs up/ hits submit button
   submitUserInfo(userInfo) {
     console.log(userInfo.username);
 
@@ -73,7 +73,7 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-  // called in UserLogin to allow user to log in
+  // called in UserLogin to allow user to log in when submit is pressed
   userLogin(userInfo) {
     console.log(userInfo, 'USER INFO');
     this.setState({
@@ -87,6 +87,7 @@ class App extends React.Component {
           loggedIn: true,
           userId: res.data.userId,
           zipcode: res.data.zipcode,
+          userPlants: res.data.plants, // something like this
         });
 
         // get all plants in new users zipcode
