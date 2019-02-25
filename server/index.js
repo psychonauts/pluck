@@ -86,6 +86,17 @@ app.get('/user/login', (req, res) => {
   // catch errors
 });
 
+app.get('/plant/category', (req, res) => {
+  dbHelpers.getImageByGivenCategory(req.query.category, (err, imageUrl) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('COULD NOT RETRIEVE IMAGE');
+    } else {
+      res.status(200).send(imageUrl);
+    }
+  });
+});
+
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.query);

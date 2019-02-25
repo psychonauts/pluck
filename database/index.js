@@ -14,7 +14,7 @@ const SENSITIVEDATA = {
 
 // const connection = new Sequelize('plucker', SENSITIVEDATA.username, SENSITIVEDATA.password, {
 //   dialect: 'mysql',
-//   // host: SENSITIVEDATA.url,
+//   // host: SENSITIVEDATA.url, 
 //   // port: SENSITIVEDATA.port,
 // }); // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -37,6 +37,16 @@ module.exports.getAllPlants = (callback) => {
     }
   });
 };
+
+module.exports.getImageByGivenCategory = (category, callback) => {
+  connection.query('SELECT image_url FROM categories WHERE category = ?', [category], (err, imageUrl) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, imageUrl);
+    }
+  });
+}
 
 module.exports.getPlantsByGivenZipcode = (zipcode, callback) => {
   connection.query('SELECT * FROM plants WHERE zipcode = ?', [zipcode], (err, plants) => {
