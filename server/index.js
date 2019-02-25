@@ -74,7 +74,14 @@ app.get('/user/login', (req, res) => {
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
     } else if (user[0].salt + req.query.password === user[0].hpass) {
     // } else if (user.username === req.query.username) { // testing
-      res.status(200).send({ id: user[0].id, username: user[0].username, zipcode: user[0].zipcode }); // return whole user obj and not just username
+      dbHelpers.getPlantsByGivenUserId(user[0].id, (err, plants) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send('COULD NOT RETRIEVE USER PLANTS');
+        } else {
+          res.status(200).send({ id: user[0].id, username: user[0].username, zipcode: user[0].zipcode, plants });
+        }
+      }); // return whole user obj and not just username
     } else {
       res.status(400).send('INCORRECT USERNAME/PASSWORD');
     }
