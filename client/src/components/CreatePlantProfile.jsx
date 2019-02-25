@@ -51,6 +51,7 @@ class PlantProfile extends React.Component {
     // find which field is being used
     if (event.target.id === 'type') {
       // set corresponding state to the value entered into that field
+      // console.log(this.props.parentState.loggedIn);
       this.setState({
         type: event.target.value,
       });
@@ -133,12 +134,13 @@ class PlantProfile extends React.Component {
     const { classes } = this.props;
     const { redirect } = this.state;
 
-    if (this.state.loggedIn === false) {
-      return <Redirect to="/userLogin" />;
-    }
+    // if (this.state.loggedIn === false) {
+    //   return <Redirect to="/userLogin" />;
+    // }
+
 
     if (redirect === true) {
-      return <Redirect to="/myProfile" />;
+      return <Redirect to={{ pathname: '/myProfile', state: { parentState: this.state } }} />; // trying to hand down props through redirect
     }
 
 

@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-    }
+    };
 
     // bind to this all functions being handed down
     this.userLoginLogut = this.userLoginLogut.bind(this);
@@ -47,17 +47,15 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
 
-            <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp}/>
+            <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
               <Route path="/" component={ZipCode} exact />
               <Route path="/userProfile" component={UserProfile} />
               <Route path="/plantList" component={PlantList} />
               <Route path="/userLogin" component={UserLogin} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
-              <Route path="/submitPlant" component={CreatePlantProfile} />
-              {/* { this.state.loggedIn === true &&
-                <Route exact path="/submitPlant" component={CreatePlantProfile} />
-              } */}
+              {/* <Route path="/submitPlant" component={CreatePlantProfile} /> */}
+              <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" component={MyProfile} />
               <Route path="/plantLocation" component={MapView} />
               <Route component={Error} />

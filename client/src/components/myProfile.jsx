@@ -22,6 +22,7 @@ class MyProfile extends React.Component {
     super(props);
     this.state = {
       username: 'myUsername',
+      // username: this.props.parentState.type,
       address: '1234 avenue drive, city, state zip',
       userPlants: [SampleData[0], SampleData[1]],
     };
