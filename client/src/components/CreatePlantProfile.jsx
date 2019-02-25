@@ -80,6 +80,7 @@ class PlantProfile extends React.Component {
       image: '',
       loggedIn: false,
       currency: 'Select',
+      username: props.username,
       
       // do we need user id?
       // multiline: "Controlled",
@@ -101,13 +102,15 @@ class PlantProfile extends React.Component {
   // allows us to grab the plant type and description
   onChange(event) {
     // find which field is being used
-    if (event.target.id === 'type') {
-      // set corresponding state to the value entered into that field
-      // console.log(this.props.parentState.loggedIn);
-      this.setState({
-        type: event.target.value,
-      });
-    } else if (event.target.id === 'description') {
+    // if (event.target.id === 'type') {
+    //   // set corresponding state to the value entered into that field
+    //   // console.log(this.props.parentState.loggedIn);
+    //   this.setState({
+    //     type: event.target.value,
+    //   });
+    // } else 
+    
+    if (event.target.id === 'description') {
       this.setState({
         description: event.target.value,
       });
@@ -115,7 +118,7 @@ class PlantProfile extends React.Component {
   }
 
   getPlantType() {   
-    axios.get(`/plant/category?category=${this.state.currency}`)
+    axios.get(`/plant/category?category=${this.state.currency}`) // currency is plant type
       .then((res) => {
         console.log(res);
         const plantImage = res.data[0];
@@ -184,23 +187,26 @@ class PlantProfile extends React.Component {
   // function when submit button is pressed
   submitPlant() {
 
-    const { type, description, image } = this.state;
+    const { currency, description, image, username } = this.state;
     // this.getPlantType()
     // change state to redirect to myProfile
-    
-    this.setState({
-      redirect: true,
-    });
-
-    // get current user info
+    console.log(currency, 'CURRENCY');
 
     // send post req to server to save new plant info in plants table
     // save plant info to database
     // add plant to users profile page
     // need to send through userId, type, description, address, zipcode, image
-    axios.post('/plant/profile', { type, description, image })
+    axios.post('/plant/profile', { currency, description, image, username })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
+
+      setTimeout(() => {
+
+        this.setState({
+          redirect: true,
+        });
+      }, 1000);
+
   }
 
   render() {
