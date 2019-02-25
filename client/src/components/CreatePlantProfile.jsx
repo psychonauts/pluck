@@ -102,14 +102,6 @@ class PlantProfile extends React.Component {
   // allows us to grab the plant type and description
   onChange(event) {
     // find which field is being used
-    // if (event.target.id === 'type') {
-    //   // set corresponding state to the value entered into that field
-    //   // console.log(this.props.parentState.loggedIn);
-    //   this.setState({
-    //     type: event.target.value,
-    //   });
-    // } else 
-    
     if (event.target.id === 'description') {
       this.setState({
         description: event.target.value,
