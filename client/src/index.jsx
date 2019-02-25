@@ -22,10 +22,13 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       data: SampleData,
+      username: '',
+      zipcode: '',
     };
 
     // bind to this all functions being handed down
     this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
+    this.userLogin = this.userLogin.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +52,7 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
+// called in UserProfile when a user signs up
   submitUserInfo(userInfo) {
     console.log(userInfo.username);
 
@@ -64,6 +68,25 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
+  // called in UserLogin to allow user to log in
+  userLogin(userInfo) {
+      console.log(userInfo);
+    this.setState({
+      username: userInfo.username,
+      // zipcode: userInfo.zipcode,
+    })
+
+    axios.get(`/user/login?username=${userInfo.username}&password=${userInfo.password}`)
+    .then((res) => {
+      console.log(res);
+      this.setState({
+        loggedIn: true,
+        userId: res.userId, // something like this
+      });
+    })
+    .catch((err) => { console.log(err); });
+  }
+
 
   render() {
     return (
@@ -77,7 +100,7 @@ class App extends React.Component {
               <Route path="/" render={() => <ZipCode parentState={this.state} onSubmit={this.zipCodeSubmit} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.data} onSubmit={this.submitUserInfo} />} />
               <Route path="/plantList" render={() => <PlantList plants={this.state.data} />} />
-              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} onSubmit={this.zipCodeSubmit} />} />
+              <Route path="/userLogin" render={() => <UserLogin plants={this.state.data} onSubmit={this.userLogin} />} />
               <Route path="/viewPlantProfile" component={ViewPlantProfile} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile parentState={this.state} />} />
               <Route path="/myProfile" component={MyProfile} />

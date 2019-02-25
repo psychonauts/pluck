@@ -69,17 +69,7 @@ class UserProfile extends React.Component {
     console.log('user info submitted');
 
     this.props.onSubmit({ username, password, address, zipcode });
-  
-    // axios.post('/user/info', {
-    //   username, password, address, zipcode,
-    // })
-    // // .then handle res
-    //   .then((res) => { console.log(res); })
-    // // .catch any errors
-    //   .catch((err) => { console.log(err); });
 
-    // brought to list view
-    // set state of 'redirect' to true
     this.setState({
       redirect: true,
     });
