@@ -92,17 +92,17 @@ class PlantProfile extends React.Component {
     this.setState = this.setState.bind(this)
     // this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
-  componentDidMount(){
+
+  componentDidMount() {
     this.setState({type: this.state.currency})
   }
 
-  getPlantType() {
-    
+  getPlantType() {   
     axios.get(`/plant/category?category=${this.state.currency}`)
-      .then(res => {
+      .then((res) => {
         console.log(res)
         const plantImage = res.data[0];
-        this.setState({image: plantImage})
+        this.setState({ image: plantImage });
       })
   }
 
