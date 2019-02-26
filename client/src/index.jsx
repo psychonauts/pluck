@@ -13,7 +13,7 @@ import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
 import SampleData from "./components/SampleData";
 import axios from 'axios';
-
+ 
 
 class App extends React.Component {
   constructor(props) {
@@ -38,8 +38,6 @@ class App extends React.Component {
 
   // function gets called when submit button is clicked in zipcode view
   zipCodeSubmit(userZip) {
-    console.log(userZip.zipcode);
-
     // get req to server
     axios.get(`/user/zipcode?zipcode=${userZip.zipcode}`)
     // server will grab plants in this zipcode from db and send back
@@ -55,16 +53,21 @@ class App extends React.Component {
 
   // called in UserProfile when a user signs up/ hits submit button
   submitUserInfo(userInfo) {
-    console.log(userInfo.username);
-
     // get all user info from userProfile view
-    // send post req to server to add new user to db
+    // deconstruct vals
     const {
- username, password, address, zipcode,
-} = userInfo;
+      username,
+      password,
+      address,
+      zipcode,
+    } = userInfo;
+    // send post req to server to add new user to db
     axios.post('/user/info', {
- username, password, address, zipcode,
-})
+      username,
+      password,
+      address,
+      zipcode,
+    })
       .then((res) => {
         console.log(res.data, 'RES DATA');
         // get all plants in new users zipcode
@@ -75,21 +78,20 @@ class App extends React.Component {
 
   // called in UserLogin to allow user to log in when submit is pressed
   userLogin(userInfo) {
-    console.log(userInfo, 'USER INFO');
+    // grab username and add to state
     this.setState({
       username: userInfo.username,
     });
-
+    // get req to server to grab all user info
     axios.get(`/user/login?username=${userInfo.username}&password=${userInfo.password}`)
       .then((res) => {
-        console.log(res, 'RES');
+        // set states with all user info
         this.setState({
-          loggedIn: true,
           userId: res.data.id,
           zipcode: res.data.zipcode,
-          userPlants: res.data.plants, // something like this
+          userPlants: res.data.plants,
         });
-        console.log(this.state.userId, 'ID');
+
         // get all plants in new users zipcode
         this.zipCodeSubmit({ zipcode: this.state.zipcode });
       })

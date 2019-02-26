@@ -51,6 +51,7 @@ class ViewPlantProfile extends React.Component {
     this.getLocation = this.getLocation.bind(this);
   }
 
+  // doesnt work
   getDirections() {
     console.log('lets get directions');
     // get req to server for map view
@@ -69,13 +70,10 @@ class ViewPlantProfile extends React.Component {
     }
   }
 
+  // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
   favoriteButton() {
     const { userId } = this.state;
     const plantId = this.props.plant.plantId;
-    console.log(userId, 'USER ID');
-    console.log(plantId, 'PLANT ID');
-    // get req to server for current plant?
-    //   set state to plantid
 
     // post request to server
     //  add plant to users favs

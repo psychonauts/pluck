@@ -31,6 +31,7 @@ class MyProfile extends React.Component {
     };
   }
 
+// render username, zip, and user plants dynamically
   render() {
     const { classes } = this.props;
     return (
