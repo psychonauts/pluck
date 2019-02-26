@@ -41,7 +41,6 @@ class UserLogin extends React.Component {
 
   // function that sets state via onchange
   onChange(event) {
-    // console.log(event.target.id);
 
     // find which field is being used
     if (event.target.id === 'username') {
@@ -59,15 +58,13 @@ class UserLogin extends React.Component {
   // function that sends get req to server to retrieve user info
   submitUserInfo() {
     const { username, password } = this.state;
-    // console.log(username, password);
 
-    this.props.onSubmit({ username, password });
+    this.props.onSubmit({ username, password }); // function from index.jsx --> gets plants from users zip
 
     // brought to list view
     // set state of redirect and loggedin to true
-
+    // set state is async, hence the set timeout (there is a better way to do this)
     setTimeout(() => {
-
       this.setState({
         redirect: true,
         loggedIn: true,

@@ -27,7 +27,7 @@ class UserProfile extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: '', // is this how we should handle this?
+      password: '',
       address: '',
       zipcode: '',
       redirect: false,
@@ -61,14 +61,14 @@ class UserProfile extends React.Component {
     }
   }
 
-  // function that sends post req to server when enter is pressed
+  // function that sends post req to server when submit is pressed
   submitUserInfo() {
     const {
       username, password, address, zipcode,
     } = this.state;
     console.log('user info submitted');
 
-    this.props.onSubmit({ username, password, address, zipcode });
+    this.props.onSubmit({ username, password, address, zipcode }); // func from index.jsx to add user to db
 
     this.setState({
       redirect: true,
@@ -147,7 +147,6 @@ class UserProfile extends React.Component {
           <OutlinedInput
             id="password"
             onChange={this.onChange} // function that sets state of password
-            // onKeyPress={this.submitUserInfo} // function that sends post req to server w user info
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
         </FormControl>

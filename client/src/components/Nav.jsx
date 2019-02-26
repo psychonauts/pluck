@@ -20,12 +20,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
+// STATIC NAV BAR AT THE TOP OF EVERY PAGE
 
 const drawerWidth = 240;
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: black[900] }, // Purple and green play nicely together.
+    primary: { main: black[900] },
     secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
   },
   typography: { color: 'white' },
@@ -104,6 +105,7 @@ class ButtonAppBar extends React.Component {
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
   }
 
+  // Drawer = left side pop out navigation
   handleDrawerOpen() {
     this.setState({
       open: true,

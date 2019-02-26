@@ -28,6 +28,7 @@ const styles = theme => ({
   },
 });
 
+// for drop down
 const currencies = [
   {
     value: 'Strawberries',
@@ -75,41 +76,27 @@ class PlantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
+      // type: '',
       description: '',
       image: '',
       loggedIn: false,
       currency: 'Select',
       username: props.username,
-      
-      // do we need user id?
-      // multiline: "Controlled",
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.handleChange = this.handleChange.bind(this)
-    this.setState = this.setState.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.setState = this.setState.bind(this);
     // this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({type: this.state.currency})
-  }
 
   // function that sets state via onchange
   // allows us to grab the plant type and description
   onChange(event) {
-    // find which field is being used
-    // if (event.target.id === 'type') {
-    //   // set corresponding state to the value entered into that field
-    //   // console.log(this.props.parentState.loggedIn);
-    //   this.setState({
-    //     type: event.target.value,
-    //   });
-    // } else 
-    
+    // find out if descrip field is being used
     if (event.target.id === 'description') {
       this.setState({
         description: event.target.value,
@@ -117,20 +104,21 @@ class PlantProfile extends React.Component {
     }
   }
 
-  getPlantType() {   
+  // get req to server to grab correct image based on selected type
+  getPlantType() {
     axios.get(`/plant/category?category=${this.state.currency}`) // currency is plant type
       .then((res) => {
         console.log(res);
         const plantImage = res.data[0];
-        this.setState({ image: plantImage });
+        this.setState({ image: plantImage }); // this is not working yet
       });
   }
 
-  handleChange(name) { 
 
+  handleChange(name) {
     return (event) => {
       this.setState({
-        [name]: event.target.value,
+        [name]: event.target.value, // this is for the plant type dropdown... it works...
       });
     };
   }
@@ -138,10 +126,10 @@ class PlantProfile extends React.Component {
 
   ////////////////// THESE FUNCTIONS ARE USED TO ENABLE USER IMAGE UPLOAD ////////////////
   ///// which does not currently work /////////////
+  //// another option would be to grab plant images from a plant api /////////////
 
   // function allows users to upload image
   fileSelectHandler(event) {
-    // console.log(btoa(event.target.files[0]));
     const currentImage = event.target.files[0];
 
     this.setState({
@@ -186,40 +174,36 @@ class PlantProfile extends React.Component {
 
   // function when submit button is pressed
   submitPlant() {
+    const {
+      currency,
+      description,
+      image,
+      username,
+    } = this.state;
 
-    const { currency, description, image, username } = this.state;
-    // this.getPlantType()
     // change state to redirect to myProfile
-    console.log(currency, 'CURRENCY');
 
     // send post req to server to save new plant info in plants table
-    // save plant info to database
     // add plant to users profile page
     // need to send through userId, type, description, address, zipcode, image
     axios.post('/plant/profile', { currency, description, image, username })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
 
-      setTimeout(() => {
-
-        this.setState({
-          redirect: true,
-        });
-      }, 1000);
-
+    // set state is async so needs a second to load
+    setTimeout(() => {
+      this.setState({
+        redirect: true,
+      });
+    }, 1000);
   }
 
   render() {
     const { classes } = this.props;
     const { redirect } = this.state;
-  
-    // if (this.state.loggedIn === false) {
-    //   return <Redirect to="/userLogin" />;
-    // }
 
-    
     if (redirect === true) {
-      return <Redirect to={{ pathname: '/myProfile', state: { parentState: this.state } }} />; // trying to hand down props through redirect
+      return <Redirect to={{ pathname: '/myProfile' }} />;
     }
 
 
@@ -265,34 +249,12 @@ class PlantProfile extends React.Component {
                 className: classes.menu,
               },
             }}
-          >
-          </TextField>
-        </form>
-        {/* <div>
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="contained-button-file"
-            multiple
-            type="file"
-            // onChange={this.fileSelectHandler}
           />
-          <label htmlFor="contained-button-file">
-            <Button
-              variant="contained"
-              component="span"
-              type="file"
-              className={classes.button}
-            >
-                    Upload Plant Image
-            </Button>
-          </label>
-        </div> */}
+        </form>
         <Button
           variant="contained"
           className={classes.button}
           onClick={this.submitPlant}
-          // onClick={this.fileUploadHandler}
         >
                 Submit
         </Button>
