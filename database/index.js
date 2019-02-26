@@ -3,13 +3,13 @@ const mysql = require('mysql');
 
 
 const SENSITIVEDATA = {
-  host: process.env.DBHOST,
+  host: process.env.RDS_HOSTNAME,
   // user: 'root',
-  user: process.env.DBUSERNAME,
+  user: process.env.RDS_USERNAME,
   // password: '',
-  password: process.env.DBPASSWORD,
-  database: process.env.DBNAME,
-  port: process.env.DBPORT,
+  password: process.env.RDS_PASSWORD,
+  database: 'pluck',
+  port: process.env.RDS_PORT,
 }; // the SENSITIVEDATA is git ignored. Remake locally for testing // replaced file with env variables
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
