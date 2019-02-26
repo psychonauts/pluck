@@ -6,10 +6,8 @@ phases:
       - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
       - apt-get update
       - apt-get install -y npm
+      - rm package-lock.json
       - npm install
   build:
     commands:
       - npm run build
-  post_build:
-    commands:
-      - node server/index.js
