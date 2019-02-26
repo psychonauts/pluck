@@ -4,6 +4,7 @@ phases:
   install:
     commands:
       - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+      - apt-get update
       - apt-get install -y npm
       - npm install
   build:
