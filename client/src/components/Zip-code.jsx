@@ -48,11 +48,10 @@ class ComposedTextField extends React.Component {
   //    get req to server to get all plants in that areacode from db
   enterZipCode() {
     const { zipcode } = this.state;
-    // console.log('zipcode submitted');
     this.props.onSubmit({ zipcode });
 
     // brought to list view
-    // set state of 'redirect' to true
+    // set state of 'redirect' to true --> setstate is async aka needs settimeout (theres def a better way to do this)
     setTimeout(() => {
 
       this.setState({
