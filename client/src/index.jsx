@@ -13,7 +13,7 @@ import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
 import SampleData from "./components/SampleData";
 import axios from 'axios';
-
+ 
 
 class App extends React.Component {
   constructor(props) {
