@@ -1,8 +1,12 @@
+version: 0.2
+
 phases:
   install:
     commands:
       - npm install
-    build:
+  build:
+    commands:
       - npm run build
-    post-build:
+  post-build:
+    commands:
       - node server/index.js
