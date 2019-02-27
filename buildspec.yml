@@ -1,8 +1,0 @@
-phases:
-  install:
-    commands:
-      - npm install
-    build:
-      - npm run build
-    post-build:
-      - node server/index.js
