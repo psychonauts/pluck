@@ -20,16 +20,10 @@ module.exports = {
     ],
   },
   mode: 'development',
-  plugins: [new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('development'),
-      KEY: JSON.stringify(process.env.IMGAPI),
-
-    },
-  }),
-  new HtmlWebPackPlugin({
-    template: 'client/dist/index.html',
-  }),
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: 'client/dist/index.html',
+    }),
   ],
   node: {
     fs: 'empty',
