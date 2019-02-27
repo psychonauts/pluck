@@ -10,8 +10,9 @@
     ]
   },
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack -d"
+    "start": "node server/index.js",
+    "build": "webpack -d",
+    "deploy": "npm install && npm run build && npm start"
   },
   "repository": {
     "type": "git",
