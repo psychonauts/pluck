@@ -7,4 +7,5 @@ build/
 
 .env
 database/sensitive-data.js
+
 client/dist/bundle.js
