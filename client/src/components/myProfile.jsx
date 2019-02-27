@@ -74,6 +74,10 @@ class MyProfile extends React.Component {
                 <CardContent>
                   <Typography component="p">
                     {plant.description}
+                    <br />
+                    {plant.address}
+                    <br />
+                    {plant.zipcode}
                   </Typography>
                 </CardContent>
               </Card>
