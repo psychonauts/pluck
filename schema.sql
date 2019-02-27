@@ -38,7 +38,3 @@ CREATE TABLE plant_tag(
   FOREIGN KEY (id_tag) REFERENCES tags(id),
   FOREIGN KEY (id_plant) REFERENCES plants(id)
 );
-
-INSERT INTO users VALUES(NULL, 'Michael', 'regdfiogdfoinbfoinb');
-INSERT INTO tags VALUES(NULL, 'tomato');
-INSERT INTO plants VALUES(NULL, 'Green tomatos', 'COME AND GET SOME', '622 keller ave', 70094, 'https://mysql.com', 1); 
