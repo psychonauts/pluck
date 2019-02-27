@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 const SshWebpackPlugin = require('ssh-webpack-plugin');
 const fs = require('fs');
 const os = require('os');
@@ -24,9 +23,6 @@ module.exports = {
   },
   mode: 'production',
   plugins: [
-    new HtmlWebPackPlugin({
-      template: 'client/dist/index.html',
-    }),
     new SshWebpackPlugin({
       host: process.env.REMOTE_HOST,
       port: 22,
