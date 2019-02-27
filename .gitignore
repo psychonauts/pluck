@@ -7,8 +7,4 @@ build/
 .vscode
 .env
 database/sensitive-data.js
-<<<<<<< HEAD
 client/dist/bundle.js
-=======
-client/dist/bundle.js
->>>>>>> 012f25168ebd395e32c81f60cf834c6130ccd13b
