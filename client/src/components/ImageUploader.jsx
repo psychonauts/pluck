@@ -21,22 +21,24 @@ class MyDropzone extends React.Component {
 
   uploadHandler() {
     const { selectedFile } = this.state;
+    const data = new FormData();
+    data.append('image', selectedFile, selectedFile.name);
     const config = {
       headers: {
-        Authorization: `Bearer ${APIconfig.key}`,
+        // Authorization: `Bearer ${APIconfig.key}`,
         'content-type': 'multipart/form-data',
       },
     };
 
-    axios.post('https://api.imgur.com/3/image', selectedFile, config)
-      .then(({ data }) => {
+    axios.post('/image/upload', data, config)
+      .then(({ res }) => {
       // consider also checking the headers at this point because they should
       //   contain the api key limit
       // 1250/day (I think), but ive also got the request built out in postman
       //   to refresh and get a new key
       // the value attached to Bearer in the heading
 
-        this.setState({ imageURL: data.link });
+        console.log(res);
 
         // send imageURL to the server for storage
         // we should then call a function that send the imageURL to the database...
