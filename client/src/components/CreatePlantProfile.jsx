@@ -1,15 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
-import config from '../../../config';
 
 const styles = theme => ({
   container: {
@@ -123,6 +119,10 @@ class PlantProfile extends React.Component {
     };
   }
 
+  selectFile(event) {
+    this.setState({ image: event.target.files[0] });
+  }
+
 
   ////////////////// THESE FUNCTIONS ARE USED TO ENABLE USER IMAGE UPLOAD ////////////////
   ///// which does not currently work /////////////
@@ -186,7 +186,11 @@ class PlantProfile extends React.Component {
     // send post req to server to save new plant info in plants table
     // add plant to users profile page
     // need to send through userId, type, description, address, zipcode, image
-    axios.post('/plant/profile', { currency, description, image, username })
+    axios.post('/plant/profile', { currency, description, image, username }, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      }
+    })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
 
@@ -232,8 +236,6 @@ class PlantProfile extends React.Component {
               </MenuItem>
             ))}
           </TextField>
-        </form>
-        <form className={classes.container} noValidate autoComplete="off">
 
           <TextField
             id="description"
@@ -250,7 +252,10 @@ class PlantProfile extends React.Component {
               },
             }}
           />
+          <input type="file" onChange={this.selectFile} />
+
         </form>
+          
         <Button
           variant="contained"
           className={classes.button}

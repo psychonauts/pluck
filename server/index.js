@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const dbHelpers = require('../database/index.js');
 const axios = require('axios');
 const multer  = require('multer');
 const upload = multer();
 const request = require('request');
+
+const upload = multer({ dest: 'uploads/' });
 
 const app = express();
 
