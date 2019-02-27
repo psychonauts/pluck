@@ -103,8 +103,12 @@ module.exports.getUserByGivenUsername = (username, callback) => {
 };
 
 module.exports.getFavoritesByUsername = (username, callback) => {
-  connection.query('SELECT * FROM plants WHERE (SELECT id_user FROM favorites WHERE (SELECT id FROM users WHERE username = ?))', [username], () => {
-    
+  connection.query('SELECT * FROM plants WHERE (SELECT id_user FROM favorites WHERE (SELECT id FROM users WHERE username = ?))', [username], (error, favorites) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, favorites);
+    }
   });
 };
 
