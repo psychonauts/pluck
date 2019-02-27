@@ -72,6 +72,10 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.post('/image/upload', (req, res) => {
+  console.log(req.body);
+})
+
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.query);
