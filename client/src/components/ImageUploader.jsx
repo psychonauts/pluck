@@ -39,11 +39,16 @@ class MyDropzone extends React.Component {
     
     // const config = {
     //   headers: {
-    //     Authorization: `Bearer ${APIconfig.key}`,
+    //     // Authorization: `Bearer ${APIconfig.key}`,
     //     'content-type': 'multipart/form-data',
     //   },
     // };
-    // console.log(selectedFile);
+    console.log(selectedFile);
+    axios.put('/image/upload', { image: selectedFile }, {
+      headers: {
+        'Content-Type': selectedFile.type,
+      },
+    });
     // axios.post('/image/upload', {
     //   image: selectedFile,
     // })
@@ -64,7 +69,7 @@ class MyDropzone extends React.Component {
     //   }));
   // }
   }
-  
+
   render() {
     return (
       <div>
