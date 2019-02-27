@@ -72,7 +72,7 @@ module.exports.getPlantsByTags = (tagId, callback) => {
   });
 };
 
-module.exports.getTagsByPlants = (plantId, callback) => {
+module.exports.getTagsByPlantId = (plantId, callback) => {
   connection.query('SELECT * FROM tags WHERE (SELECT id_tag FROM plant_tag WHERE id_plant = ?)', [plantId], (err, tags) => {
     if (err) {
       callback(err);
@@ -102,6 +102,11 @@ module.exports.getUserByGivenUsername = (username, callback) => {
   });
 };
 
+module.exports.getFavoritesByUsername = (username, callback) => {
+  connection.query('SELECT * FROM plants WHERE (SELECT id_user FROM favorites WHERE (SELECT id FROM users WHERE username = ?))', [username], () => {
+    
+  });
+};
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Get Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
