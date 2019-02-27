@@ -95,23 +95,8 @@ app.get('/health', (req, res) => {
 });
 
 app.post('/image/upload', upload.single('image'), (req, res) => {
-  //accepts an image file from the client
-  // req = multer();
-  // const selectedFile = req.file;
+  // accepts an image file from the client
   const encodedBuf = req.file.buffer.toString('base64');
-  // console.log(process.env.IMGAPI);
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${process.env.IMGAPI}`,
-  //     'content-type': 'multipart/form-data',
-  //   },
-  // };
-  // axios.post('https://api.imgur.com/3/image', {image: 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}, config)
-  // .then(response => {
-  //   response.sendStatus(201);
-  //   console.log(res.data.data);
-  //  })
-  // .catch( err=> { console.log(err); res.sendStatus(400) })
 
 
   const options = {
