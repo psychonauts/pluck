@@ -12,17 +12,10 @@ const SENSITIVEDATA = {
   port: process.env.RDS_PORT,
 }; // the SENSITIVEDATA is git ignored. Remake locally for testing
 // replaced file with env variables
-const local = {
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'pluck',
-  port: 3000,
-};
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-const connection = mysql.createConnection(local || SENSITIVEDATA);
+const connection = mysql.createConnection(SENSITIVEDATA);
 
 // DB HELPERS //
 // all functions are named to explicitly state usage
@@ -146,11 +139,11 @@ module.exports.addFavorite = (userId, plantId, callback) => {
 };
 
 module.exports.addTag = (tag, callback) => {
-  connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, tag) => {
+  connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, returnedTag) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, tag);
+      callback(null, returnedTag);
     }
   });
 };
