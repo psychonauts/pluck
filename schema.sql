@@ -10,8 +10,8 @@ CREATE TABLE users(
 CREATE TABLE plants(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255),
-  descrip VARCHAR(500),
-  place VARCHAR(255),
+  description VARCHAR(500),
+  address VARCHAR(255),
   zipcode INTEGER(5),
   image_url VARCHAR(255),
   id_user INT,
@@ -28,7 +28,7 @@ CREATE TABLE favorites(
 
 CREATE TABLE tags(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  tag VARCHAR(50)
+  tag VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE plant_tag(
@@ -39,4 +39,6 @@ CREATE TABLE plant_tag(
   FOREIGN KEY (id_plant) REFERENCES plants(id)
 );
 
-INSERT INTO users VAlUES(NULL, 'Michael', 'regdfiogdfoinbfoinb');
+INSERT INTO users VALUES(NULL, 'Michael', 'regdfiogdfoinbfoinb');
+INSERT INTO tags VALUES(NULL, 'tomato');
+INSERT INTO plants VALUES(NULL, 'Green tomatos', 'COME AND GET SOME', '622 keller ave', 70094, 'https://mysql.com', 1); 
