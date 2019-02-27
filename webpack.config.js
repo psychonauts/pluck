@@ -1,6 +1,8 @@
 const path =  require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+require('dotenv').config();
+
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
@@ -21,7 +23,8 @@ module.exports = {
   plugins: [new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('development'),
-      KEY: JSON.stringify('sk.eyJ1IjoiYXNwMjEzMSIsImEiOiJjanNnZG1tcTAwOWdtNDlwNnQwdWl2dXY4In0.DDGPSnlet8J43DnO9G7lEw')
+      KEY: JSON.stringify(process.env.IMGAPI),
+
     },
   }),
   new HtmlWebPackPlugin({

@@ -13,7 +13,7 @@ import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
 import SampleData from "./components/SampleData";
 import axios from 'axios';
- 
+import MyDropzone from './components/ImageUploader.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -105,7 +105,7 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <div>
-
+            <MyDropzone />
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
               <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
