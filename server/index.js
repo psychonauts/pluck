@@ -72,7 +72,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.put('/image/upload', (req, res) => {
+app.post('/image/upload', (req, res) => {
   console.log(req.body);
 })
 
