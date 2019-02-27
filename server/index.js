@@ -2,8 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const dbHelpers = require('../database/index.js');
+const axios = require('axios');
+const multer  = require('multer');
+const upload = multer();
+const request = require('request');
 
 const app = express();
+
 
 app.use(express.static(`${__dirname}/../client/dist`));
 app.use(bodyParser.json());
@@ -72,21 +77,43 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.post('/image/upload', (req, res) => {
+app.post('/image/upload', upload.single('image'), (req, res) => {
   //accepts an image file from the client
-  selectedFile = req.files;
-  const config = {
+  // req = multer();
+  // const selectedFile = req.file;
+  const encodedBuf = req.file.buffer.toString('base64');
+  // console.log(process.env.IMGAPI);
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${process.env.IMGAPI}`,
+  //     'content-type': 'multipart/form-data',
+  //   },
+  // };
+  // axios.post('https://api.imgur.com/3/image', {image: 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}, config)
+  // .then(response => {
+  //   response.sendStatus(201);
+  //   console.log(res.data.data);
+  //  })
+  // .catch( err=> { console.log(err); res.sendStatus(400) })
+
+
+  const options = {
+    method: 'POST',
+    url: 'https://api.imgur.com/3/image',
     headers: {
+      'cache-control': 'no-cache',
       Authorization: `Bearer ${process.env.IMGAPI}`,
       'content-type': 'multipart/form-data',
     },
+    formData: { image: encodedBuf },
   };
-  axios.post('https://api.imgur.com/3/image', selectedFile, config)
-  .then(res => { 
-    res.send(201);
-    console.log(res); })
-  .catch( err=> { console.log(err) })
-})
+
+  request(options, (error, response, body) => {
+    if (error) throw new Error(error);
+    res.send(body.link);
+    console.log(body);
+  });
+});
 
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
