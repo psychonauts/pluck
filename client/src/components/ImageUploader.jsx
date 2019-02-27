@@ -1,10 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-const APIconfig = require('../../../config');
-
-console.log('APIconfig: ', APIconfig);
-
 class MyDropzone extends React.Component {
   constructor(props) {
     super(props);
