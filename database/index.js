@@ -116,7 +116,7 @@ module.exports.getFavoritesByUsername = (username, callback) => {
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Add Functions Start vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 module.exports.addUser = (username, hpass, callback) => {
-  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?, ?, ?)', [username, hpass], (err, user) => {
+  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?)', [username, hpass], (err, user) => {
     if (err) {
       callback(err);
     } else {
