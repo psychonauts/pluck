@@ -10,7 +10,8 @@ const SENSITIVEDATA = {
   password: process.env.RDS_PASSWORD,
   database: 'pluck',
   port: process.env.RDS_PORT,
-}; // the SENSITIVEDATA is git ignored. Remake locally for testing // replaced file with env variables
+}; // the SENSITIVEDATA is git ignored. Remake locally for testing 
+// replaced file with env variables
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
