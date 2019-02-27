@@ -7,4 +7,7 @@ build/
 
 .env
 database/sensitive-data.js
-package-lock.json
+<<<<<<< HEAD
+client/dist/bundle.js
+=======
+>>>>>>> 2d50828964edcdc5cd1b41a4ac4c2a4dfd07cbd6
