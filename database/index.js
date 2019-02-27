@@ -70,12 +70,22 @@ module.exports.addFavorite = (userId, plantId, callback) => {
   });
 };
 
-module.exports.getPlantsByTags = (plantId, callback) => {
-  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [plantId], (err, plants) =>{
+module.exports.getPlantsByTags = (tagId, callback) => {
+  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) =>{
     if (err) {
       callback(err);
     } else {
       callback(null, plants);
+    }
+  });
+};
+
+module.exports.getTagsByPlants = (plantId, callback) => {
+  connection.query('SELECT * FROM tags WHERE (SELECT id_tag FROM plant_tag WHERE id_plant = ?)', [plantId], (err, tags) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, tags);
     }
   });
 };
