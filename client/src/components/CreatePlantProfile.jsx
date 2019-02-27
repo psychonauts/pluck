@@ -85,6 +85,7 @@ class PlantProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.setState = this.setState.bind(this);
+    this.selectFile = this.selectFile.bind(this);
     // this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
 
@@ -120,7 +121,7 @@ class PlantProfile extends React.Component {
   }
 
   selectFile(event) {
-    this.setState({ image: event.target.files[0] });
+    this.setState({ image: event.target.files[0] }, () => console.log(this.state.image));
   }
 
 
@@ -174,22 +175,19 @@ class PlantProfile extends React.Component {
 
   // function when submit button is pressed
   submitPlant() {
-    const {
-      currency,
-      description,
-      image,
-      username,
-    } = this.state;
+    const data = new FormData();
+    Object.entries(this.state).forEach(([name, val]) => data.append(name, val));
+    // data.append('image', selectedFile);
 
     // change state to redirect to myProfile
 
     // send post req to server to save new plant info in plants table
     // add plant to users profile page
     // need to send through userId, type, description, address, zipcode, image
-    axios.post('/plant/profile', { currency, description, image, username }, {
+    axios.post('/plant/profile', data, {
       headers: {
         'content-type': 'multipart/form-data',
-      }
+      },
     })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
