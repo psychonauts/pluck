@@ -29,6 +29,7 @@ const connection = mysql.createConnection(local || SENSITIVEDATA);
 
 
 // This is a good test to see if we are successfully connected to our database
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions Start vvvvvvvvvvvvvvvvvv
 module.exports.getAllPlants = (callback) => {
   connection.query('SELECT * FROM plants', (err, plants) => {
     if (err) {
@@ -60,15 +61,6 @@ module.exports.getPlantsByGivenUserId = (userId, callback) => {
   });
 };
 
-module.exports.addFavorite = (userId, plantId, callback) => {
-  connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favorite) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, favorite);
-    }
-  });
-};
 
 module.exports.getPlantsByTags = (tagId, callback) => {
   connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) =>{
@@ -86,26 +78,6 @@ module.exports.getTagsByPlants = (plantId, callback) => {
       callback(err);
     } else {
       callback(null, tags);
-    }
-  });
-};
-
-module.exports.addUser = (username, hpass, callback) => {
-  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?, ?, ?)', [username, hpass], (err, user) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, user);
-    }
-  });
-};
-
-module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
-  connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, plant);
     }
   });
 };
@@ -131,6 +103,50 @@ module.exports.getUserByGivenUsername = (username, callback) => {
 };
 
 
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Get Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Add Functions Start vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+module.exports.addUser = (username, hpass, callback) => {
+  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?, ?, ?)', [username, hpass], (err, user) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, user);
+    }
+  });
+};
+
+module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
+  connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, plant);
+    }
+  });
+};
+
+module.exports.addFavorite = (userId, plantId, callback) => {
+  connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favorite) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, favorite);
+    }
+  });
+};
+
+module.exports.addTag = (tag, callback) => {
+  connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, tag) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, tag);
+    }
+  });
+};
+
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Add Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: login----getUser
 
 
