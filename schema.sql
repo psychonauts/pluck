@@ -3,7 +3,7 @@ USE pluck;
 
 CREATE TABLE users(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255),
+  username VARCHAR(255) UNIQUE,
   hpass VARCHAR(255)
   );
 
