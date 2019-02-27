@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "webpack -d",
-    "deploy": "webpack -d --config prod.config.js"
+    "deploy": "webpack -d -p --config prod.config.js"
   },
   "repository": {
     "type": "git",
