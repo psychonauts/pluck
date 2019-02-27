@@ -63,13 +63,13 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
   request(options, (error, response, body) => {
     if (error) return error(error);
     const { link } = JSON.parse(body).data;
-    const { username, currency, description } = res.req.body;
+    const { username, currency, description, zipcode, address } = res.req.body;
     return dbHelpers.getUserByGivenUsername(username, (err, user) => {
       if (err || !user.length) {
         console.log(err);
         res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
       } else {
-        dbHelpers.addPlant(user[0].id, currency, description, '38318 kanks place drive', '70115', link, (err, plant) => {
+        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, (err, plant) => {
           if (err) {
             console.log(err);
             res.status(500).send('COULD NOT CREATE PLANT PROFILE');
