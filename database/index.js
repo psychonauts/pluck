@@ -10,13 +10,19 @@ const SENSITIVEDATA = {
   password: process.env.RDS_PASSWORD,
   database: 'pluck',
   port: process.env.RDS_PORT,
-}; // the SENSITIVEDATA is git ignored. Remake locally for testing 
+}; // the SENSITIVEDATA is git ignored. Remake locally for testing
 // replaced file with env variables
-
+const local = {
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'pluck',
+  port: 3000,
+};
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-const connection = mysql.createConnection(SENSITIVEDATA);
+const connection = mysql.createConnection(local || SENSITIVEDATA);
 
 // DB HELPERS //
 // all functions are named to explicitly state usage
@@ -33,16 +39,6 @@ module.exports.getAllPlants = (callback) => {
     }
   });
 };
-
-module.exports.getImageByGivenCategory = (category, callback) => {
-  connection.query('SELECT image_url FROM categories WHERE category = ?', [category], (err, imageUrl) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, imageUrl);
-    }
-  });
-}
 
 module.exports.getPlantsByGivenZipcode = (zipcode, callback) => {
   connection.query('SELECT * FROM plants WHERE zipcode = ?', [zipcode], (err, plants) => {
@@ -74,8 +70,18 @@ module.exports.addFavorite = (userId, plantId, callback) => {
   });
 };
 
-module.exports.addUser = (username, pass, salt, zipcode, callback) => {
-  connection.query('INSERT INTO users(username, hpass, salt, zipcode) VALUES(?, ?, ?, ?)', [username, salt + pass, salt, zipcode], (err, user) => {
+module.exports.getPlantsByTags = (plantId, callback) => {
+  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [plantId], (err, plants) =>{
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, plants);
+    }
+  });
+};
+
+module.exports.addUser = (username, hpass, callback) => {
+  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?, ?, ?)', [username, hpass], (err, user) => {
     if (err) {
       callback(err);
     } else {
@@ -84,18 +90,8 @@ module.exports.addUser = (username, pass, salt, zipcode, callback) => {
   });
 };
 
-module.exports.getSaltByGivenUsername = (username, callback) => {
-  connection.query('SELECT salt FROM users WHERE username = ?', [username], (err, salt) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, salt);
-    }
-  });
-};
-
 module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
-  connection.query('INSERT INTO plants(id_user, title, description, address, zipcode, image_url, status) VALUES(?, ?, ?, ?, ?, ?, "show")', [userId, title, desc, address, zipcode, imageUrl], (err, plant) => {
+  connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
     if (err) {
       callback(err);
     } else {
@@ -123,7 +119,6 @@ module.exports.getUserByGivenUsername = (username, callback) => {
     }
   });
 };
-
 
 
 // TODO: login----getUser
