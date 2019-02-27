@@ -73,7 +73,19 @@ app.get('/health', (req, res) => {
 });
 
 app.post('/image/upload', (req, res) => {
-  console.log(req.body);
+  //accepts an image file from the client
+  selectedFile = req.files;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${process.env.IMGAPI}`,
+      'content-type': 'multipart/form-data',
+    },
+  };
+  axios.post('https://api.imgur.com/3/image', selectedFile, config)
+  .then(res => { 
+    res.send(201);
+    console.log(res); })
+  .catch( err=> { console.log(err) })
 })
 
 // function to catch get req from client login
