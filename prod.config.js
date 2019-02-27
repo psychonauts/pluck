@@ -4,6 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const SshWebpackPlugin = require('ssh-webpack-plugin');
 const fs = require('fs');
 const os = require('os');
+require('dotenv').config();
 
 const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = path.join(__dirname, '/client/dist');
@@ -27,13 +28,13 @@ module.exports = {
       template: 'client/dist/index.html',
     }),
     new SshWebpackPlugin({
-      host: 'ec2-18-224-27-165.us-east-2.compute.amazonaws.com',
+      host: process.env.REMOTE_HOST,
       port: 22,
       username: 'ubuntu',
       privateKey: fs.readFileSync(`${os.homedir()}/.ssh/pluck-pem.pem`),
-      before: 'cd pluck && git pull upstream master && mkdir test',
+      before: 'cd pluck && git pull upstream master',
       from: './client/dist',
-      to: '/home/ubuntu/pluck/test',
+      to: '/home/ubuntu/pluck/client/dist',
     }),
   ],
   node: {
