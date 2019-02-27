@@ -72,6 +72,10 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.post('/image/upload', (req, res) => {
+  console.log(req.body);
+})
+
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.query);
@@ -150,7 +154,4 @@ app.post('/user/info', (req, res) => {
 //   should send location/address of plant
 
 const port = process.env.PORT || 8080;
-
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
