@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = path.join(__dirname, '/client/dist');
@@ -18,11 +17,6 @@ module.exports = {
     ],
   },
   mode: 'production',
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: 'client/dist/index.html',
-    }),
-  ],
   node: {
     fs: 'empty',
   },
