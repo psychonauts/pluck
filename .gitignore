@@ -4,7 +4,7 @@ bower_components/
 
 build/
 
-
+.vscode
 .env
 database/sensitive-data.js
 client/dist/bundle.js
