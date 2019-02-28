@@ -38,11 +38,11 @@ class PlantList extends React.Component {
 
   // Pass down to ViewPlantProfile to render grid
   render() {
-    const { classes } = this.props;
+    const { classes, userId } = this.props;
 
     return (
       <div className={classes.root}>
-        {this.state.data.map(plant => <ViewPlantProfile plant={plant} />)
+        {this.state.data.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)
       }
       </div>
     );
