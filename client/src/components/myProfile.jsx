@@ -59,29 +59,27 @@ class MyProfile extends React.Component {
           Your Plants
           </Typography>
 
-          {userPlants.map((plant) => {
-            return (
-              <Card className={classes.card}>
-                <CardHeader
-                  title={plant.title}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={plant.image_url}
-                  title={plant.title}
-                />
-                <CardContent>
-                  <Typography component="p">
-                    {plant.description}
-                    <br />
-                    {plant.address}
-                    <br />
-                    {plant.zipcode}
-                  </Typography>
-                </CardContent>
-              </Card>
-            );
-          })
+          {userPlants.map(plant => (
+            <Card className={classes.card}>
+              <CardHeader
+                title={plant.title}
+              />
+              <CardMedia
+                className={classes.media}
+                image={plant.image_url}
+                title={plant.title}
+              />
+              <CardContent>
+                <Typography component="p">
+                  {plant.description}
+                  <br />
+                  {plant.address}
+                  <br />
+                  {plant.zipcode}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))
           }
         </div>
 
