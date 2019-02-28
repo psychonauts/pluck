@@ -157,12 +157,28 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
   });
 };
 
-module.exports.addFavorite = (userId, plantId, callback) => {
-  connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favorite) => {
-    if (err) {
-      callback(err);
+module.exports.toggleFavorite = (userId, plantId, callback) => {
+  connection.query('SELECT * FROM favorites WHERE id_user = ? AND id_plant = ?', [userId, plantId], (firstQueryError, favorite) => {
+    if (firstQueryError) {
+      callback(firstQueryError);
+    } else if (favorite.length > 0) { // checks if there is a favorite with userid and plantid
+      // then we should remove them from the database
+      connection.query('DELETE FROM favorites WHERE id_user = ? AND id_plant = ?', [userId, plantId], (deleteError, idk) => {
+        if (deleteError) {
+          callback(deleteError);
+        }
+        // i do not know what we are giving back to the callback
+        callback(null, idk);
+      });
     } else {
-      callback(null, favorite);
+      // if we get nothing back from the database && there is no error add a favorite into the table
+      connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favoriteFromSelect) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, favoriteFromSelect);
+        }
+      });
     }
   });
 };
