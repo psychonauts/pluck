@@ -71,16 +71,19 @@ class ViewPlantProfile extends React.Component {
   }
 
   // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
-  favoriteButton() {
+  favoriteButton(e) {
     const { userId } = this.state;
     const plantId = this.props.plant.plantId;
-
+    // console.dir(e.target.id);
+    // console.dir(e.target.parentElement.id);
+    const plantIdclicked = e.target.id || e.target.parentElement.id;
+    console.log(plantIdclicked);
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-    axios.post('/user/favorite', { userId, plantId })
-      .then((res) => { console.log(res); })
-      .catch((err) => { console.log(err); });
+  //   axios.post('/user/favorite', { userId, plantId })
+  //     .then((res) => { console.log(res); })
+  //     .catch((err) => { console.log(err); });
   }
 
   showPosition(position) {
@@ -111,9 +114,9 @@ class ViewPlantProfile extends React.Component {
             {this.props.plant.zipcode}
           </Typography>
         </CardContent>
-        <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
-            <FavoriteIcon />
+        <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
+          <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
+            <FavoriteIcon id={this.props.plant.id} />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
             <Button variant="contained" onClick={this.getLocation} className={classes.button}>
