@@ -75,6 +75,21 @@ module.exports.getTagsByPlantId = (plantId, callback) => {
   });
 };
 
+module.exports.getPlantsByIntersectionZipTag = (zipcode, tag, callback) => {
+  connection.query(`SELECT p.*, t.* 
+  FROM plants p 
+    INNER JOIN plant_tag 
+    ON p.id=plant_tag.id_plant 
+    INNER JOIN tags t
+    ON t.id=plant_tag.id_tag
+    WHERE p.zipcode = ? AND t.tag = ?`,
+  [zipcode, tag],
+  (err, plants) => {
+    if (err) callback(err);
+    else callback(null, plants);
+  });
+};
+
 module.exports.getAllTags = (callback) => {
   connection.query('SELECT * FROM tags', (err, tags) => {
     if (err) {
@@ -141,7 +156,7 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
             // checks if we got tag ids back
           } else if (queryForTagId.length > 0) {
             // vvvvvvvvvvvvvvvvvvvvvvv inserting into join table start vvvvvvvvvvv
-            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (thirdQueryError) => {
+            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (thirdQueryError) => {
               if (thirdQueryError) {
                 callback(thirdQueryError);
               }
@@ -152,7 +167,7 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
               if (addTagsError) {
                 callback(addTagsError);
               }
-              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (fourthQueryError) => {
+              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (fourthQueryError) => {
                 if (fourthQueryError) {
                   callback(fourthQueryError);
                 }
