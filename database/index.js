@@ -118,11 +118,18 @@ module.exports.addUser = (username, hpass, callback) => {
   });
 };
 
-module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
+module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags, callback) => {
   connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
     if (err) {
       callback(err);
     } else {
+      tags.forEach((tag) => {
+        connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (secondQueryError) => {
+          if (secondQueryError) {
+            callback(err);
+          }
+        });
+      });
       callback(null, plant);
     }
   });
