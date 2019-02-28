@@ -43,43 +43,30 @@ const styles = theme => ({
   },
 });
 
-class PlantList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.plants, // list of plants in a specific zip
-    };
-  }
-
+const PlantList = ({ classes, filterByTag, userId, plants }) => (
   // Pass down to ViewPlantProfile to render grid
-  render() {
-    const { classes, filterByTag, userId } = this.props;
+  <div>
+    <InstantSearch
+      searchClient={searchClient}
+      indexName="tags"
 
-    return (
-      <div>
-        <InstantSearch
-          searchClient={searchClient}
-          indexName="tags"
-
-          refresh
-        >
-          <SearchBox
-            defaultRefinement=""
-            onSubmit={(event) => {
-              event.preventDefault();
-              filterByTag(event.currentTarget[0].value);
-            }}
-          />
-          <CustomHits classes={classes} />
-        </InstantSearch>
-        <div className={classes.root}>
-          {this.state.data.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)
-        }
-        </div>
-      </div>
-    );
-  }
-}
+      refresh
+    >
+      <SearchBox
+        defaultRefinement=""
+        onSubmit={(event) => {
+          event.preventDefault();
+          filterByTag(event.currentTarget[0].value);
+        }}
+      />
+      <CustomHits classes={classes} />
+    </InstantSearch>
+    <div className={classes.root}>
+      {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)
+    }
+    </div>
+  </div>
+);
 
 PlantList.propTypes = {
   classes: PropTypes.object.isRequired,
