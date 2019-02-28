@@ -138,13 +138,15 @@ module.exports.addFavorite = (userId, plantId, callback) => {
   });
 };
 
-module.exports.addTag = (tag, callback) => {
-  connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, returnedTag) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, returnedTag);
-    }
+module.exports.addTags = (tags, callback) => {
+  tags.forEach((tag) => {
+    connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, returnedTag) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, returnedTag);
+      }
+    });
   });
 };
 
