@@ -113,9 +113,9 @@ class ViewPlantProfile extends React.Component {
         />
         <CardContent>
           <Typography component="p">
-            {this.props.plant.description}
-            {this.props.plant.address}
-            {this.props.plant.zipcode}
+            {this.props.plant.description}<br />
+            {this.props.plant.address}{'  '}
+            {this.props.plant.zipcode}{'  '}
           </Typography>
         </CardContent>
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>

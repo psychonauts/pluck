@@ -60,8 +60,11 @@ app.get('/user/profile', (req, res) => {
   });
 });
 
-app.post('/plant/profile', upload.single('image'), (req, res) => {
+app.post('/plant/profile', upload.single('image'), (req, res) => {  
+  // grabs the file that has been appended the request by Multer
   const encodedBuf = req.file.buffer.toString('base64');
+  
+  // set up headers and body for post request to IMGUR API server
   const options = {
     method: 'POST',
     url: 'https://api.imgur.com/3/image',
@@ -72,11 +75,16 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
     },
     formData: { image: encodedBuf },
   };
-
+  // this method is obv messy...functionality first
+  // but maybe allowing the user to add a tag as a seperate feature
+  // on their plant page would be easier as it would be a seperate call to add tags.
+  const tags = req.body.tags.split(' ');
+  // dbHelpers.addTage(tags, callback);
+  // send request to IMGUR api for posting and retrieval
   request(options, (error, response, body) => {
     if (error) return error(error);
     const { link } = JSON.parse(body).data;
-    const { username, currency, description, zipcode, address } = res.req.body;
+    const { username, currency, description, zipcode, address, tags } = res.req.body;
     return dbHelpers.getUserByGivenUsername(username, (err, user) => {
       if (err || !user.length) {
         console.log(err);
@@ -109,29 +117,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.post('/image/upload', upload.single('image'), (req, res) => {
-  // accepts an image file from the client
-  const encodedBuf = req.file.buffer.toString('base64');
-
-
-  const options = {
-    method: 'POST',
-    url: 'https://api.imgur.com/3/image',
-    headers: {
-      'cache-control': 'no-cache',
-      Authorization: `Bearer ${process.env.IMGAPI}`,
-      'content-type': 'multipart/form-data',
-    },
-    formData: { image: encodedBuf },
-  };
-
-  request(options, (error, response, body) => {
-    if (error) throw new Error(error);
-    res.send(body.link);
-    console.log(body);
-  });
-});
-
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.query);
@@ -161,8 +146,8 @@ app.get('/user/login', (req, res) => {
 });
 
 app.get('/plant/category', (req, res) => {
-  dbHelpers.getImageByGivenCategory(req.query.category, (err, imageUrl) => {
-    console.log(req.query.category)
+  dbHelpers.getPlantsByTags(req.query.category, (err, imageUrl) => {
+    console.log(req.query.category);
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');

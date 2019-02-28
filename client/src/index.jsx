@@ -104,7 +104,6 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <div>
-            <MyDropzone />
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
               <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
