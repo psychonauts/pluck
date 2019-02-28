@@ -6,7 +6,7 @@ import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 
 
-var map;
+
 var directions;
 mapboxgl.accessToken = config.pubKey
 
@@ -28,7 +28,7 @@ class MapView extends React.Component {
 
   componentDidMount() {
     // add destination property to directions? to render map with plant's address as destination
-    map = new mapboxgl.Map({
+   const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-98.5795, 39.8283],
