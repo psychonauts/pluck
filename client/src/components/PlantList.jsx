@@ -7,8 +7,15 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import { Route, Redirect } from 'react-router-dom'; 
+import { Route, Redirect } from 'react-router-dom';
+import algoliasearch from 'algoliasearch';
+import { InstantSearch } from 'react-instantsearch-dom';
 import ViewPlantProfile from './ViewPlantProfile.jsx';
+
+const searchClient = algoliasearch(
+  'S218GIN4YW',
+  '349f0eeaa887cc4df720ebbd1b4dc29a',
+);
 
 
 const styles = theme => ({
