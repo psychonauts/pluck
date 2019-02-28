@@ -139,9 +139,10 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
             });
             // ^^^^^^^^^^^^^^^^^^^^^^^^inserting into join table end^^^^^^^^^^^^^
           } else {
-            connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (addingToTheTagsTableError) => {
-              if (addingToTheTagsTableError) {
-                callback(addingToTheTagsTableError);
+            module.exports.addTags([tag]);
+            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (fourthQueryError) => {
+              if (fourthQueryError) {
+                callback(fourthQueryError);
               }
             });
           }
