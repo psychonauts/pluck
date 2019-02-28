@@ -70,7 +70,7 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
     // this method is obv messy...functionality first
     // but maybe allowing the user to add a tag as a seperate feature
     // on their plant page would be easier as it would be a seperate call to add tags.
-    const tagsArray = tags.split(',').map(String.prototype.trim);
+    const tagsArray = tags.split(',').map(tag => tag.trim());
     return dbHelpers.getUserByGivenUsername(username, (err, user) => {
       if (err || !user.length) {
         console.log(err);
