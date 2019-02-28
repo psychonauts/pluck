@@ -75,6 +75,15 @@ module.exports.getTagsByPlantId = (plantId, callback) => {
   });
 };
 
+module.exports.getAllTags = (callback) => {
+  connection.query('SELECT * FROM tags', (err, tags) => {
+    if (err) {
+      return callback(err);
+    }
+    return callback(null, tags);
+  });
+};
+
 module.exports.getUserIdByGivenUsername = (username, callback) => {
   connection.query('SELECT id FROM users WHERE username = ?', [username], (err, userId) => {
     if (err) {
