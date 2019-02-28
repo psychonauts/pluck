@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 const x = document.getElementById('demo');
@@ -73,16 +73,19 @@ class ViewPlantProfile extends React.Component {
   // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
   favoriteButton(e) {
     const { userId } = this.state;
-    const plantId = this.props.plant.plantId;
-    // console.dir(e.target.id);
-    // console.dir(e.target.parentElement.id);
     const plantIdclicked = e.target.id || e.target.parentElement.id;
-    console.log(userId);
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-    axios.post('/user/favorite', { userId, plantIdclicked })
-      .then((res) => { console.log(res); })
+    axios.post('/user/favorite', { userId, +plantIdclicked })
+      .then((res) => {
+        // maybe we can change the color of the button?
+        // at the very least there needs be a toast or some kind of indication to the user
+        //   that they have favorited a plant
+        // have some state value that if the plant is favorited by the current user
+        // button will render "clicked"
+        console.log(res);
+      })
       .catch((err) => { console.log(err); });
   }
 
