@@ -73,12 +73,12 @@ class ViewPlantProfile extends React.Component {
   // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
   favoriteButton(e) {
     const { userId } = this.state;
-    let plantIdclicked = +e.target.id || +e.target.parentElement.id;
+    const plantIdclicked = +e.target.id || +e.target.parentElement.id;
     // plantIdclicked = +plantIdclicked;
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-    console.log(this.props);
+
     axios.post('/user/favorite', { userId, plantIdclicked })
       .then((res) => {
         // maybe we can change the color of the button?

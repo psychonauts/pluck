@@ -31,7 +31,7 @@ app.get('/health', (req, res) => {
 app.post('/user/favorite', (req, res) => {
   const { userId, plantIdclicked } = req.body;
   // need call our dbHelper function that updates the favorite status
-  dbHelpers.addFavorite(userId, plantIdclicked, (err, favorite)=>{
+  dbHelpers.addFavorite(userId, plantIdclicked, (err, favorite) => {
     if(err) {
       console.log(err);
       res.status(501);
@@ -40,6 +40,7 @@ app.post('/user/favorite', (req, res) => {
       res.status(200);
     }
   });
+  res.send('Favortied');
 });
 
 app.get('/user/profile', (req, res) => {
