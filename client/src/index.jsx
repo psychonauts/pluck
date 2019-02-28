@@ -52,8 +52,12 @@ class App extends React.Component {
   }
 
   filterByTag(tag) {
-    const plantsWithTag = this.state.plants.filter(plant => plant.tags.includes(tag));
-    this.setState({ plants: plantsWithTag });
+    const { zipcode } = this.state;
+    axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
+      .then((res) => {
+        this.setState({ plants: res.data });
+      })
+      .catch(err => console.log(err));
   }
 
   // called in UserProfile when a user signs up/ hits submit button
