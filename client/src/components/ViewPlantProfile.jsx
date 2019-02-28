@@ -78,6 +78,7 @@ class ViewPlantProfile extends React.Component {
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
+    console.log(this.props);
     axios.post('/user/favorite', { userId, plantIdclicked })
       .then((res) => {
         // maybe we can change the color of the button?
