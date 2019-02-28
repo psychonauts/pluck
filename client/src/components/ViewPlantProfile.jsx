@@ -81,7 +81,7 @@ class ViewPlantProfile extends React.Component {
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-    axios.post('/user/favorite', { userId, plantId })
+    axios.post('/user/favorite', { userId, plantIdclicked })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
   }
