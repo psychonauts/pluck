@@ -4,11 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import config from '../../../config';
 
-
 mapboxgl.accessToken = config.pubKey;
-
-const dotenv = require('dotenv').config();
-
 
 class MapView extends React.Component {
   constructor(props) {
