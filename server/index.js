@@ -126,7 +126,7 @@ app.get('/user/login', (req, res) => {
 
 app.get('/plant/category', (req, res) => {
   dbHelpers.getPlantsByTags(req.query.category, (err, imageUrl) => {
-    console.log(req.query.category)
+    console.log(req.query.category);
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');
