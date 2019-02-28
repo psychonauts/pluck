@@ -150,13 +150,12 @@ app.get('/user/login', (req, res) => {
 });
 
 app.get('/plant/category', (req, res) => {
-  dbHelpers.getPlantsByTags(req.query.category, (err, imageUrl) => {
-    console.log(req.query.category);
+  dbHelpers.getPlantsByIntersectionZipTag(req.query.zipcode, req.query.tag, (err, plants) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');
     } else {
-      res.status(200).send(imageUrl);
+      res.status(200).send(plants);
       // console.log();
     }
   });
