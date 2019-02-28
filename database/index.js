@@ -56,7 +56,7 @@ module.exports.getPlantsByGivenUserId = (userId, callback) => {
 
 
 module.exports.getPlantsByTags = (tagId, callback) => {
-  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) =>{
+  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) => {
     if (err) {
       callback(err);
     } else {
@@ -127,11 +127,40 @@ module.exports.addUser = (username, hpass, callback) => {
   });
 };
 
-module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
+module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags, callback) => {
   connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
     if (err) {
       callback(err);
     } else {
+      tags.forEach((tag) => {
+        // checking to see if the tags already exists
+        connection.query('SELECT id FROM tags where tag = ?', [tag], (secondQueryError, queryForTagId) => {
+          // handle error
+          if (secondQueryError) {
+            callback(secondQueryError);
+            // checks if we got tag ids back
+          } else if (queryForTagId.length > 0) {
+            // vvvvvvvvvvvvvvvvvvvvvvv inserting into join table start vvvvvvvvvvv
+            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (thirdQueryError) => {
+              if (thirdQueryError) {
+                callback(thirdQueryError);
+              }
+            });
+            // ^^^^^^^^^^^^^^^^^^^^^^^^inserting into join table end^^^^^^^^^^^^^
+          } else {
+            module.exports.addTags([tag], (addTagsError) => {
+              if (addTagsError) {
+                callback(addTagsError);
+              }
+              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (fourthQueryError) => {
+                if (fourthQueryError) {
+                  callback(fourthQueryError);
+                }
+              });
+            });
+          }
+        });
+      });
       callback(null, plant);
     }
   });
