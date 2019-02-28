@@ -262,12 +262,13 @@ class PlantProfile extends React.Component {
 
           <TextField
             label="tags"
-            helperText="Add some descriptive Tags"
+            helperText="Add some descriptive Tags seperated by commas eg: 'tomatoes, green, ripe'"
             className={classes.textField}
             value={this.state.tags}
             onChange={this.handleChange('tags')}
             margin="normal"
             variant="outlined"
+            
           />
 
           <TextField
