@@ -29,9 +29,10 @@ class MyProfile extends React.Component {
     };
   }
 
-// render username, zip, and user plants dynamically
+  // render username, zip, and user plants dynamically
   render() {
     const { classes } = this.props;
+    const { username, zipcode, userPlants } = this.state;
     return (
       <div className={classes.root}>
         <Typography
@@ -39,14 +40,14 @@ class MyProfile extends React.Component {
           gutterBottom
           // align="center"
         >
-          {this.state.username.toUpperCase()}
+          {username.toUpperCase()}
         </Typography>
 
         <Typography
           variant="subtitle1"
           gutterBottom
         >
-          {this.state.zipcode}
+          {zipcode}
         </Typography>
 
         <div className={classes.root}>
@@ -58,7 +59,7 @@ class MyProfile extends React.Component {
           Your Plants
           </Typography>
 
-          {this.state.userPlants.map((plant) => {
+          {userPlants.map((plant) => {
             return (
               <Card className={classes.card}>
                 <CardHeader
