@@ -28,6 +28,19 @@ app.get('/health', (req, res) => {
 // SERVER ROUTES
 // They seem to be working as intended through postman requests. The post routes may need to change from req.body to req.query. Im not sure
 
+app.post('/user/favorite', (req, res) => {
+  const { userId, plantIdclicked } = req.body;
+  // need call our dbHelper function that updates the favorite status
+  dbHelpers.addFavorite(userId, plantIdclicked, (err, favorite)=>{
+    if(err) {
+      console.log(err);
+      res.status(501);
+    } else {
+      console.log(favorite);
+      res.status(200);
+    }
+  });
+});
 
 app.get('/user/profile', (req, res) => {
   dbHelpers.getUserIdByGivenUsername(req.query.username, (err, userId) => {

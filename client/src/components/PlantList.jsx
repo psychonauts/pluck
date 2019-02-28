@@ -53,7 +53,7 @@ class PlantList extends React.Component {
 
   // Pass down to ViewPlantProfile to render grid
   render() {
-    const { classes, filterByTag } = this.props;
+    const { classes, filterByTag, userId } = this.props;
 
     return (
       <div>
@@ -73,7 +73,7 @@ class PlantList extends React.Component {
           <CustomHits classes={classes} />
         </InstantSearch>
         <div className={classes.root}>
-          {this.state.data.map(plant => <ViewPlantProfile plant={plant} />)
+          {this.state.data.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)
         }
         </div>
       </div>
