@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
-import config from '../../../config'
+import ReactMapboxGl from "react-mapbox-gl";
 import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+import config from '../../../config'
 
 
-mapboxgl.accessToken = config.pubKey
+mapboxgl.accessToken = config.pubKey;
 
-const dotenv = require('dotenv').config();  
+const dotenv = require('dotenv').config();
 
 const Map = ReactMapboxGl({
     accessToken: config.pubKey
@@ -30,7 +30,7 @@ class MapView extends React.Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-98.5795, 39.8283],
-      zoom: 3,
+      zoom: 14,
     });
     const directions = new MapboxDirections({
       accessToken: config.key,
