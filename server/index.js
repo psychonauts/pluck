@@ -96,29 +96,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.post('/image/upload', upload.single('image'), (req, res) => {
-  // accepts an image file from the client
-  const encodedBuf = req.file.buffer.toString('base64');
-
-
-  const options = {
-    method: 'POST',
-    url: 'https://api.imgur.com/3/image',
-    headers: {
-      'cache-control': 'no-cache',
-      Authorization: `Bearer ${process.env.IMGAPI}`,
-      'content-type': 'multipart/form-data',
-    },
-    formData: { image: encodedBuf },
-  };
-
-  request(options, (error, response, body) => {
-    if (error) throw new Error(error);
-    res.send(body.link);
-    console.log(body);
-  });
-});
-
 // function to catch get req from client login
 app.get('/user/login', (req, res) => {
   console.log(req.query);
@@ -148,7 +125,7 @@ app.get('/user/login', (req, res) => {
 });
 
 app.get('/plant/category', (req, res) => {
-  dbHelpers.getImageByGivenCategory(req.query.category, (err, imageUrl) => {
+  dbHelpers.getPlantsByTags(req.query.category, (err, imageUrl) => {
     console.log(req.query.category)
     if (err) {
       console.log(err);
