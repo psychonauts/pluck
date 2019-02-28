@@ -6,8 +6,6 @@ import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 
 
-
-var directions;
 mapboxgl.accessToken = config.pubKey
 
 const dotenv = require('dotenv').config();  
@@ -34,7 +32,7 @@ class MapView extends React.Component {
       center: [-98.5795, 39.8283],
       zoom: 3,
     });
-    directions = new MapboxDirections({
+    const directions = new MapboxDirections({
       accessToken: config.key,
       unit: 'metric',
       profile: 'mapbox/walking',
