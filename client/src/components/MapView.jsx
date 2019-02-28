@@ -34,12 +34,12 @@ class MapView extends React.Component {
     directions.setOrigin([-90.069800, 29.972890]);
     directions.setDestination('1560 North Rocheblave Street');
     this.getAddress();
-}
+  }
 
   getAddress() {
     axios.get('/health')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const plant = res.data;
         this.setState({ address: plant.address });
       });
@@ -49,9 +49,17 @@ class MapView extends React.Component {
   render() {
     return (
       <div>
-        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-        <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
-        <div id="map" style={{ width: 600, height: 500, marginLeft: 'auto', marginRight: 'auto'}}/>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js" />
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css" type="text/css" />
+        <div
+          id="map"
+          style={{
+            width: 600,
+            height: 500,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        />
       </div>
     );
   }
