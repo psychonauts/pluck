@@ -80,6 +80,7 @@ class PlantProfile extends React.Component {
       username: props.username,
       address: '',
       zipcode: '',
+      tags: '',
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -253,6 +254,18 @@ class PlantProfile extends React.Component {
             className={classes.textField}
             value={this.state.zipcode}
             onChange={this.handleChange('zipcode')}
+            margin="normal"
+            variant="outlined"
+          />
+          {/* Should we just provide a field, and split the incoming string into an array of tags? */}
+          {/* We allow the user to submit a tag one by one, or an input type box that lets the user enter multiple entries */}
+
+          <TextField
+            label="tags"
+            helperText="Add some descriptive Tags"
+            className={classes.textField}
+            value={this.state.tags}
+            onChange={this.handleChange('tags')}
             margin="normal"
             variant="outlined"
           />
