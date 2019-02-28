@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
@@ -11,18 +12,18 @@ class MapView extends React.Component {
     super(props);
     // create state that is set to the plant's adress
     this.state = {
-        address: []
-    }
+      address: [],
+    };
     this.getAddress = this.getAddress.bind(this);
-}
+  }
 
   componentDidMount() {
     // add destination property to directions? to render map with plant's address as destination
-   const map = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-98.5795, 39.8283],
-      zoom: 14,
+      center: [-90.5795, 29.8283],
+      zoom: 10,
     });
     const directions = new MapboxDirections({
       accessToken: config.key,
