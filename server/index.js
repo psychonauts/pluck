@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const dbHelpers = require('../database/index.js');
-const axios = require('axios');
-const upload = multer();
 const request = require('request');
+const dbHelpers = require('../database/index.js');
+const { sendTags } = require('./helpers/algolia');
+const upload = multer();
 
 
 const app = express();
@@ -63,18 +63,24 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
   request(options, (error, response, body) => {
     if (error) return error(error);
     const { link } = JSON.parse(body).data;
-    const { username, currency, description, zipcode, address } = res.req.body;
+    const { username, currency, description, zipcode, address, tags } = res.req.body;
+    const tagsArray = tags.split(',').map(String.prototype.trim);
     return dbHelpers.getUserByGivenUsername(username, (err, user) => {
       if (err || !user.length) {
         console.log(err);
         res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
       } else {
-        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, (err, plant) => {
+        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, tagsArray, (err, plant) => {
           if (err) {
             console.log(err);
             res.status(500).send('COULD NOT CREATE PLANT PROFILE');
           } else {
-            res.status(201).json(link);
+            sendTags((err) => {
+              if (err) {
+                console.error(err);
+              }
+              res.status(201).json(link);
+            });
           }
         });
       }
