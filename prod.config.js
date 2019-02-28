@@ -28,7 +28,7 @@ module.exports = {
       port: 22,
       username: 'ubuntu',
       privateKey: fs.readFileSync(`${os.homedir()}/.ssh/pluck-pem.pem`),
-      before: 'cd pluck && git pull upstream master',
+      before: ['cd pluck', 'git pull upstream master', 'npm install'],
       from: './client/dist',
       to: '/home/ubuntu/pluck/client/dist',
     }),
