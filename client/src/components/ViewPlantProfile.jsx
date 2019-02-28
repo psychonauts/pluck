@@ -44,7 +44,7 @@ class ViewPlantProfile extends React.Component {
     super(props);
     this.state = {
       plantId: '',
-      userId: props.userId,
+      userId: props.userId || 0,
     };
     this.favoriteButton = this.favoriteButton.bind(this);
     this.getDirections = this.getDirections.bind(this);
@@ -77,13 +77,13 @@ class ViewPlantProfile extends React.Component {
     // console.dir(e.target.id);
     // console.dir(e.target.parentElement.id);
     const plantIdclicked = e.target.id || e.target.parentElement.id;
-    console.log(plantIdclicked);
+    console.log(userId);
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-  //   axios.post('/user/favorite', { userId, plantId })
-  //     .then((res) => { console.log(res); })
-  //     .catch((err) => { console.log(err); });
+    axios.post('/user/favorite', { userId, plantId })
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
   }
 
   showPosition(position) {
