@@ -78,6 +78,8 @@ class PlantProfile extends React.Component {
       loggedIn: false,
       currency: 'Select',
       username: props.username,
+      address: '',
+      zipcode: '',
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -234,6 +236,26 @@ class PlantProfile extends React.Component {
               </MenuItem>
             ))}
           </TextField>
+
+          <TextField
+            label="address"
+            helperText="Your address here"
+            className={classes.textField}
+            value={this.state.address}
+            onChange={this.handleChange('address')}
+            margin="normal"
+            variant="outlined"
+          />
+
+          <TextField
+            label="zipcode"
+            helperText="Your zipcode here"
+            className={classes.textField}
+            value={this.state.zipcode}
+            onChange={this.handleChange('zipcode')}
+            margin="normal"
+            variant="outlined"
+          />
 
           <TextField
             id="description"

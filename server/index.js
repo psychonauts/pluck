@@ -62,17 +62,19 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
 
   request(options, (error, response, body) => {
     if (error) return error(error);
-    return dbHelpers.getUserByGivenUsername(req.body.username, (err, user) => {
-      if (err) {
+    const { link } = JSON.parse(body).data;
+    const { username, currency, description, zipcode, address } = res.req.body;
+    return dbHelpers.getUserByGivenUsername(username, (err, user) => {
+      if (err || !user.length) {
         console.log(err);
         res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
       } else {
-        dbHelpers.addPlant(user[0].id, req.body.currency, req.body.description, '38318 kanks place drive', user[0].zipcode, 'https://inhabitat.com/wp-content/blogs.dir/1/files/2013/05/tomatoes-vine.jpg', (err, plant) => {
+        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, (err, plant) => {
           if (err) {
             console.log(err);
             res.status(500).send('COULD NOT CREATE PLANT PROFILE');
           } else {
-            res.status(201).json(body.data.link);
+            res.status(201).json(link);
           }
         });
       }
@@ -124,7 +126,7 @@ app.get('/user/login', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
-    } else if (user[0].salt + req.query.password === user[0].hpass) {
+    } else if (req.query.password === user[0].hpass) {
     // } else if (user.username === req.query.username) { // testing
       dbHelpers.getPlantsByGivenUserId(user[0].id, (err, plants) => {
         if (err) {
@@ -178,8 +180,8 @@ app.get('/user/zipcode', (req, res) => {
 // function to catch post from client signup work
 app.post('/user/info', (req, res) => {
   console.log(req.body);
-  const { username, password, zipcode } = req.body;
-  dbHelpers.addUser(username, password, 'a', zipcode, (err, user) => {
+  const { username, password } = req.body;
+  dbHelpers.addUser(username, password, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT CREATE PROFILE');
