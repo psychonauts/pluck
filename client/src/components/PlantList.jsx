@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { Route, Redirect } from 'react-router-dom';
 import algoliasearch from 'algoliasearch';
-import { InstantSearch } from 'react-instantsearch-dom';
+import { InstantSearch, Hits, SearchBox } from 'react-instantsearch-dom';
 import ViewPlantProfile from './ViewPlantProfile.jsx';
 
 const searchClient = algoliasearch(
@@ -48,9 +48,21 @@ class PlantList extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
-        {this.state.data.map(plant => <ViewPlantProfile plant={plant} />)
-      }
+      <div>
+        <InstantSearch
+          searchClient={searchClient}
+          indexName="tags"
+          refresh
+        >
+          <SearchBox />
+          <Hits
+            hitComponent={({ hit }) => <p>{hit.tag}</p>}
+          />
+        </InstantSearch>
+        <div className={classes.root}>
+          {this.state.data.map(plant => <ViewPlantProfile plant={plant} />)
+        }
+        </div>
       </div>
     );
   }
