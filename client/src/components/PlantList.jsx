@@ -67,7 +67,7 @@ class PlantList extends React.Component {
             defaultRefinement=""
             onSubmit={(event) => {
               event.preventDefault();
-              filterByTag(event.currentTarget);
+              filterByTag(event.currentTarget[0].value);
             }}
           />
           <CustomHits classes={classes} />

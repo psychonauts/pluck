@@ -52,7 +52,7 @@ class App extends React.Component {
   }
 
   filterByTag(tag) {
-    const { zipcode } = this.state;
+    const { zipcode } = this.state.plants[0];
     axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
       .then((res) => {
         this.setState({ plants: res.data });
