@@ -139,11 +139,15 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
             });
             // ^^^^^^^^^^^^^^^^^^^^^^^^inserting into join table end^^^^^^^^^^^^^
           } else {
-            module.exports.addTags([tag]);
-            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (fourthQueryError) => {
-              if (fourthQueryError) {
-                callback(fourthQueryError);
+            module.exports.addTags([tag], (addTagsError) => {
+              if (addTagsError) {
+                callback(addTagsError);
               }
+              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.id], (fourthQueryError) => {
+                if (fourthQueryError) {
+                  callback(fourthQueryError);
+                }
+              });
             });
           }
         });
