@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import DynamicButton from './DynamicButton.jsx';
 
 const x = document.getElementById('demo');
 
@@ -45,6 +46,7 @@ class ViewPlantProfile extends React.Component {
     this.state = {
       plantId: '',
       userId: props.userId || 0,
+      favorite: false
     };
     this.favoriteButton = this.favoriteButton.bind(this);
     this.getDirections = this.getDirections.bind(this);
@@ -121,6 +123,7 @@ class ViewPlantProfile extends React.Component {
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
           <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon id={this.props.plant.id} />
+            <DynamicButton onClick={this.favoriteButton} />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
             <Button variant="contained" onClick={this.getLocation} className={classes.button}>
