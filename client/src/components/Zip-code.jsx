@@ -27,10 +27,6 @@ const styles = theme => ({
 class ComposedTextField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      redirect: false,
-    };
-
     // bind functions to this
     this.enterZipCode = this.enterZipCode.bind(this);
   }
@@ -41,22 +37,13 @@ class ComposedTextField extends React.Component {
     const { zipcode } = this.props;
     this.props.onSubmit({ zipcode });
 
-    // brought to list view
-    // set state of 'redirect' to true --> setstate is async aka needs settimeout (theres def a better way to do this)
-    setTimeout(() => {
-
-      this.setState({
-        redirect: true,
-      });
-    }, 1000);
   }
 
   render() {
-    const { classes } = this.props;
-    const { redirect } = this.state;
+    const { classes, view } = this.props;
 
-    if (redirect === true) {
-      return <Redirect to="/plantList" />;
+    if (view !== '/plantList') {
+      return <Redirect to={view} />;
     }
 
     return (

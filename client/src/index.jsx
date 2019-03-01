@@ -25,6 +25,7 @@ class App extends React.Component {
       zipcode: '',
       userId: '',
       userPlants: [],
+      view: '/',
     };
 
     // bind to this all functions being handed down
@@ -33,16 +34,41 @@ class App extends React.Component {
     this.filterByTag = this.filterByTag.bind(this);
     this.onZipChange = this.onZipChange.bind(this);
     this.searchByTag = this.searchByTag.bind(this);
+    this.submitPlant = this.submitPlant.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate(); // rerenders page when components state or props change
   }
 
+  
   onZipChange(event) {
     this.setState({
       zipcode: event.target.value,
     });
+  }
+
+  // function when submit button is pressed
+  submitPlant(formData) {
+    const data = new FormData();
+    Object.entries(formData).forEach(([name, val]) => data.append(name, val));
+    // data.append('image', selectedFile);
+
+    // change state to redirect to myProfile
+
+    // send post req to server to save new plant info in plants table
+    // add plant to users profile page
+    // need to send through userId, type, description, address, zipcode, image
+    axios.post('/plant/profile', data, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        this.setState({ view: '/myProfile' });
+      })
+      .catch((err) => { console.log(err); });
   }
 
   // function gets called when submit button is clicked in zipcode view
@@ -72,7 +98,7 @@ class App extends React.Component {
   searchByTag(tag) {
     axios.get(`/plant/tag?tag=${tag}`)
       .then((res) => {
-        this.setState({ plants: res.data });
+        this.setState({ plants: res.data, view: '/plantList' });
       }).catch(err => console.error(err));
   }
 
@@ -125,6 +151,7 @@ class App extends React.Component {
 
 
   render() {
+    const { view } = this.state;
     return (
 
       <div>
@@ -132,14 +159,14 @@ class App extends React.Component {
           <div>
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <Search searchByTag={this.searchByTag} />} exact />
-              <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} filterByTag={this.filterByTag} userId={this.state.userId} />} />
-              <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
-              <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
-              <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} username={this.state.username} />} />
-              <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} plants={this.state.userPlants} username={this.state.username} />} />
-              <Route path="/plantLocation" component={MapView} />
+              <Route path="/" render={() => <Search searchByTag={this.searchByTag} view={view} />} exact />
+              <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} view={view} onSubmit={this.submitUserInfo} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} view={view} filterByTag={this.filterByTag} userId={this.state.userId} />} />
+              <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} view={view} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
+              <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} view={view} />} />
+              <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} view={view} username={this.state.username} submitPlant={this.submitPlant} />} />
+              <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} view={view} plants={this.state.userPlants} username={this.state.username} />} />
+              <Route path="/plantLocation" view={view} component={MapView} />
               <Route component={Error} />
             </Switch>
           </div>

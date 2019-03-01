@@ -27,12 +27,17 @@ const styles = theme => ({
   },
 });
 
-const PlantList = ({ classes, filterByTag, userId, plants }) => (
-  // Pass down to ViewPlantProfile to render grid
-  <div className={classes.root}>
-    {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)}
-  </div>
-);
+const PlantList = ({ classes, filterByTag, userId, plants, view }) => {
+  if (view !== '/plantList') {
+    return <Redirect to={view} />;
+  }
+  return (
+    // Pass down to ViewPlantProfile to render grid
+    <div className={classes.root}>
+      {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)}
+    </div>
+  );
+};
 
 PlantList.propTypes = {
   classes: PropTypes.object.isRequired,
