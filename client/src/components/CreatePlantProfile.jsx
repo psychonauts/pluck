@@ -84,7 +84,6 @@ class PlantProfile extends React.Component {
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
-    this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.setState = this.setState.bind(this);
