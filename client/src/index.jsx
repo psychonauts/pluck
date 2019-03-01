@@ -24,6 +24,7 @@ class App extends React.Component {
       username: '',
       zipcode: '',
       userId: '',
+      tag: '',
       userPlants: [],
       view: '/',
     };
@@ -31,7 +32,7 @@ class App extends React.Component {
     // bind to this all functions being handed down
     this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
     this.userLogin = this.userLogin.bind(this);
-    this.filterByTag = this.filterByTag.bind(this);
+    this.filterByZip = this.filterByZip.bind(this);
     this.onZipChange = this.onZipChange.bind(this);
     this.searchByTag = this.searchByTag.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
@@ -87,8 +88,8 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-  filterByTag(tag) {
-    const { zipcode } = this.state;
+  filterByZip() {
+    const { zipcode, tag } = this.state;
     axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
       .then((res) => {
         this.setState({ plants: res.data });
@@ -99,7 +100,7 @@ class App extends React.Component {
   searchByTag(tag) {
     axios.get(`/plant/tag?tag=${tag}`)
       .then((res) => {
-        this.setState({ plants: res.data }, () => this.changeView('/plantList'));
+        this.setState({ plants: res.data, tag }, () => this.changeView('/plantList'));
       }).catch(err => console.error(err));
   }
 
@@ -166,7 +167,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" render={() => <Search searchByTag={this.searchByTag} view={view} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} view={view} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} view={view} filterByTag={this.filterByTag} userId={this.state.userId} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} view={view} onZipChange={this.onZipChange} zipcode={this.state.zipcode} filterByZip={this.filterByZip} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} view={view} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} view={view} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} view={view} username={this.state.username} submitPlant={this.submitPlant} />} />

@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { Route, Redirect } from 'react-router-dom';
 import ViewPlantProfile from './ViewPlantProfile.jsx';
+import ZipCode from './Zip-code.jsx';
 
 const styles = theme => ({
   root: {
@@ -27,13 +28,14 @@ const styles = theme => ({
   },
 });
 
-const PlantList = ({ classes, filterByTag, userId, plants, view }) => {
+const PlantList = ({ classes, filterByZip, onZipChange, userId, plants, view, zipcode }) => {
   if (view !== '/plantList') {
     return <Redirect to={view} />;
   }
   return (
     // Pass down to ViewPlantProfile to render grid
     <div className={classes.root}>
+      <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} />
       {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)}
     </div>
   );

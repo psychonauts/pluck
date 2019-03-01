@@ -28,24 +28,12 @@ class ComposedTextField extends React.Component {
   constructor(props) {
     super(props);
     // bind functions to this
-    this.enterZipCode = this.enterZipCode.bind(this);
   }
 
   // when submit button is pressed, onsubmit is called from index.jsx
   //    get req to server to get all plants in that areacode from db
-  enterZipCode() {
-    const { zipcode } = this.props;
-    this.props.onSubmit({ zipcode });
-
-  }
-
   render() {
-    const { classes, view } = this.props;
-
-    if (view !== '/plantList') {
-      return <Redirect to={view} />;
-    }
-
+    const { classes } = this.props;
     return (
       <div>
         <img className="logo-body" src={require('../PLUCK-logo-02.png')} />
@@ -68,7 +56,7 @@ class ComposedTextField extends React.Component {
             />
           </FormControl>
           <div id="submitButtonDiv">
-            <Button variant="contained" onClick={this.enterZipCode} className={classes.button} id="submitButton">
+            <Button variant="contained" onClick={this.props.onSubmit} className={classes.button} id="submitButton">
                 Submit
             </Button>
           </div>
