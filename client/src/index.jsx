@@ -30,10 +30,17 @@ class App extends React.Component {
     this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
     this.userLogin = this.userLogin.bind(this);
     this.filterByTag = this.filterByTag.bind(this);
+    this.onZipChange = this.onZipChange.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate(); // rerenders page when components state or props change
+  }
+
+  onZipChange(event) {
+    this.setState({
+      zipcode: event.target.value,
+    });
   }
 
   // function gets called when submit button is clicked in zipcode view
@@ -52,7 +59,7 @@ class App extends React.Component {
   }
 
   filterByTag(tag) {
-    const { zipcode } = this.state.plants[0];
+    const { zipcode } = this.state;
     axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
       .then((res) => {
         this.setState({ plants: res.data });
@@ -116,7 +123,7 @@ class App extends React.Component {
           <div>
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
+              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} onChange={this.onZipChange} zipcode={this.state.zipcode} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
               <Route path="/plantList" render={() => <PlantList plants={this.state.plants} filterByTag={this.filterByTag} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
