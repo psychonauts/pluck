@@ -29,6 +29,7 @@ class App extends React.Component {
     // bind to this all functions being handed down
     this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
     this.userLogin = this.userLogin.bind(this);
+    this.filterByTag = this.filterByTag.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,15 @@ class App extends React.Component {
         }); // method to redirect as second argument
       })
       .catch((err) => { console.log(err); });
+  }
+
+  filterByTag(tag) {
+    const { zipcode } = this.state.plants[0];
+    axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
+      .then((res) => {
+        this.setState({ plants: res.data });
+      })
+      .catch(err => console.log(err));
   }
 
   // called in UserProfile when a user signs up/ hits submit button
@@ -108,7 +118,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} userId={this.state.userId} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} filterByTag={this.filterByTag} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} username={this.state.username} />} />
