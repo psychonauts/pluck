@@ -35,6 +35,7 @@ class App extends React.Component {
     this.onZipChange = this.onZipChange.bind(this);
     this.searchByTag = this.searchByTag.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
 
   componentDidMount() {
@@ -66,7 +67,7 @@ class App extends React.Component {
     })
       .then((res) => {
         console.log(res);
-        this.setState({ view: '/myProfile' });
+        this.changeView('/myProfile');
       })
       .catch((err) => { console.log(err); });
   }
@@ -98,7 +99,7 @@ class App extends React.Component {
   searchByTag(tag) {
     axios.get(`/plant/tag?tag=${tag}`)
       .then((res) => {
-        this.setState({ plants: res.data, view: '/plantList' });
+        this.setState({ plants: res.data }, () => this.changeView('/plantList'));
       }).catch(err => console.error(err));
   }
 
@@ -149,6 +150,10 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
+  changeView(view) {
+    this.setState({ view });
+  }
+
 
   render() {
     const { view } = this.state;
@@ -157,7 +162,7 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <div>
-            <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
+            <NavBar changeView={this.changeView} logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
               <Route path="/" render={() => <Search searchByTag={this.searchByTag} view={view} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} view={view} onSubmit={this.submitUserInfo} />} />
