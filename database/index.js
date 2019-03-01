@@ -220,6 +220,18 @@ module.exports.addTags = (tags, callback) => {
 };
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Add Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Delete Functions start vvvvvvvvvvvvvvvvvvvvvv
+
+module.exports.deletePlant = (plantId, callback) => {
+  connection.query('DELETE FROM plants WHERE id = ?', [plantId], (err) => {
+    if (err) {
+      callback(err);
+    }
+  });
+};
+
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Delete Functions END ^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: login----getUser
 
 
