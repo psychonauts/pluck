@@ -45,11 +45,24 @@
 .search-nav {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
+  max-width: 400px;
   z-index: 99;
   background-color: white;
   left: 10%;
   top: 10%;
+}
+
+.ais-SearchBox {
+  padding: 5px;
+}
+
+.ais-SearchBox-form > * {
+  padding: 5px;
+}
+
+.search-hitList {
+  max-width: 400px;
 }
 
 .search-results {

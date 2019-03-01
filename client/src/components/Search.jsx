@@ -10,9 +10,9 @@ const searchClient = algoliasearch(
   '349f0eeaa887cc4df720ebbd1b4dc29a',
 );
 
-const Hits = ({ hits }) => (
-  <List>
-    {hits.map(hit => <ListItem className="search-results"><ListItemText inset primary={hit.tag} /></ListItem>)}
+const Hits = ({ hits, searchByTag }) => (
+  <List className="search-hitList">
+    {hits.map(hit => <ListItem onClick={() => searchByTag(hit.tag)} className="search-results"><ListItemText inset primary={hit.tag} /></ListItem>)}
   </List>
 );
 
@@ -35,7 +35,7 @@ const Search = ({ searchByTag, view }) => {
           searchByTag(event.currentTarget[0].value);
         }}
       />
-      <CustomHits />
+      <CustomHits searchByTag={searchByTag} />
     </InstantSearch>
   );
 };
