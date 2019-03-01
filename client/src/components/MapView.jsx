@@ -30,6 +30,15 @@ class MapView extends React.Component {
       unit: 'metric',
       profile: 'mapbox/walking',
     });
+    map.on('move', () => {
+      const { lng, lat } = map.getCenter();
+
+      this.setState({
+        lng: lng.toFixed(4),
+        lat: lat.toFixed(4),
+        zoom: map.getZoom().toFixed(2),
+      });
+    });
     map.addControl(directions, 'top-left');
     directions.setOrigin([-90.069800, 29.972890]);
     directions.setDestination('1560 North Rocheblave Street');
