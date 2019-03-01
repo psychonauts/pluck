@@ -34,4 +34,4 @@ const Search = ({ searchByTag }) => (
   </InstantSearch>
 );
 
-export default withStyles(Search);
+export default Search;

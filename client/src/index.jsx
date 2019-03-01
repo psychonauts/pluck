@@ -13,6 +13,7 @@ import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
 import axios from 'axios';
 import MyDropzone from './components/ImageUploader.jsx';
+import Search from './components/Search.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -131,7 +132,7 @@ class App extends React.Component {
           <div>
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} onChange={this.onZipChange} zipcode={this.state.zipcode} />} exact />
+              <Route path="/" render={() => <Search searchByTag={this.searchByTag} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
               <Route path="/plantList" render={() => <PlantList plants={this.state.plants} filterByTag={this.filterByTag} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
