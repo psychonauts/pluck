@@ -28,26 +28,17 @@ class ComposedTextField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '',
       redirect: false,
     };
 
     // bind functions to this
-    this.onChange = this.onChange.bind(this);
     this.enterZipCode = this.enterZipCode.bind(this);
-  }
-
-  // function to allow user to type in input field
-  onChange(event) {
-    this.setState({
-      zipcode: event.target.value,
-    });
   }
 
   // when submit button is pressed, onsubmit is called from index.jsx
   //    get req to server to get all plants in that areacode from db
   enterZipCode() {
-    const { zipcode } = this.state;
+    const { zipcode } = this.props;
     this.props.onSubmit({ zipcode });
 
     // brought to list view
@@ -83,7 +74,8 @@ class ComposedTextField extends React.Component {
             </InputLabel>
             <OutlinedInput
               id="component-outlined"
-              onChange={this.onChange}
+              onChange={this.props.onChange}
+              value={this.props.zipcode}
               // onKeyPress={this.enterZipCode}
               labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
             />
