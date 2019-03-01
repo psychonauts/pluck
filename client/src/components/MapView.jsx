@@ -23,7 +23,7 @@ class MapView extends React.Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-90.5795, 29.8283],
-      zoom: 10,
+      zoom: 13,
     });
     const directions = new MapboxDirections({
       accessToken: config.key,
@@ -34,8 +34,8 @@ class MapView extends React.Component {
       const { lng, lat } = map.getCenter();
 
       this.setState({
-        lng: lng.toFixed(4),
-        lat: lat.toFixed(4),
+        lng: lng.toFixed(6),
+        lat: lat.toFixed(6),
         zoom: map.getZoom().toFixed(2),
       });
     });
