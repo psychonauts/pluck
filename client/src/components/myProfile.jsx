@@ -1,13 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import SampleData from './SampleData.js';
 
 const styles = {
   root: {
@@ -31,9 +29,10 @@ class MyProfile extends React.Component {
     };
   }
 
-// render username, zip, and user plants dynamically
+  // render username, zip, and user plants dynamically
   render() {
     const { classes } = this.props;
+    const { username, zipcode, userPlants } = this.state;
     return (
       <div className={classes.root}>
         <Typography
@@ -41,14 +40,14 @@ class MyProfile extends React.Component {
           gutterBottom
           // align="center"
         >
-          {this.state.username.toUpperCase()}
+          {username.toUpperCase()}
         </Typography>
 
         <Typography
           variant="subtitle1"
           gutterBottom
         >
-          {this.state.zipcode}
+          {zipcode}
         </Typography>
 
         <div className={classes.root}>
@@ -60,25 +59,27 @@ class MyProfile extends React.Component {
           Your Plants
           </Typography>
 
-          {this.state.userPlants.map((plant) => {
-            return (
-              <Card className={classes.card}>
-                <CardHeader
-                  title={plant.title}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={plant.image_url}
-                  title={plant.title}
-                />
-                <CardContent>
-                  <Typography component="p">
-                    {plant.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            );
-          })
+          {userPlants.map(plant => (
+            <Card className={classes.card}>
+              <CardHeader
+                title={plant.title}
+              />
+              <CardMedia
+                className={classes.media}
+                image={plant.image_url}
+                title={plant.title}
+              />
+              <CardContent>
+                <Typography component="p">
+                  {plant.description}
+                  <br />
+                  {plant.address}
+                  <br />
+                  {plant.zipcode}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))
           }
         </div>
 

@@ -1,15 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import API_URL from '../../../config'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
-import config from '../../../config';
 
 const styles = theme => ({
   container: {
@@ -82,6 +78,9 @@ class PlantProfile extends React.Component {
       loggedIn: false,
       currency: 'Select',
       username: props.username,
+      address: '',
+      zipcode: '',
+      tags: '',
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -89,6 +88,7 @@ class PlantProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.setState = this.setState.bind(this);
+    this.selectFile = this.selectFile.bind(this);
     // this.fileUploadHandler = this.fileUploadHandler.bind(this);
   }
 
@@ -121,6 +121,10 @@ class PlantProfile extends React.Component {
         [name]: event.target.value, // this is for the plant type dropdown... it works...
       });
     };
+  }
+
+  selectFile(event) {
+    this.setState({ image: event.target.files[0] }, () => console.log(this.state.image));
   }
 
 
@@ -174,19 +178,20 @@ class PlantProfile extends React.Component {
 
   // function when submit button is pressed
   submitPlant() {
-    const {
-      currency,
-      description,
-      image,
-      username,
-    } = this.state;
+    const data = new FormData();
+    Object.entries(this.state).forEach(([name, val]) => data.append(name, val));
+    // data.append('image', selectedFile);
 
     // change state to redirect to myProfile
 
     // send post req to server to save new plant info in plants table
     // add plant to users profile page
     // need to send through userId, type, description, address, zipcode, image
-    axios.post('/plant/profile', { currency, description, image, username })
+    axios.post('/plant/profile', data, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    })
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
 
@@ -232,8 +237,39 @@ class PlantProfile extends React.Component {
               </MenuItem>
             ))}
           </TextField>
-        </form>
-        <form className={classes.container} noValidate autoComplete="off">
+
+          <TextField
+            label="address"
+            helperText="Your address here"
+            className={classes.textField}
+            value={this.state.address}
+            onChange={this.handleChange('address')}
+            margin="normal"
+            variant="outlined"
+          />
+
+          <TextField
+            label="zipcode"
+            helperText="Your zipcode here"
+            className={classes.textField}
+            value={this.state.zipcode}
+            onChange={this.handleChange('zipcode')}
+            margin="normal"
+            variant="outlined"
+          />
+          {/* Should we just provide a field, and split the incoming string into an array of tags? */}
+          {/* We allow the user to submit a tag one by one, or an input type box that lets the user enter multiple entries */}
+
+          <TextField
+            label="tags"
+            helperText="Add some descriptive Tags seperated by commas eg: 'tomatoes, green, ripe'"
+            className={classes.textField}
+            value={this.state.tags}
+            onChange={this.handleChange('tags')}
+            margin="normal"
+            variant="outlined"
+            
+          />
 
           <TextField
             id="description"
@@ -250,7 +286,10 @@ class PlantProfile extends React.Component {
               },
             }}
           />
+          <input type="file" onChange={this.selectFile} />
+
         </form>
+          
         <Button
           variant="contained"
           className={classes.button}

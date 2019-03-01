@@ -3,15 +3,15 @@ const mysql = require('mysql');
 
 
 const SENSITIVEDATA = {
-  host: process.env.DBHOST,
+  host: process.env.RDS_HOSTNAME,
   // user: 'root',
-  user: process.env.DBUSERNAME,
+  user: process.env.RDS_USERNAME,
   // password: '',
-  password: process.env.DBPASSWORD,
-  database: process.env.DBNAME,
-  port: process.env.DBPORT,
-}; // the SENSITIVEDATA is git ignored. Remake locally for testing // replaced file with env variables
-
+  password: process.env.RDS_PASSWORD,
+  database: 'pluck',
+  port: process.env.RDS_PORT,
+}; // the SENSITIVEDATA is git ignored. Remake locally for testing
+// replaced file with env variables
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ POSSIBLY USELESS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -22,6 +22,7 @@ const connection = mysql.createConnection(SENSITIVEDATA);
 
 
 // This is a good test to see if we are successfully connected to our database
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions Start vvvvvvvvvvvvvvvvvv
 module.exports.getAllPlants = (callback) => {
   connection.query('SELECT * FROM plants', (err, plants) => {
     if (err) {
@@ -32,16 +33,6 @@ module.exports.getAllPlants = (callback) => {
     }
   });
 };
-
-module.exports.getImageByGivenCategory = (category, callback) => {
-  connection.query('SELECT image_url FROM categories WHERE category = ?', [category], (err, imageUrl) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, imageUrl);
-    }
-  });
-}
 
 module.exports.getPlantsByGivenZipcode = (zipcode, callback) => {
   connection.query('SELECT * FROM plants WHERE zipcode = ?', [zipcode], (err, plants) => {
@@ -63,43 +54,48 @@ module.exports.getPlantsByGivenUserId = (userId, callback) => {
   });
 };
 
-module.exports.addFavorite = (userId, plantId, callback) => {
-  connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favorite) => {
+
+module.exports.getPlantsByTags = (tagId, callback) => {
+  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, favorite);
+      callback(null, plants);
     }
   });
 };
 
-module.exports.addUser = (username, pass, salt, zipcode, callback) => {
-  connection.query('INSERT INTO users(username, hpass, salt, zipcode) VALUES(?, ?, ?, ?)', [username, salt + pass, salt, zipcode], (err, user) => {
+module.exports.getTagsByPlantId = (plantId, callback) => {
+  connection.query('SELECT * FROM tags WHERE (SELECT id_tag FROM plant_tag WHERE id_plant = ?)', [plantId], (err, tags) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, user);
+      callback(null, tags);
     }
   });
 };
 
-module.exports.getSaltByGivenUsername = (username, callback) => {
-  connection.query('SELECT salt FROM users WHERE username = ?', [username], (err, salt) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, salt);
-    }
+module.exports.getPlantsByIntersectionZipTag = (zipcode, tag, callback) => {
+  connection.query(`SELECT p.*, t.* 
+  FROM plants p 
+    INNER JOIN plant_tag 
+    ON p.id=plant_tag.id_plant 
+    INNER JOIN tags t
+    ON t.id=plant_tag.id_tag
+    WHERE p.zipcode = ? AND t.tag = ?`,
+  [zipcode, tag],
+  (err, plants) => {
+    if (err) callback(err);
+    else callback(null, plants);
   });
 };
 
-module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, callback) => {
-  connection.query('INSERT INTO plants(id_user, title, description, address, zipcode, image_url, status) VALUES(?, ?, ?, ?, ?, ?, "show")', [userId, title, desc, address, zipcode, imageUrl], (err, plant) => {
+module.exports.getAllTags = (callback) => {
+  connection.query('SELECT * FROM tags', (err, tags) => {
     if (err) {
-      callback(err);
-    } else {
-      callback(null, plant);
+      return callback(err);
     }
+    return callback(null, tags);
   });
 };
 
@@ -123,8 +119,107 @@ module.exports.getUserByGivenUsername = (username, callback) => {
   });
 };
 
+module.exports.getFavoritesByUsername = (username, callback) => {
+  connection.query('SELECT * FROM plants WHERE (SELECT id_user FROM favorites WHERE (SELECT id FROM users WHERE username = ?))', [username], (error, favorites) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, favorites);
+    }
+  });
+};
 
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Get Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Add Functions Start vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+module.exports.addUser = (username, hpass, callback) => {
+  connection.query('INSERT INTO users(username, hpass) VALUES(?, ?)', [username, hpass], (err, user) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, user);
+    }
+  });
+};
+
+module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags, callback) => {
+  connection.query('INSERT INTO plants(title, description, address, zipcode, image_url, id_user) VALUES(?, ?, ?, ?, ?, ?)', [title, desc, address, zipcode, imageUrl, userId], (err, plant) => {
+    if (err) {
+      callback(err);
+    } else {
+      tags.forEach((tag) => {
+        // checking to see if the tags already exists
+        connection.query('SELECT id FROM tags where tag = ?', [tag], (secondQueryError, queryForTagId) => {
+          // handle error
+          if (secondQueryError) {
+            callback(secondQueryError);
+            // checks if we got tag ids back
+          } else if (queryForTagId.length > 0) {
+            // vvvvvvvvvvvvvvvvvvvvvvv inserting into join table start vvvvvvvvvvv
+            connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (thirdQueryError) => {
+              if (thirdQueryError) {
+                callback(thirdQueryError);
+              }
+            });
+            // ^^^^^^^^^^^^^^^^^^^^^^^^inserting into join table end^^^^^^^^^^^^^
+          } else {
+            module.exports.addTags([tag], (addTagsError) => {
+              if (addTagsError) {
+                callback(addTagsError);
+              }
+              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (fourthQueryError) => {
+                if (fourthQueryError) {
+                  callback(fourthQueryError);
+                }
+              });
+            });
+          }
+        });
+      });
+      callback(null, plant);
+    }
+  });
+};
+
+module.exports.toggleFavorite = (userId, plantId, callback) => {
+  connection.query('SELECT * FROM favorites WHERE id_user = ? AND id_plant = ?', [userId, plantId], (firstQueryError, favorite) => {
+    if (firstQueryError) {
+      callback(firstQueryError);
+    } else if (favorite.length > 0) { // checks if there is a favorite with userid and plantid
+      // then we should remove them from the database
+      connection.query('DELETE FROM favorites WHERE id_user = ? AND id_plant = ?', [userId, plantId], (deleteError, idk) => {
+        if (deleteError) {
+          callback(deleteError);
+        }
+        // i do not know what we are giving back to the callback
+        callback(null, idk);
+      });
+    } else {
+      // if we get nothing back from the database && there is no error add a favorite into the table
+      connection.query('INSERT INTO favorites(id_user, id_plant) VALUES(?, ?)', [userId, plantId], (err, favoriteFromSelect) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, favoriteFromSelect);
+        }
+      });
+    }
+  });
+};
+
+module.exports.addTags = (tags, callback) => {
+  tags.forEach((tag) => {
+    connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, returnedTag) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, returnedTag);
+      }
+    });
+  });
+};
+
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Add Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: login----getUser
 
 

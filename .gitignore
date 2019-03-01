@@ -4,7 +4,7 @@ bower_components/
 
 build/
 
-
+.vscode/launch.json
 .env
 database/sensitive-data.js
-package-lock.json
+client/dist/bundle.js

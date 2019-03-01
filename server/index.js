@@ -1,9 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const request = require('request');
 const dbHelpers = require('../database/index.js');
+const { sendTags } = require('./helpers/algolia');
+const upload = multer();
+
 
 const app = express();
+
 
 app.use(express.static(`${__dirname}/../client/dist`));
 app.use(bodyParser.json());
@@ -22,6 +28,20 @@ app.get('/health', (req, res) => {
 // SERVER ROUTES
 // They seem to be working as intended through postman requests. The post routes may need to change from req.body to req.query. Im not sure
 
+app.post('/user/favorite', (req, res) => {
+  const { userId, plantIdclicked } = req.body;
+  // need call our dbHelper function that updates the favorite status
+  dbHelpers.toggleFavorite(userId, plantIdclicked, (err, favorite) => {
+    if(err) {
+      console.log(err);
+      res.status(501);
+    } else {
+      console.log(favorite);
+      res.status(200);
+    }
+  });
+  res.send('Favortied');
+});
 
 app.get('/user/profile', (req, res) => {
   dbHelpers.getUserIdByGivenUsername(req.query.username, (err, userId) => {
@@ -41,22 +61,52 @@ app.get('/user/profile', (req, res) => {
   });
 });
 
-app.post('/plant/profile', (req, res) => {
-  dbHelpers.getUserByGivenUsername(req.body.username, (err, user) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
-    } else {
-      dbHelpers.addPlant(user[0].id, req.body.currency, req.body.description, '38318 kanks place drive', user[0].zipcode, 'https://inhabitat.com/wp-content/blogs.dir/1/files/2013/05/tomatoes-vine.jpg', (err, plant) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send('COULD NOT CREATE PLANT PROFILE');
-        } else {
-          res.status(203).send('PLANT PROFILE CREATED');
-        }
-      });
-    }
+app.post('/plant/profile', upload.single('image'), (req, res) => {  
+  // grabs the file that has been appended the request by Multer
+  const encodedBuf = req.file.buffer.toString('base64');
+  
+  // set up headers and body for post request to IMGUR API server
+  const options = {
+    method: 'POST',
+    url: 'https://api.imgur.com/3/image',
+    headers: {
+      'cache-control': 'no-cache',
+      Authorization: `Bearer ${process.env.IMGAPI}`,
+      'content-type': 'multipart/form-data',
+    },
+    formData: { image: encodedBuf },
+  };
+  // send request to IMGUR api for posting and retrieval
+  request(options, (error, response, body) => {
+    if (error) return error(error);
+    const { link } = JSON.parse(body).data;
+    const { username, currency, description, zipcode, address, tags } = res.req.body;
+    // this method is obv messy...functionality first
+    // but maybe allowing the user to add a tag as a seperate feature
+    // on their plant page would be easier as it would be a seperate call to add tags.
+    const tagsArray = tags.split(',').map(tag => tag.trim());
+    return dbHelpers.getUserByGivenUsername(username, (err, user) => {
+      if (err || !user.length) {
+        console.log(err);
+        res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
+      } else {
+        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, tagsArray, (err, plant) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send('COULD NOT CREATE PLANT PROFILE');
+          } else {
+            sendTags((err) => {
+              if (err) {
+                console.error(err);
+              }
+              res.status(201).json(link);
+            });
+          }
+        });
+      }
+    });
   });
+
   // req.query, req.body, req.params i dont know what to use. query works for now though // userId, address, zipcode
 });
 
@@ -79,7 +129,7 @@ app.get('/user/login', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send('INCORRECT USERNAME/PASSWORD/MAYBE ITS OUR SERVER/DB FAULT');
-    } else if (user[0].salt + req.query.password === user[0].hpass) {
+    } else if (req.query.password === user[0].hpass) {
     // } else if (user.username === req.query.username) { // testing
       dbHelpers.getPlantsByGivenUserId(user[0].id, (err, plants) => {
         if (err) {
@@ -101,13 +151,12 @@ app.get('/user/login', (req, res) => {
 });
 
 app.get('/plant/category', (req, res) => {
-  dbHelpers.getImageByGivenCategory(req.query.category, (err, imageUrl) => {
-    console.log(req.query.category)
+  dbHelpers.getPlantsByIntersectionZipTag(req.query.zipcode, req.query.tag, (err, plants) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');
     } else {
-      res.status(200).send(imageUrl);
+      res.status(200).send(plants);
       // console.log();
     }
   });
@@ -133,8 +182,8 @@ app.get('/user/zipcode', (req, res) => {
 // function to catch post from client signup work
 app.post('/user/info', (req, res) => {
   console.log(req.body);
-  const { username, password, zipcode } = req.body;
-  dbHelpers.addUser(username, password, 'a', zipcode, (err, user) => {
+  const { username, password } = req.body;
+  dbHelpers.addUser(username, password, (err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT CREATE PROFILE');
@@ -149,7 +198,7 @@ app.post('/user/info', (req, res) => {
 //   get req to api for directions to plant
 //   should send location/address of plant
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

@@ -11,9 +11,8 @@ import ViewPlantProfile from './components/ViewPlantProfile.jsx';
 import CreatePlantProfile from './components/CreatePlantProfile.jsx';
 import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
-import SampleData from "./components/SampleData";
 import axios from 'axios';
- 
+import MyDropzone from './components/ImageUploader.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,10 +29,18 @@ class App extends React.Component {
     // bind to this all functions being handed down
     this.zipCodeSubmit = this.zipCodeSubmit.bind(this);
     this.userLogin = this.userLogin.bind(this);
+    this.filterByTag = this.filterByTag.bind(this);
+    this.onZipChange = this.onZipChange.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate(); // rerenders page when components state or props change
+  }
+
+  onZipChange(event) {
+    this.setState({
+      zipcode: event.target.value,
+    });
   }
 
   // function gets called when submit button is clicked in zipcode view
@@ -49,6 +56,15 @@ class App extends React.Component {
         }); // method to redirect as second argument
       })
       .catch((err) => { console.log(err); });
+  }
+
+  filterByTag(tag) {
+    const { zipcode } = this.state;
+    axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
+      .then((res) => {
+        this.setState({ plants: res.data });
+      })
+      .catch(err => console.log(err));
   }
 
   // called in UserProfile when a user signs up/ hits submit button
@@ -105,12 +121,11 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <div>
-
             <NavBar logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
-              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} />} exact />
+              <Route path="/" render={() => <ZipCode onSubmit={this.zipCodeSubmit} onChange={this.onZipChange} zipcode={this.state.zipcode} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} filterByTag={this.filterByTag} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} username={this.state.username} />} />

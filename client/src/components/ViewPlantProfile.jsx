@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 const x = document.getElementById('demo');
@@ -44,7 +44,7 @@ class ViewPlantProfile extends React.Component {
     super(props);
     this.state = {
       plantId: '',
-      userId: props.userId,
+      userId: props.userId || 0,
     };
     this.favoriteButton = this.favoriteButton.bind(this);
     this.getDirections = this.getDirections.bind(this);
@@ -71,15 +71,23 @@ class ViewPlantProfile extends React.Component {
   }
 
   // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
-  favoriteButton() {
+  favoriteButton(e) {
     const { userId } = this.state;
-    const plantId = this.props.plant.plantId;
-
+    const plantIdclicked = +e.target.id || +e.target.parentElement.id;
+    // plantIdclicked = +plantIdclicked;
     // post request to server
     //  add plant to users favs
     //  send user id + plant id
-    axios.post('/user/favorite', { userId, plantId })
-      .then((res) => { console.log(res); })
+
+    axios.post('/user/favorite', { userId, plantIdclicked })
+      .then((res) => {
+        // maybe we can change the color of the button?
+        // at the very least there needs be a toast or some kind of indication to the user
+        //   that they have favorited a plant
+        // have some state value that if the plant is favorited by the current user
+        // button will render "clicked"
+        console.log(res);
+      })
       .catch((err) => { console.log(err); });
   }
 
@@ -93,7 +101,6 @@ class ViewPlantProfile extends React.Component {
 
   render() {
     const { classes } = this.props;
-
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -106,12 +113,14 @@ class ViewPlantProfile extends React.Component {
         />
         <CardContent>
           <Typography component="p">
-            {this.props.plant.description}
+            {this.props.plant.description}<br />
+            {this.props.plant.address}{'  '}
+            {this.props.plant.zipcode}{'  '}
           </Typography>
         </CardContent>
-        <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites" onClick={this.favoriteButton}>
-            <FavoriteIcon />
+        <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
+          <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
+            <FavoriteIcon id={this.props.plant.id} />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
             <Button variant="contained" onClick={this.getLocation} className={classes.button}>
