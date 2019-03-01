@@ -31,6 +31,7 @@ class App extends React.Component {
     this.userLogin = this.userLogin.bind(this);
     this.filterByTag = this.filterByTag.bind(this);
     this.onZipChange = this.onZipChange.bind(this);
+    this.searchByTag = this.searchByTag.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +66,13 @@ class App extends React.Component {
         this.setState({ plants: res.data });
       })
       .catch(err => console.log(err));
+  }
+
+  searchByTag(tag) {
+    axios.get(`/plant/tag?tag=${tag}`)
+      .then((res) => {
+        this.setState({ plants: res.data });
+      }).catch(err => console.error(err));
   }
 
   // called in UserProfile when a user signs up/ hits submit button
