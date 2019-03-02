@@ -62,11 +62,18 @@
 }
 
 .search-hitList {
-  max-width: 400px;
+  max-width: 230px;
+  border-radius: 10px;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  left: 7px;
+  bottom: 5px;
+  border: 1px solid black;
 }
 
 .search-results {
-  border: 1px solid black;
+  padding: 0px;
 }
 
 .search-results :hover {
