@@ -12,7 +12,8 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "webpack -d",
-    "deploy": "webpack -d -p --config prod.config.js"
+    "deploy": "webpack -d -p --config prod.config.js",
+    "buildWatch": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
