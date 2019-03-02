@@ -26,4 +26,4 @@ module.exports.getPlantsFavoriteStatus = (plants, userId, callback) => {
       if (plantsRemaining === 0) callback();
     });
   });
-}
+};
