@@ -30,6 +30,22 @@ class MyProfile extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { username } = this.state;
+    axios.get('/user/profile', {
+      params: {
+        username,
+      },
+    }).then((plants) => {
+      console.log(plants);
+      this.setState({
+        userPlants: plants.data,
+      });
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   deletePlant(plant) {
     console.log(this.state.username);
     this.setState(prevState => (prevState.userPlants.length > 1 ? { userPlants: prevState.userPlants.slice(0, prevState.userPlants.indexOf(plant)).concat(prevState.userPlants.slice(prevState.userPlants.indexOf(plant) + 1)) } : { userPlants: [] }));
