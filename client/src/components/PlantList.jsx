@@ -28,14 +28,11 @@ const styles = theme => ({
   },
 });
 
-const PlantList = ({ classes, filterByZip, onZipChange, userId, plants, view, zipcode, focusTag }) => {
-  if (view !== '/plantList') {
-    return <Redirect to={view} />;
-  }
+const PlantList = ({ classes, filterByZip, onZipChange, userId, plants, zipcode, focusTag }) => {
   return (
     // Pass down to ViewPlantProfile to render grid
     <div className={classes.root}>
-      <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} />
+      {onZipChange ? <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} /> : null}
       {plants.map(plant => <ViewPlantProfile userId={userId} zip={zipcode} focusTag={focusTag} plant={plant} />)}
     </div>
   );

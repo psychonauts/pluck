@@ -42,7 +42,7 @@ app.post('/user/favorite', (req, res) => {
       res.status(200);
     }
   });
-  res.send('Favortied');
+  res.send('Favorited');
 });
 
 app.get('/user/profile', (req, res) => {
@@ -63,6 +63,22 @@ app.get('/user/profile', (req, res) => {
         }
       });
     }
+  });
+});
+
+app.get('/user/favorites', (req, res) => {
+  dbHelpers.getFavoritesByUsername(req.query.username, (err, faves) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Whoops!');
+    }
+    tagsForAllPlants(faves, (err, favesWithTags) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Whoops!');
+      }
+      return res.status(200).json(favesWithTags);
+    });
   });
 });
 
