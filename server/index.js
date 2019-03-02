@@ -175,7 +175,16 @@ app.get('/plant/tag', (req, res) => {
         console.error(err);
         return res.status(500).send('Something went wrong fetching plants!');
       }
-      return res.status(200).json(plants);
+      let plantsRemaining = plants.length;
+      return plants.map(plant => dbHelpers.getTagsByPlantId(plant.id, (err, tags) =>{
+        if (err) {
+          console.error(err);
+          res.status(500).send('Something went wrong!');
+        }
+        plant.tags = tags;
+        plantsRemaining -= 1;
+        if (plantsRemaining === 0) return res.status(200).json(plants);
+      }));
     });
   });
 });
