@@ -195,7 +195,6 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
           }
         });
       });
-      callback(null, plant);
     }
   });
 };
