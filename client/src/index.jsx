@@ -44,7 +44,6 @@ class App extends React.Component {
     this.forceUpdate(); // rerenders page when components state or props change
   }
 
-  
   onZipChange(event) {
     this.setState({
       zipcode: event.target.value,
@@ -78,7 +77,7 @@ class App extends React.Component {
   zipCodeSubmit(userZip) {
     // get req to server
     axios.get(`/user/zipcode?zipcode=${userZip.zipcode}`)
-    // server will grab plants in this zipcode from db and send back
+      // server will grab plants in this zipcode from db and send back
       .then((res) => {
         console.log(res.data);
         // data state in index component will be updated to those plants

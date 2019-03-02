@@ -82,7 +82,7 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
   request(options, (error, response, body) => {
     if (error) return error(error);
     const { link } = JSON.parse(body).data;
-    const { username, currency, description, zipcode, address, tags } = res.req.body;
+    const { username, title, description, zipcode, address, tags } = res.req.body;
     // this method is obv messy...functionality first
     // but maybe allowing the user to add a tag as a seperate feature
     // on their plant page would be easier as it would be a seperate call to add tags.
@@ -92,7 +92,7 @@ app.post('/plant/profile', upload.single('image'), (req, res) => {
         console.log(err);
         res.status(500).send('COULD NOT RETRIEVE USER FROM DATABASE');
       } else {
-        dbHelpers.addPlant(user[0].id, currency, description, address, zipcode, link, tagsArray, (err, plant) => {
+        dbHelpers.addPlant(user[0].id, title, description, address, zipcode, link, tagsArray, (err, plant) => {
           if (err) {
             console.log(err);
             res.status(500).send('COULD NOT CREATE PLANT PROFILE');
