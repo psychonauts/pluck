@@ -37,6 +37,7 @@ class App extends React.Component {
     this.searchByTag = this.searchByTag.bind(this);
     this.submitPlant = this.submitPlant.bind(this);
     this.changeView = this.changeView.bind(this);
+    this.focusTag = this.focusTag.bind(this);
   }
 
   componentDidMount() {
@@ -89,7 +90,8 @@ class App extends React.Component {
   }
 
   filterByZip() {
-    const { zipcode, tag } = this.state;
+    const { tag } = this.state;
+    const { zipcode } = this.state;
     axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
       .then((res) => {
         this.setState({ plants: res.data });
@@ -102,6 +104,10 @@ class App extends React.Component {
       .then((res) => {
         this.setState({ plants: res.data, tag }, () => this.changeView('/plantList'));
       }).catch(err => console.error(err));
+  }
+
+  focusTag(tag) {
+    this.setState({ tag }, () => this.state.zipcode ? this.filterByZip() : this.searchByTag(tag));
   }
 
   // called in UserProfile when a user signs up/ hits submit button
@@ -167,7 +173,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" render={() => <Search searchByTag={this.searchByTag} view={view} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} view={view} onSubmit={this.submitUserInfo} />} />
-              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} view={view} onZipChange={this.onZipChange} zipcode={this.state.zipcode} filterByZip={this.filterByZip} userId={this.state.userId} />} />
+              <Route path="/plantList" render={() => <PlantList plants={this.state.plants} view={view} onZipChange={this.onZipChange} zipcode={this.state.zipcode} filterByZip={this.filterByZip} focusTag={this.focusTag} userId={this.state.userId} />} />
               <Route path="/userLogin" render={() => <UserLogin plants={this.state.plants} view={view} zipcode={this.state.zipcode} onSubmit={this.userLogin} />} />
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} view={view} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} view={view} username={this.state.username} submitPlant={this.submitPlant} />} />

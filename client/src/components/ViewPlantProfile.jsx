@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -103,22 +104,30 @@ class ViewPlantProfile extends React.Component {
   // Longitude: ${position.coords.longitude}`;
 
   render() {
-    const { classes } = this.props;
+    const { classes, plant, focusTag } = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
-          title={this.props.plant.title}
+          title={plant.title}
         />
         <CardMedia
           className={classes.media}
-          image={this.props.plant.image_url}
-          title={this.props.plant.title}
+          image={plant.image_url}
+          title={plant.title}
         />
         <CardContent>
           <Typography component="p">
-            {this.props.plant.description}<br />
-            {this.props.plant.address}{'  '}
-            {this.props.plant.zipcode}{'  '}
+            {plant.description}<br />
+            {plant.address}{'  '}
+            {plant.zipcode}{'  '}<br />
+            {plant.tags.map(tag => (
+              <Chip
+                key={tag.id}
+                label={tag.tag}
+                onClick={() => focusTag(tag.tag)}
+              />
+            ))
+            }
           </Typography>
         </CardContent>
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
