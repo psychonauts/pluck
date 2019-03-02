@@ -46,12 +46,15 @@ app.post('/user/favorite', (req, res) => {
 });
 
 app.get('/user/profile', (req, res) => {
+  console.log(req.query);
   dbHelpers.getUserIdByGivenUsername(req.query.username, (err, userId) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE ID_USER');
     } else {
-      dbHelpers.getPlantsByGivenUserId(userId, (err, plants) => {
+      const { id } = userId[0];
+      console.log(id);
+      dbHelpers.getPlantsByGivenUserId(id, (err, plants) => {
         if (err) {
           console.log(err);
           res.status(500).send('COULD NOT RETRIEVE PLANTS');
