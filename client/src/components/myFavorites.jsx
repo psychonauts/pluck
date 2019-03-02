@@ -20,7 +20,6 @@ export default myFavorites = withStyles(styles)(({ classes, username, plants, ge
   if (view !== '/myFavorites') {
     return <Redirect to={view} />
   }
-  getFavorites(username);
   return (
     <PlantList classes={classes} userId={userId} plants={plants} view={view} zipcode={zipcode} focusTag={focusTag} />
   );

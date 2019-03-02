@@ -117,7 +117,7 @@ class ButtonAppBar extends React.Component {
   }
 
   render() {
-    const { classes, signUser, logUser, changeView } = this.props;
+    const { classes, signUser, logUser, changeView, userId } = this.props;
     const { open } = this.state;
 
 
@@ -143,8 +143,8 @@ class ButtonAppBar extends React.Component {
               <Typography variant="h6" color="inherit" className={classes.grow}>
                         p l u c k
               </Typography>
-
-              <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
+              {userId ? <NavLink to="/myProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={getFavorites}>My Favorites</Button> </NavLink> : null}
+              {userId ? <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink> : null}
               <NavLink to="/userLogin" style={{ color: 'white', textDecoration: 'none' }}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
             </Toolbar>
           </AppBar>
@@ -168,22 +168,24 @@ class ButtonAppBar extends React.Component {
             </div>
             <Divider />
             <List>
+              {userId ? (
+                <NavLink
+                  to="/myProfile"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <ListItem button onClick={() => changeView('/myProfile')} key="My Profile">
+                    <ListItemText primary="My Profile" />
+                  </ListItem>
+                </NavLink>
+              ) : null}
 
-              <NavLink
-                to="/myProfile"
-                style={{ textDecoration: 'none' }}
-              >
-                <ListItem button onClick={() => changeView('/myProfile')} key="My Profile">
-                  <ListItemText primary="My Profile" />
-                </ListItem>
-              </NavLink>
-
-              <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}>
-                <ListItem button onClick={() => changeView('/submitPlants')} key="Submit New Plant">
-                  <ListItemText primary="Submit New Plant" />
-                </ListItem>
-              </NavLink>
-
+              {userId ? (
+                <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}>
+                  <ListItem button onClick={() => changeView('/submitPlants')} key="Submit New Plant">
+                    <ListItemText primary="Submit New Plant" />
+                  </ListItem>
+                </NavLink>
+              ) : null}
               <NavLink to="/" style={{ textDecoration: 'none' }}>
                 <ListItem button onClick={() => changeView('/')} key="Search for plants">
                   <ListItemText primary="Search for plants" />
