@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -118,6 +119,13 @@ class ViewPlantProfile extends React.Component {
             {this.props.plant.description}<br />
             {this.props.plant.address}{'  '}
             {this.props.plant.zipcode}{'  '}
+            {this.props.plant.tags.map(tag => (
+              <Chip
+                key={tag.id}
+                label={tag.tag}
+              />
+            ))
+            }
           </Typography>
         </CardContent>
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
