@@ -88,7 +88,7 @@ module.exports.getPlantsByTags = (tagId, callback) => {
 };
 
 module.exports.getTagsByPlantId = (plantId, callback) => {
-  connection.query(`SELECT * FROM tags t
+  connection.query(`SELECT t.* FROM tags t
   INNER JOIN plant_tag
   ON t.id=plant_tag.id_tag
   INNER JOIN plants p
@@ -147,7 +147,12 @@ module.exports.getUserByGivenUsername = (username, callback) => {
 };
 
 module.exports.getFavoritesByUsername = (username, callback) => {
-  connection.query('SELECT * FROM plants WHERE (SELECT id_user FROM favorites WHERE (SELECT id FROM users WHERE username = ?))', [username], (error, favorites) => {
+  connection.query(`SELECT p.* FROM plants p
+  INNER JOIN favorites f
+  ON f.id_plant = p.id
+  INNER JOIN users u
+  ON u.id = f.id_user
+  WHERE u.username = ?`, [username], (error, favorites) => {
     if (error) {
       callback(error);
     } else {
