@@ -46,7 +46,7 @@ class ViewPlantProfile extends React.Component {
     super(props);
     this.state = {
       plantId: '',
-      userId: props.userId || 0,
+      userId: props.userId || null,
       favorite: false
     };
     this.favoriteButton = this.favoriteButton.bind(this);
@@ -104,7 +104,7 @@ class ViewPlantProfile extends React.Component {
   // Longitude: ${position.coords.longitude}`;
 
   render() {
-    const { classes, plant, focusTag } = this.props;
+    const { classes, plant, focusTag, userId } = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -131,10 +131,13 @@ class ViewPlantProfile extends React.Component {
           </Typography>
         </CardContent>
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
-          <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
-            <FavoriteIcon id={this.props.plant.id} />
-            <DynamicButton />
-          </IconButton>
+          {userId ? (
+            <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
+              <FavoriteIcon id={this.props.plant.id} />
+              <DynamicButton />
+            </IconButton>
+          )
+            : null}
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
             <Button variant="contained" onClick={this.getLocation} className={classes.button}>
                 Get Directions
