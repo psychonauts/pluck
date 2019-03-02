@@ -74,8 +74,9 @@ class ViewPlantProfile extends React.Component {
 
   // THIS IS CLOSE TO WORKING BUT NOT QUITE FUNCTIONAL
   favoriteButton(e) {
+    console.log(e.currentTarget)
     const { userId } = this.state;
-    const plantIdclicked = +e.target.id || +e.target.parentElement.id;
+    const plantIdclicked = +e.currentTarget.id;
     // plantIdclicked = +plantIdclicked;
     // post request to server
     //  add plant to users favs
@@ -123,7 +124,7 @@ class ViewPlantProfile extends React.Component {
         <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
           <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
             <FavoriteIcon id={this.props.plant.id} />
-            <DynamicButton onClick={this.favoriteButton} />
+            <DynamicButton />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
             <Button variant="contained" onClick={this.getLocation} className={classes.button}>
