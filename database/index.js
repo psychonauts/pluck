@@ -56,7 +56,13 @@ module.exports.getPlantsByGivenUserId = (userId, callback) => {
 
 
 module.exports.getPlantsByTags = (tagId, callback) => {
-  connection.query('SELECT * FROM plants WHERE (SELECT id_plant FROM plant_tag WHERE id_tag = ?)', [tagId], (err, plants) => {
+  connection.query(`SELECT p.*, t.* 
+  FROM plants p 
+  INNER JOIN plant_tag
+  ON p.id=plant_tag.id_plant
+  INNER JOIN tags t
+  ON t.id=plant_tag.id_tag
+  WHERE (t.id = ?)`, [tagId], (err, plants) => {
     if (err) {
       callback(err);
     } else {
@@ -220,6 +226,18 @@ module.exports.addTags = (tags, callback) => {
 };
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Add Functions END ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Delete Functions start vvvvvvvvvvvvvvvvvvvvvv
+
+module.exports.deletePlant = (plantId, callback) => {
+  connection.query('DELETE FROM plants WHERE id = ?', [plantId], (err) => {
+    if (err) {
+      callback(err);
+    }
+  });
+};
+
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Delete Functions END ^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: login----getUser
 
 

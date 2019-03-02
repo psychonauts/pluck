@@ -162,6 +162,24 @@ app.get('/plant/category', (req, res) => {
   });
 });
 
+app.get('/plant/tag', (req, res) => {
+  const { tag } = req.query;
+  dbHelpers.getAllTags((err, tags) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Something went wrong fetching plants!');
+    }
+    const tagId = tags.find(foundTag => foundTag.tag === tag).id;
+    return dbHelpers.getPlantsByTags(tagId, (err, plants) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Something went wrong fetching plants!');
+      }
+      return res.status(200).json(plants);
+    });
+  });
+});
+
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.query);
@@ -194,6 +212,22 @@ app.post('/user/info', (req, res) => {
   // call helper function from db that saves user instance to db
 });
 
+app.delete('/plant/delete/:id', (req, res) => {
+  console.log(req.params.id);
+  if (req.params.id) {
+    const idToNumber = parseInt(req.params.id, 10);
+    dbHelpers.deletePlant(idToNumber, (err) => {
+      if (err) {
+        console.log(err);
+        res.status(422).send('there is no plant with that id');
+      } else {
+        res.status(202).send('this plant was successfully deleted');
+      }
+    });
+  } else {
+    res.status(422).send('Yo, there is no id');
+  }
+});
 // function to catch get from client plant list view
 //   get req to api for directions to plant
 //   should send location/address of plant

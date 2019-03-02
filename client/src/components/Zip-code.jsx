@@ -27,38 +27,13 @@ const styles = theme => ({
 class ComposedTextField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      redirect: false,
-    };
-
     // bind functions to this
-    this.enterZipCode = this.enterZipCode.bind(this);
   }
 
   // when submit button is pressed, onsubmit is called from index.jsx
   //    get req to server to get all plants in that areacode from db
-  enterZipCode() {
-    const { zipcode } = this.props;
-    this.props.onSubmit({ zipcode });
-
-    // brought to list view
-    // set state of 'redirect' to true --> setstate is async aka needs settimeout (theres def a better way to do this)
-    setTimeout(() => {
-
-      this.setState({
-        redirect: true,
-      });
-    }, 1000);
-  }
-
   render() {
     const { classes } = this.props;
-    const { redirect } = this.state;
-
-    if (redirect === true) {
-      return <Redirect to="/plantList" />;
-    }
-
     return (
       <div>
         <img className="logo-body" src={require('../PLUCK-logo-02.png')} />
@@ -81,7 +56,7 @@ class ComposedTextField extends React.Component {
             />
           </FormControl>
           <div id="submitButtonDiv">
-            <Button variant="contained" onClick={this.enterZipCode} className={classes.button} id="submitButton">
+            <Button variant="contained" onClick={this.props.onSubmit} className={classes.button} id="submitButton">
                 Submit
             </Button>
           </div>

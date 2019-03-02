@@ -8,23 +8,8 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { Route, Redirect } from 'react-router-dom';
-import algoliasearch from 'algoliasearch';
-import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 import ViewPlantProfile from './ViewPlantProfile.jsx';
-import { List, ListItem, ListItemText } from '@material-ui/core';
-
-const searchClient = algoliasearch(
-  'S218GIN4YW',
-  '349f0eeaa887cc4df720ebbd1b4dc29a',
-);
-
-const Hits = ({ hits }) => (
-  <List>
-    {hits.map(hit => <ListItem><ListItemText inset primary={hit.tag} /></ListItem>)}
-  </List>
-);
-
-const CustomHits = connectHits(Hits);
+import ZipCode from './Zip-code.jsx';
 
 const styles = theme => ({
   root: {
@@ -43,30 +28,18 @@ const styles = theme => ({
   },
 });
 
-const PlantList = ({ classes, filterByTag, userId, plants }) => (
-  // Pass down to ViewPlantProfile to render grid
-  <div>
-    <InstantSearch
-      searchClient={searchClient}
-      indexName="tags"
-
-      refresh
-    >
-      <SearchBox
-        defaultRefinement=""
-        onSubmit={(event) => {
-          event.preventDefault();
-          filterByTag(event.currentTarget[0].value);
-        }}
-      />
-      <CustomHits classes={classes} />
-    </InstantSearch>
+const PlantList = ({ classes, filterByZip, onZipChange, userId, plants, view, zipcode }) => {
+  if (view !== '/plantList') {
+    return <Redirect to={view} />;
+  }
+  return (
+    // Pass down to ViewPlantProfile to render grid
     <div className={classes.root}>
-      {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)
-    }
+      <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} />
+      {plants.map(plant => <ViewPlantProfile userId={userId} plant={plant} />)}
     </div>
-  </div>
-);
+  );
+};
 
 PlantList.propTypes = {
   classes: PropTypes.object.isRequired,

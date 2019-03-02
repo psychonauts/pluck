@@ -15,15 +15,15 @@ CREATE TABLE plants(
   zipcode INTEGER(5),
   image_url VARCHAR(255),
   id_user INT,
-  FOREIGN KEY (id_user) REFERENCES users(id)
+  FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE favorites(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_user INT,
   id_plant INT,
-  FOREIGN KEY (id_user) REFERENCES users(id),
-  FOREIGN KEY (id_plant) REFERENCES plants(id)
+  FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (id_plant) REFERENCES plants(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tags(
@@ -35,6 +35,6 @@ CREATE TABLE plant_tag(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_tag INT,
   id_plant INT,
-  FOREIGN KEY (id_tag) REFERENCES tags(id),
-  FOREIGN KEY (id_plant) REFERENCES plants(id)
+  FOREIGN KEY (id_tag) REFERENCES tags(id) ON DELETE CASCADE,
+  FOREIGN KEY (id_plant) REFERENCES plants(id) ON DELETE CASCADE
 );
