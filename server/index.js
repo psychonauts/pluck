@@ -5,6 +5,8 @@ const multer = require('multer');
 const request = require('request');
 const dbHelpers = require('../database/index.js');
 const { sendTags } = require('./helpers/algolia');
+const { tagsForAllPlants } = require('./helpers/request-helpers');
+
 const upload = multer();
 
 
@@ -32,7 +34,7 @@ app.post('/user/favorite', (req, res) => {
   const { userId, plantIdclicked } = req.body;
   // need call our dbHelper function that updates the favorite status
   dbHelpers.toggleFavorite(userId, plantIdclicked, (err, favorite) => {
-    if(err) {
+    if (err) {
       console.log(err);
       res.status(501);
     } else {
@@ -155,9 +157,18 @@ app.get('/plant/category', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE IMAGE');
-    } else {
-      res.status(200).send(plants);
+    } else if (plants.length) {
+      tagsForAllPlants(plants, (err, plantsWithTags) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Something went wrong!');
+        }
+        return res.status(200).json(plantsWithTags);
+      });
+
       // console.log();
+    } else {
+      return res.status(200).json(plants);
     }
   });
 });
@@ -175,16 +186,13 @@ app.get('/plant/tag', (req, res) => {
         console.error(err);
         return res.status(500).send('Something went wrong fetching plants!');
       }
-      let plantsRemaining = plants.length;
-      return plants.map(plant => dbHelpers.getTagsByPlantId(plant.id, (err, tags) =>{
+      tagsForAllPlants(plants, (err, plantsWithTags) => {
         if (err) {
           console.error(err);
-          res.status(500).send('Something went wrong!');
+          return res.status(500).send('Something went wrong!');
         }
-        plant.tags = tags;
-        plantsRemaining -= 1;
-        if (plantsRemaining === 0) return res.status(200).json(plants);
-      }));
+        return res.status(200).send(plantsWithTags);
+      });
     });
   });
 });
@@ -197,7 +205,13 @@ app.get('/user/zipcode', (req, res) => {
       console.log(err);
       res.status(500).send('COULD NOT RETRIEVE NEARBY PLANTS');
     } else {
-      res.status(200).send(plants);
+      tagsForAllPlants(plants, (err, plantsWithTags) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Something went wrong!');
+        }
+        return res.status(200).send(plantsWithTags);
+      });
     }
   });
   // call helper function from database

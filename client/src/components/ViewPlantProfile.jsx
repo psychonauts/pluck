@@ -103,34 +103,35 @@ class ViewPlantProfile extends React.Component {
   // Longitude: ${position.coords.longitude}`;
 
   render() {
-    const { classes } = this.props;
+    const { classes, plant, focusTag } = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
-          title={this.props.plant.title}
+          title={plant.title}
         />
         <CardMedia
           className={classes.media}
-          image={this.props.plant.image_url}
-          title={this.props.plant.title}
+          image={plant.image_url}
+          title={plant.title}
         />
         <CardContent>
           <Typography component="p">
-            {this.props.plant.description}<br />
-            {this.props.plant.address}{'  '}
-            {this.props.plant.zipcode}{'  '}
-            {this.props.plant.tags.map(tag => (
+            {plant.description}<br />
+            {plant.address}{'  '}
+            {plant.zipcode}{'  '}<br />
+            {plant.tags.map(tag => (
               <Chip
                 key={tag.id}
                 label={tag.tag}
+                onClick={() => focusTag(tag.tag)}
               />
             ))
             }
           </Typography>
         </CardContent>
-        <CardActions id={this.props.plant.id} className={classes.actions} disableActionSpacing>
-          <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
-            <FavoriteIcon id={this.props.plant.id} />
+        <CardActions id={plant.id} className={classes.actions} disableActionSpacing>
+          <IconButton id={plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
+            <FavoriteIcon id={plant.id} />
             <DynamicButton onClick={this.favoriteButton} />
           </IconButton>
           <NavLink to="/plantLocation" style={{ textDecoration: 'none' }}>
