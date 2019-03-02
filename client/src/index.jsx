@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Nav.jsx';
 import UserProfile from './components/UserProfile.jsx';
-import ZipCode from './components/Zip-code.jsx';
 import './index.css';
 import PlantList from './components/PlantList.jsx';
 import UserLogin from './components/UserLogin.jsx';
@@ -12,8 +11,8 @@ import CreatePlantProfile from './components/CreatePlantProfile.jsx';
 import MyProfile from './components/myProfile.jsx';
 import MapView from './components/MapView.jsx';
 import axios from 'axios';
-import MyDropzone from './components/ImageUploader.jsx';
 import Search from './components/Search.jsx';
+import MyFavorites from './components/myFavorites.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,6 +37,7 @@ class App extends React.Component {
     this.submitPlant = this.submitPlant.bind(this);
     this.changeView = this.changeView.bind(this);
     this.focusTag = this.focusTag.bind(this);
+    this.getFavorites = this.getFavorites.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +48,16 @@ class App extends React.Component {
     this.setState({
       zipcode: event.target.value,
     });
+  }
+
+  getFavorites() {
+    const { username } = this.state;
+    axios.get(`/user/favorites?username=${username}`)
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ plants: data, view: '/myFavorites' });
+      })
+      .catch(err => console.error(err));
   }
 
   // function when submit button is pressed
@@ -168,7 +178,7 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <div>
-            <NavBar changeView={this.changeView} logUser={this.userLoginLogut} signUser={this.userSignUp} />
+            <NavBar userId={this.state.userId} changeView={this.changeView} getFavorites={this.getFavorites} logUser={this.userLoginLogut} signUser={this.userSignUp} />
             <Switch>
               <Route path="/" render={() => <Search searchByTag={this.searchByTag} view={view} />} exact />
               <Route path="/userProfile" render={() => <UserProfile plants={this.state.plants} view={view} onSubmit={this.submitUserInfo} />} />
@@ -177,6 +187,7 @@ class App extends React.Component {
               <Route path="viewPlantProfile" render={() => <ViewPlantProfile userId={this.state.userId} view={view} />} />
               <Route path="/submitPlant" render={() => <CreatePlantProfile userId={this.state.userId} view={view} username={this.state.username} submitPlant={this.submitPlant} />} />
               <Route path="/myProfile" render={() => <MyProfile zipcode={this.state.zipcode} view={view} plants={this.state.userPlants} username={this.state.username} />} />
+              <Route path="/myFavorites" render={() => <MyFavorites classes={this.state.classes} username={this.state.username} plants={this.state.plants} getFavorites={this.getFavorites} userId={this.state.userId} view={this.state.view} focusTag={this.focusTag} zipcode={this.state.zipcode} />} />
               <Route path="/plantLocation" view={view} component={MapView} />
               <Route component={Error} />
             </Switch>

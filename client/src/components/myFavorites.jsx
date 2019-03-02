@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import PlantList from './PlantList';
+import PlantList from './PlantList.jsx';
 import { withStyles } from '@material-ui/core';
 
 const styles = {
@@ -16,11 +16,13 @@ const styles = {
   },
 };
 
-export default myFavorites = withStyles(styles)(({ classes, username, plants, getFavorites, classes, userId, view, focusTag, zipcode }) => {
-  if (view !== '/myFavorites') {
-    return <Redirect to={view} />
-  }
+const MyFavorites = ({ plants, userId, view, focusTag, zipcode }) => {
+  // if (view !== '/myFavorites') {
+  //   return <Redirect to={view} />;
+  // }
   return (
-    <PlantList classes={classes} userId={userId} plants={plants} view={view} zipcode={zipcode} focusTag={focusTag} />
+    <PlantList userId={userId} plants={plants} view={view} zipcode={zipcode} focusTag={focusTag} />
   );
-});
+};
+
+export default withStyles(styles)(MyFavorites);

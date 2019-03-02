@@ -117,7 +117,7 @@ class ButtonAppBar extends React.Component {
   }
 
   render() {
-    const { classes, signUser, logUser, changeView, userId } = this.props;
+    const { classes, signUser, logUser, changeView, getFavorites, userId } = this.props;
     const { open } = this.state;
 
 
@@ -143,8 +143,7 @@ class ButtonAppBar extends React.Component {
               <Typography variant="h6" color="inherit" className={classes.grow}>
                         p l u c k
               </Typography>
-              {userId ? <NavLink to="/myProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={getFavorites}>My Favorites</Button> </NavLink> : null}
-              {userId ? <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink> : null}
+              <NavLink to="/userProfile" style={{ color: 'white', textDecoration: 'none' }}> <Button color="inherit" onClick={signUser}>Signup</Button> </NavLink>
               <NavLink to="/userLogin" style={{ color: 'white', textDecoration: 'none' }}><Button color="inherit" onClick={logUser}>Login / Logout</Button> </NavLink>
             </Toolbar>
           </AppBar>
@@ -156,29 +155,35 @@ class ButtonAppBar extends React.Component {
             classes={{
               paper: classes.drawerPaper,
             }}
-          >
+            >
             <div className={classes.drawerHeader}>
               <IconButton onClick={this.handleDrawerClose}>
                 {theme.direction === 'ltr' ? (
                   <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
+                  ) : (
+                    <ChevronRightIcon />
+                    )}
               </IconButton>
             </div>
             <Divider />
             <List>
               {userId ? (
                 <NavLink
-                  to="/myProfile"
-                  style={{ textDecoration: 'none' }}
+                to="/myProfile"
+                style={{ textDecoration: 'none' }}
                 >
                   <ListItem button onClick={() => changeView('/myProfile')} key="My Profile">
                     <ListItemText primary="My Profile" />
                   </ListItem>
                 </NavLink>
               ) : null}
-
+              {userId ? (
+                <NavLink to="/myFavorites" style={{ color: 'white', textDecoration: 'none' }}>
+                  <ListItem button color="inherit" onClick={getFavorites}>
+                    <ListItemText primary="My Favorites" />
+                  </ListItem>
+                </NavLink>
+              ) : null}
               {userId ? (
                 <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}>
                   <ListItem button onClick={() => changeView('/submitPlants')} key="Submit New Plant">
