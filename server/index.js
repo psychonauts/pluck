@@ -162,6 +162,24 @@ app.get('/plant/category', (req, res) => {
   });
 });
 
+app.get('/plant/tag', (req, res) => {
+  const { tag } = req.query;
+  dbHelpers.getAllTags((err, tags) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Something went wrong fetching plants!');
+    }
+    const tagId = tags.find(foundTag => foundTag.tag === tag).id;
+    return dbHelpers.getPlantsByTags(tagId, (err, plants) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Something went wrong fetching plants!');
+      }
+      return res.status(200).json(plants);
+    });
+  });
+});
+
 // function to catch get req from client zipcode view
 app.get('/user/zipcode', (req, res) => {
   console.log(req.query);

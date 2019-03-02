@@ -84,7 +84,6 @@ class PlantProfile extends React.Component {
     };
     this.getPlantType = this.getPlantType.bind(this);
     this.fileSelectHandler = this.fileSelectHandler.bind(this);
-    this.submitPlant = this.submitPlant.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.setState = this.setState.bind(this);
@@ -175,36 +174,8 @@ class PlantProfile extends React.Component {
 
   ////////////////////////////////////////////////////////////////////////////
 
-
-  // function when submit button is pressed
-  submitPlant() {
-    const data = new FormData();
-    Object.entries(this.state).forEach(([name, val]) => data.append(name, val));
-    // data.append('image', selectedFile);
-
-    // change state to redirect to myProfile
-
-    // send post req to server to save new plant info in plants table
-    // add plant to users profile page
-    // need to send through userId, type, description, address, zipcode, image
-    axios.post('/plant/profile', data, {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    })
-      .then((res) => { console.log(res); })
-      .catch((err) => { console.log(err); });
-
-    // set state is async so needs a second to load
-    setTimeout(() => {
-      this.setState({
-        redirect: true,
-      });
-    }, 1000);
-  }
-
   render() {
-    const { classes } = this.props;
+    const { classes, submitPlant } = this.props;
     const { redirect } = this.state;
 
     if (redirect === true) {
@@ -293,7 +264,7 @@ class PlantProfile extends React.Component {
         <Button
           variant="contained"
           className={classes.button}
-          onClick={this.submitPlant}
+          onClick={() => submitPlant(this.state)}
         >
                 Submit
         </Button>

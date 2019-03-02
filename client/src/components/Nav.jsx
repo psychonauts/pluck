@@ -117,7 +117,7 @@ class ButtonAppBar extends React.Component {
   }
 
   render() {
-    const { classes, signUser, logUser } = this.props;
+    const { classes, signUser, logUser, changeView } = this.props;
     const { open } = this.state;
 
 
@@ -170,23 +170,23 @@ class ButtonAppBar extends React.Component {
             <List>
 
               <NavLink
-                to="/MyProfile"
+                to="/myProfile"
                 style={{ textDecoration: 'none' }}
               >
-                <ListItem button key="My Profile">
+                <ListItem button onClick={() => changeView('/myProfile')} key="My Profile">
                   <ListItemText primary="My Profile" />
                 </ListItem>
               </NavLink>
 
               <NavLink to="/submitPlant" style={{ textDecoration: 'none' }}>
-                <ListItem button key="Submit New Plant">
+                <ListItem button onClick={() => changeView('/submitPlants')} key="Submit New Plant">
                   <ListItemText primary="Submit New Plant" />
                 </ListItem>
               </NavLink>
 
               <NavLink to="/" style={{ textDecoration: 'none' }}>
-                <ListItem button key="Change Location">
-                  <ListItemText primary="Change Location" />
+                <ListItem button onClick={() => changeView('/')} key="Search for plants">
+                  <ListItemText primary="Search for plants" />
                 </ListItem>
               </NavLink>
 
