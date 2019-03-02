@@ -35,7 +35,7 @@ const PlantList = ({ classes, filterByZip, onZipChange, userId, plants, view, zi
   return (
     // Pass down to ViewPlantProfile to render grid
     <div className={classes.root}>
-      <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} />
+      {onZipChange ? <ZipCode onSubmit={filterByZip} onChange={onZipChange} zipcode={zipcode} /> : null}
       {plants.map(plant => <ViewPlantProfile userId={userId} zip={zipcode} focusTag={focusTag} plant={plant} />)}
     </div>
   );
