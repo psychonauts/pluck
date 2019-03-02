@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+import axios from 'axios';
 
 const styles = {
   root: {
@@ -29,10 +30,22 @@ class MyProfile extends React.Component {
     };
   }
 
+  deletePlant(plant) {
+    console.log(this.state.username);
+    this.setState(prevState => (prevState.userPlants.length > 1 ? { userPlants: prevState.userPlants.slice(0, prevState.userPlants.indexOf(plant)).concat(prevState.userPlants.slice(prevState.userPlants.indexOf(plant) + 1)) } : { userPlants: [] }));
+    axios.delete(`/plant/delete/${plant.id}`).then(() => {
+    }).then(() => {
+      console.log('HOORAY FOR DELETION');
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
   // render username, zip, and user plants dynamically
   render() {
     const { classes } = this.props;
     const { username, zipcode, userPlants } = this.state;
+    console.log(userPlants);
     return (
       <div className={classes.root}>
         <Typography
@@ -61,6 +74,7 @@ class MyProfile extends React.Component {
 
           {userPlants.map(plant => (
             <Card className={classes.card}>
+              <button type="button" onClick={() => this.deletePlant(plant)}>Delete</button>
               <CardHeader
                 title={plant.title}
               />
