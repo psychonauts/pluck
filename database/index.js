@@ -46,7 +46,7 @@ module.exports.getPlantFavoriteStatus = (plantId, userId, callback) => {
       console.error(err);
       return callback(err);
     }
-    return callback(fave);
+    return callback(null, fave);
   });
 };
 

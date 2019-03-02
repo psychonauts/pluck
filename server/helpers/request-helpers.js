@@ -15,7 +15,7 @@ module.exports.tagsForAllPlants = (plants, callback) => {
 module.exports.getPlantsFavoriteStatus = (plants, userId, callback) => {
   let plantsRemaining = plants.length;
   return plants.map((plant) => {
-    return getPlantFavoriteStatus(plant, userId, (err, fave) => {
+    return getPlantFavoriteStatus(plant.id, userId, (err, fave) => {
       plantsRemaining -= 1;
       if (err) callback(err);
       else if (fave.length) {
@@ -23,7 +23,7 @@ module.exports.getPlantsFavoriteStatus = (plants, userId, callback) => {
       } else {
         plant.favorite = false;
       }
-      if (plantsRemaining === 0) callback();
+      if (plantsRemaining === 0) callback(null, plants);
     });
   });
 };
