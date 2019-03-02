@@ -43,7 +43,7 @@ class DynamicCSS extends React.Component {
         <FormControlLabel
           control={
             <Switch
-              checked={this.state.color === 'blue'}
+              checked={this.props.favorite}
               onChange={this.handleChange}
               color="primary"
               value="dynamic-class-name"

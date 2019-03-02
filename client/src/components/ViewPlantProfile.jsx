@@ -134,7 +134,7 @@ class ViewPlantProfile extends React.Component {
           {userId ? (
             <IconButton id={this.props.plant.id} aria-label="Add to favorites" onClick={this.favoriteButton}>
               <FavoriteIcon id={this.props.plant.id} />
-              <DynamicButton />
+              <DynamicButton favorite={this.props.plant.favorite} />
             </IconButton>
           )
             : null}
