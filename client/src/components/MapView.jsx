@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import config from '../../../config';
 
-mapboxgl.accessToken = config.pubKey;
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
 class MapView extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class MapView extends React.Component {
       zoom: 13,
     });
     const directions = new MapboxDirections({
-      accessToken: config.key,
+      accessToken: mapboxgl.accessToken,
       unit: 'metric',
       profile: 'mapbox/walking',
     });
@@ -41,7 +41,7 @@ class MapView extends React.Component {
     });
     map.addControl(directions, 'top-left');
     directions.setOrigin([-90.069800, 29.972890]);
-    directions.setDestination('1560 North Rocheblave Street');
+    directions.setDestination([-90.5795, 29.8283]);
     this.getAddress();
   }
 
