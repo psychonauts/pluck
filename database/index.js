@@ -56,7 +56,7 @@ module.exports.getPlantsByGivenUserId = (userId, callback) => {
 
 
 module.exports.getPlantsByTags = (tagId, callback) => {
-  connection.query(`SELECT p.*, t.* 
+  connection.query(`SELECT p.*, t.tag 
   FROM plants p 
   INNER JOIN plant_tag
   ON p.id=plant_tag.id_plant
@@ -72,7 +72,12 @@ module.exports.getPlantsByTags = (tagId, callback) => {
 };
 
 module.exports.getTagsByPlantId = (plantId, callback) => {
-  connection.query('SELECT * FROM tags WHERE (SELECT id_tag FROM plant_tag WHERE id_plant = ?)', [plantId], (err, tags) => {
+  connection.query(`SELECT * FROM tags t
+  INNER JOIN plant_tag
+  ON t.id=plant_tag.id_tag
+  INNER JOIN plants p
+  ON p.id=plant_tag.id_plant
+  WHERE p.id = ?`, [plantId], (err, tags) => {
     if (err) {
       callback(err);
     } else {
@@ -82,7 +87,7 @@ module.exports.getTagsByPlantId = (plantId, callback) => {
 };
 
 module.exports.getPlantsByIntersectionZipTag = (zipcode, tag, callback) => {
-  connection.query(`SELECT p.*, t.* 
+  connection.query(`SELECT p.*, t.tag 
   FROM plants p 
     INNER JOIN plant_tag 
     ON p.id=plant_tag.id_plant 
@@ -153,6 +158,7 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
     if (err) {
       callback(err);
     } else {
+      let numTags = tags.length;
       tags.forEach((tag) => {
         // checking to see if the tags already exists
         connection.query('SELECT id FROM tags where tag = ?', [tag], (secondQueryError, queryForTagId) => {
@@ -163,8 +169,11 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
           } else if (queryForTagId.length > 0) {
             // vvvvvvvvvvvvvvvvvvvvvvv inserting into join table start vvvvvvvvvvv
             connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (thirdQueryError) => {
+              numTags -= 1;
               if (thirdQueryError) {
                 callback(thirdQueryError);
+              } else if (numTags === 0) {
+                callback();
               }
             });
             // ^^^^^^^^^^^^^^^^^^^^^^^^inserting into join table end^^^^^^^^^^^^^
@@ -172,17 +181,20 @@ module.exports.addPlant = (userId, title, desc, address, zipcode, imageUrl, tags
             module.exports.addTags([tag], (addTagsError) => {
               if (addTagsError) {
                 callback(addTagsError);
+              } else {
+                connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (fourthQueryError) => {
+                  numTags -= 1;
+                  if (fourthQueryError) {
+                    callback(fourthQueryError);
+                  } else if (numTags === 0) {
+                    callback();
+                  }
+                });
               }
-              connection.query('INSERT INTO plant_tag(id_tag, id_plant) VALUES((SELECT id FROM tags WHERE tag = ?), ?)', [tag, plant.insertId], (fourthQueryError) => {
-                if (fourthQueryError) {
-                  callback(fourthQueryError);
-                }
-              });
             });
           }
         });
       });
-      callback(null, plant);
     }
   });
 };
@@ -214,11 +226,13 @@ module.exports.toggleFavorite = (userId, plantId, callback) => {
 };
 
 module.exports.addTags = (tags, callback) => {
+  let numTags = tags.length;
   tags.forEach((tag) => {
     connection.query('INSERT INTO tags(tag) VALUES(?)', [tag], (err, returnedTag) => {
+      numTags -= 1;
       if (err) {
         callback(err);
-      } else {
+      } else if (numTags === 0) {
         callback(null, returnedTag);
       }
     });
