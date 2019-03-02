@@ -236,6 +236,7 @@ app.post('/user/info', (req, res) => {
 });
 
 app.delete('/plant/delete/:id', (req, res) => {
+  console.log(req.body);
   console.log(req.params.id);
   if (req.params.id) {
     const idToNumber = parseInt(req.params.id, 10);
