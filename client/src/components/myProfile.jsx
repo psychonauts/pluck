@@ -31,22 +31,21 @@ class MyProfile extends React.Component {
   }
 
   deletePlant(plant) {
-    const saveState = this.state.userPlants.slice();
-    const splicedState = saveState.splice(saveState.indexOf(plant), 1);
-    this.setState({
-      userPlants: splicedState,
-    });
+    console.log(this.state.username);
+    this.setState(prevState => (prevState.userPlants.length > 1 ? { userPlants: prevState.userPlants.slice(0, prevState.userPlants.indexOf(plant)).concat(prevState.userPlants.slice(prevState.userPlants.indexOf(plant) + 1)) } : { userPlants: [] }));
     axios.delete(`/plant/delete/${plant.id}`).then(() => {
+    }).then(() => {
+      console.log('HOORAY FOR DELETION');
     }).catch((err) => {
       console.log(err);
     });
-    
   }
 
   // render username, zip, and user plants dynamically
   render() {
     const { classes } = this.props;
     const { username, zipcode, userPlants } = this.state;
+    console.log(userPlants);
     return (
       <div className={classes.root}>
         <Typography
