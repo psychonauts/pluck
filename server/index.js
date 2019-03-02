@@ -191,30 +191,33 @@ app.get('/plant/tag', (req, res) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Something went wrong fetching plants!');
-    }
-    const tagId = tags.find(foundTag => foundTag.tag === tag).id;
-    return dbHelpers.getPlantsByTags(tagId, (err, plants) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Something went wrong fetching plants!');
-      }
-      tagsForAllPlants(plants, (err, plantsWithTags) => {
+    } 
+    const matchingTag = tags.find(foundTag => foundTag.tag === tag);
+    if (matchingTag) {
+      const tagId = matchingTag.id;
+      return dbHelpers.getPlantsByTags(tagId, (err, plants) => {
         if (err) {
           console.error(err);
-          return res.status(500).send('Something went wrong!');
+          return res.status(500).send('Something went wrong fetching plants!');
         }
-        if (req.query.userId) {
-          return getPlantsFavoriteStatus(plants, req.query.userId, (err, plantsWithFaves) => {
-            if (err) {
-              console.error(err);
-              return res.status(500).send('Something went wrong!');
-            }
-            return res.status(200).json(plantsWithFaves);
-          });
-        }
-        res.status(200).send(plantsWithTags);
+        tagsForAllPlants(plants, (err, plantsWithTags) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Something went wrong!');
+          }
+          if (req.query.userId) {
+            return getPlantsFavoriteStatus(plants, req.query.userId, (err, plantsWithFaves) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).send('Something went wrong!');
+              }
+              return res.status(200).json(plantsWithFaves);
+            });
+          }
+          res.status(200).send(plantsWithTags);
+        });
       });
-    });
+    } return res.status(200).send('Tag not found');
   });
 });
 
