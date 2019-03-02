@@ -89,9 +89,8 @@ class App extends React.Component {
   }
 
   filterByZip() {
-    const { tag } = this.state;
-    const { zipcode } = this.state;
-    axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}`)
+    const { tag, zipcode, userId } = this.state;
+    axios.get(`/plant/category?zipcode=${zipcode}&tag=${tag}&userId=${userId}`)
       .then((res) => {
         this.setState({ plants: res.data });
       })
@@ -99,7 +98,8 @@ class App extends React.Component {
   }
 
   searchByTag(tag) {
-    axios.get(`/plant/tag?tag=${tag}`)
+    const { userId } = this.state;
+    axios.get(`/plant/tag?tag=${tag}&userId=${userId}`)
       .then((res) => {
         this.setState({ plants: res.data, tag }, () => this.changeView('/plantList'));
       }).catch(err => console.error(err));

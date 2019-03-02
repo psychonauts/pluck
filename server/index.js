@@ -5,7 +5,7 @@ const multer = require('multer');
 const request = require('request');
 const dbHelpers = require('../database/index.js');
 const { sendTags } = require('./helpers/algolia');
-const { tagsForAllPlants } = require('./helpers/request-helpers');
+const { tagsForAllPlants, getPlantsFavoriteStatus } = require('./helpers/request-helpers');
 
 const upload = multer();
 
@@ -163,7 +163,16 @@ app.get('/plant/category', (req, res) => {
           console.error(err);
           return res.status(500).send('Something went wrong!');
         }
-        return res.status(200).json(plantsWithTags);
+        if (req.query.userId) {
+          return getPlantsFavoriteStatus(plants, req.query.userId, (err, plantsWithFaves) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send('Something went wrong!');
+            }
+            return res.status(200).json(plantsWithFaves);
+          });
+        }
+        res.status(200).send(plantsWithTags);
       });
 
       // console.log();
@@ -191,7 +200,16 @@ app.get('/plant/tag', (req, res) => {
           console.error(err);
           return res.status(500).send('Something went wrong!');
         }
-        return res.status(200).send(plantsWithTags);
+        if (req.query.userId) {
+          return getPlantsFavoriteStatus(plants, req.query.userId, (err, plantsWithFaves) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send('Something went wrong!');
+            }
+            return res.status(200).json(plantsWithFaves);
+          });
+        }
+        res.status(200).send(plantsWithTags);
       });
     });
   });
@@ -210,7 +228,16 @@ app.get('/user/zipcode', (req, res) => {
           console.error(err);
           return res.status(500).send('Something went wrong!');
         }
-        return res.status(200).send(plantsWithTags);
+        if (req.query.userId) {
+          return getPlantsFavoriteStatus(plants, req.query.userId, (err, plantsWithFaves) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send('Something went wrong!');
+            }
+            return res.status(200).json(plantsWithFaves);
+          });
+        }
+        res.status(200).send(plantsWithTags);
       });
     }
   });

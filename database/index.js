@@ -34,6 +34,22 @@ module.exports.getAllPlants = (callback) => {
   });
 };
 
+module.exports.getPlantFavoriteStatus = (plantId, userId, callback) => {
+  connection.query(`SELECT f.id
+  FROM users u
+  INNER JOIN favorites f
+  ON u.id = f.id_user
+  INNER JOIN plants p
+  ON f.id_plant = p.id
+  WHERE p.id = ? AND u.id = ?`, [plantId, userId], (err, fave) => {
+    if (err) {
+      console.error(err);
+      return callback(err);
+    }
+    return callback(null, fave);
+  });
+};
+
 module.exports.getPlantsByGivenZipcode = (zipcode, callback) => {
   connection.query('SELECT * FROM plants WHERE zipcode = ?', [zipcode], (err, plants) => {
     if (err) {
